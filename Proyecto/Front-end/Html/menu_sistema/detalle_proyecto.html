@@ -7,18 +7,80 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--En caso de no funcionar, cambiar la ruta del archivo main.scss en la carpeta Css-->
     <link rel="stylesheet" href="/Css/main.css" />
+    <script src="/JS/bootstrap.bundle.min.js"></script>
     <title>Detalle del proyecto</title>
 </head>
 
 <body>
     <div class="container-fluid mt-3">
-        <button type="button" class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#demo">Simple
-            collapsible</button>
-        <div id="demo" class="collapse">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        <div id="accordion">
+            <div class="card">
+                <h1 class="card-title fs-3 px-3">Proyecto A</h1>
+                <div class="card-header">
+                    <a class="btn" data-bs-toggle="collapse" href="#descP">Descripcion</a>
+                </div>
+                <div id="descP" class="collapse" data-bs-parent="#accordion">
+                    <div class="card-body">
+                        <p class="card-text">El proyecto A es de perritos</p>
+                    </div>
+                </div>
+
+                <div class="card-header">
+                    <a class="btn" data-bs-toggle="collapse" href="#integP">Integrantes</a>
+                </div>
+                <div id="integP" class="collapse" data-bs-parent="#accordion">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped table-active">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Apellido</th>
+                                        <th>Codigo</th>
+                                        <th>Curso</th>
+                                        <th>Rol</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-header">
+                    <a class="btn" data-bs-toggle="collapse" href="#prodP">Produccion</a>
+                </div>
+                <div id="prodP" class="collapse" data-bs-parent="#accordion">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped table-active">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Descripcion</th>
+                                    <th>Tipo</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
+
     </div>
 </body>
 

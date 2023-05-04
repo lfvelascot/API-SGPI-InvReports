@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--En caso de no funcionar, cambiar la ruta del archivo main.scss en la carpeta Css-->
+    <link rel="stylesheet" href="/Css/main.css"/>
+    <title>Solicitar usuario</title>
+</head>
+
+<body>
+    <div class="row text-bg-dark justify-content-center">
+        <div class="col-md-6">
+            <h1 class="display-6 text-center fs-4 px-3">Solicitar nuevo usuario</h1>
+        </div>
+    </div>
+    <div class="container-fluid p-3">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="container mt-5 mb-5">
+                    <img src="/Css/imagenes/usb_symbol.png" class="img-fluid mx-auto d-block" alt="ingreso_al_sistema">
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="container mt-5 border">
+                    <h1 class="display-6 fs-2">Solicitar usuario</h1>
+                    <form id="formSol" name="formularioSolicitud" method="post">
+                        <div class="row mt-3 mb-3">
+                            <div class="col">
+                                <input id="nombreUser" type="text" class="form-control" placeholder="Nombre(s)" name="Fname">
+                            </div>
+                            <div class="col">
+                                <input id="apellidoUser" type="text" class="form-control" placeholder="Apellido(s)" name="Lname">
+                            </div>
+                        </div>
+                        <div class="row mt-3 mb-3">
+                            <div class="col">
+                                <select id="tipoDoc" name="Documento" class="form-control">
+                                    <option value="">--Tipo de documento--</option>
+                                    <option value="CC">Cedula de Ciudadania</option>
+                                    <option value="TI">Documento de identidad</option>                                    
+                                </select>
+                            </div>
+                            <div class="col">
+                                <input id="numDoc" type="text" class="form-control" placeholder="Número de documento" name="docId">
+                            </div>
+                        </div>
+                        <div class="row mt-3 mb-3">
+                            <div class="col">
+                                <select id="role" name="Rol" class="form-control">
+                                    <option value="">--Rol--</option>
+                                    <option value="Student">Estudiante</option>
+                                    <option value="Teacher">Profesor</option>                                    
+                                </select>
+                            </div>
+                            <div class="col">
+                                <input id="uniId" type="text" class="form-control" placeholder="Código universitario" name="collCode">
+                            </div>
+                        </div>
+                        <div id="optional" class="row mt-3 mb-3">
+                            <div class="col">
+                                <select id="faculty" name="Facultad" class="form-control">
+                                    <option value="">--Escoja una facultad--</option>
+                                    <option value="Engineering">Ingeniería</option>
+                                    <option value="Other">Otro</option>                                    
+                                </select>
+                            </div>
+                            <div class="col">
+                                <select id="program" name="Programa" class="form-control">
+                                    <option value="">--Escoja un programa--</option>
+                                    <option value="Systems">Sistemas</option>
+                                    <option value="Multimedia">Multimedia</option>
+                                    <option value="Other">Otro</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mt-3 mb-3">
+                            <div class="col">
+                                <input type="email" id="correo" name="Correo" class="form-control" placeholder="Correo electronico" required>
+                            </div>
+                        </div>
+                        <div class="text-center mt-3 mb-3">
+                            <button type="submit" class="btn btn-primary text-light">Solicitar</button>
+                        </div>
+                    </form>
+    
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+</body>
+
+</html>
