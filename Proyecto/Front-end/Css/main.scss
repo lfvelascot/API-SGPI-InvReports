@@ -1,7 +1,13 @@
-$primary: orange;
+$primary: #e56c09;
 
 @import "C:/Users/Janus/OneDrive - Universidad de San Buenaventura - Bogota/Documents/GitHub/Trabajo-de-grado/Proyecto/Front-end/Bootstrap5/node_modules/bootstrap/scss/bootstrap.scss";
 
 a {
     text-decoration: none;
   }
+
+.nav-link{
+    color:black;
+    font-weight: 500;
+    font-size: larger;
+}
