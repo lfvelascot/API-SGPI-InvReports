@@ -8,12 +8,12 @@
     <!--En caso de no funcionar, cambiar la ruta del archivo main.scss en la carpeta Css-->
     <link rel="stylesheet" href="/Css/main.css" />
     <script src="/JS/bootstrap.bundle.min.js"></script>
-    <title>Producción Grupos de investigación</title>
+    <title>Listado semilleros</title>
 </head>
 
 <body>
     <div class="container mt-3 mb-3">
-        <h2 class="display-5">Anexos</h2>
+        <h2 class="display-5">Semilleros</h2>
         <div class="d-grid d-md-flex justify-content-md-end"><!--Alinear componentes-->
             <select class="form-select-sm">
                 <option selected disabled>--Facultad--</option>
@@ -26,15 +26,6 @@
                 <option value="2">Multimedia</option>
                 <option value="3">Jurisprudencia</option>
             </select>
-            <select class="form-select-sm">
-                <option selected disabled>--Grupo--</option>
-            </select>
-            <select class="form-select-sm">
-                <option selected disabled>--Semillero--</option>
-            </select>
-            <select class="form-select-sm">
-                <option selected disabled>--Proyecto--</option>
-            </select>
         </div>
     </div>
     <div class="container mt-3 mb-3">
@@ -44,21 +35,13 @@
                     <tr>
                         <th>Facultad</th>
                         <th>Programa</th>
-                        <th>Grupo</th>
-                        <th>Semillero</th>
-                        <th>Proyecto</th>
-                        <th>Nombre</th>                
-                        <th>Tipo</th>
-                        <th>Estado</th>
-                        <th>Descargar</th>                        
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
                         <td></td>
                         <td></td>
                         <td></td>
@@ -72,7 +55,7 @@
             <button type="button" class="btn btn-primary btn-sm text-white">Descargar listado</button>
         </div>
     </div>
-
+    
 </body>
 
 </html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--En caso de no funcionar, cambiar la ruta del archivo main.scss en la carpeta Css-->
+    <link rel="stylesheet" href="/Css/main.css" />
+    <script src="/JS/bootstrap.bundle.min.js"></script>
+    <title>Crear rol</title>
+</head>
+
+<body>
+    <div class="container mt-3 mb-3">
+        <h2 class="display-5">Crear rol</h2>
+    </div>
+    <div class="container mt-3 mb-3">
+        <form id="formSol" name="formularioSolicitud" method="post">
+            <div class="row mt-3 mb-3">                                                
+                <div class="col-md-4">
+                    <label for="roleN" class="form-label display-6 fs-4 px-1">Nombre</label>
+                    <input id="roleN" type="text" class="form-control" placeholder="Rol" name="NombreRol">
+                </div>
+
+                <div class="col-md-4">
+                    <label for="descRol" class="form-label display-6 fs-4 px-1">Descripción</label>
+                    <input id="descRol" type="text" class="form-control" placeholder="Descripción" name="NombreRol">
+                </div>
+                
+                <div class="col-md-4">
+                    <label for="statusR" class="form-label display-6 fs-4 px-1">Estado</label>
+                    <select id="statusR" name="Rol" class="form-control">
+                        <option value="" selected disabled>--Estado--</option>
+                        <option value="CC">Activo</option>
+                        <option value="TI">Inactivo</option>
+                    </select>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-primary table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Modulo</th>
+                            <th>Funcion</th>
+                            <th>Acceso</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Grupos de investigación</td>
+                            <td>Listado</td>
+                            <td><input type="checkbox"/></td>
+                        </tr>
+                        <tr>
+                            <td>Grupos de investigación</td>
+                            <td>Integrantes</td>
+                            <td><input type="checkbox"/></td>
+                        </tr>
+                        <tr>
+                            <td>Grupos de investigación</td>
+                            <td>Detalle</td>
+                            <td><input type="checkbox"/></td>
+                        </tr>
+                        <tr>
+                            <td>Grupos de investigación</td>
+                            <td>Investigadores</td>
+                            <td><input type="checkbox"/></td>
+                        </tr>
+                        <tr>
+                            <td>Grupos de investigación</td>
+                            <td>Produccion</td>
+                            <td><input type="checkbox"/></td>
+                        </tr>
+                        <tr>
+                            <td>Grupos de investigación</td>
+                            <td>Descargar reportes</td>
+                            <td><input type="checkbox"/></td>
+                        </tr>
+                        <tr>
+                            <td>Semilleros</td>
+                            <td>Listado</td>
+                            <td><input type="checkbox"/></td>
+                        </tr>
+                        <tr>
+                            <td>Semilleros</td>
+                            <td>Integrantes</td>
+                            <td><input type="checkbox"/></td>
+                        </tr>
+                        <tr>
+                            <td>Semilleros</td>
+                            <td>Detalle</td>
+                            <td><input type="checkbox"/></td>
+                        </tr>
+                        <tr>
+                            <td>Semilleros</td>
+                            <td>Produccion</td>
+                            <td><input type="checkbox"/></td>
+                        </tr>
+                        <tr>
+                            <td>Semilleros</td>
+                            <td>Descargar reportes</td>
+                            <td><input type="checkbox"/></td>
+                        </tr>
+                        <tr>
+                            <td>Proyectos</td>
+                            <td>Listado</td>
+                            <td><input type="checkbox"/></td>
+                        </tr>
+                        <tr>
+                            <td>Proyectos</td>
+                            <td>Detalle</td>
+                            <td><input type="checkbox"/></td>
+                        </tr>
+                        <tr>
+                            <td>Proyectos</td>
+                            <td>Criterios de aceptación</td>
+                            <td><input type="checkbox"/></td>
+                        </tr>
+                        <tr>
+                            <td>Proyectos</td>
+                            <td>Producción</td>
+                            <td><input type="checkbox"/></td>
+                        </tr>
+                        <tr>
+                            <td>Proyectos</td>
+                            <td>Descargar reportes</td>
+                            <td><input type="checkbox"/></td>
+                        </tr>
+                        <tr>
+                            <td>Gestión de usuarios</td>
+                            <td>Listado de usuarios</td>
+                            <td><input type="checkbox"/></td>
+                        </tr>
+                        <tr>
+                            <td>Gestión de usuarios</td>
+                            <td>Editar usuarios</td>
+                            <td><input type="checkbox"/></td>
+                        </tr>
+                        <tr>
+                            <td>Gestión de usuarios</td>
+                            <td>Solicitudes de usuarios</td>
+                            <td><input type="checkbox"/></td>
+                        </tr>
+                        <tr>
+                            <td>Gestión de usuarios</td>
+                            <td>Listado de roles</td>
+                            <td><input type="checkbox"/></td>
+                        </tr>
+                        <tr>
+                            <td>Gestión de usuarios</td>
+                            <td>Crear roles</td>
+                            <td><input type="checkbox"/></td>
+                        </tr>
+                        <tr>
+                            <td>Gestión de usuarios</td>
+                            <td>Editar roles</td>
+                            <td><input type="checkbox"/></td>
+                        </tr>
+                        <tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+            <div class="text-center mt-3 mb-3">
+                <button type="submit" class="btn btn-primary text-light">Guardar</button>
+            </div>
+        </form>
+    </div>
+
+</body>
+
+</html>

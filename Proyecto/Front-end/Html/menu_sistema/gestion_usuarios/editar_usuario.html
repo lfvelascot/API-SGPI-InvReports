@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--En caso de no funcionar, cambiar la ruta del archivo main.scss en la carpeta Css-->
+    <link rel="stylesheet" href="/Css/main.css" />
+    <script src="/JS/bootstrap.bundle.min.js"></script>
+    <title>Editar usuario</title>
+</head>
+
+<body>
+    <div class="container mt-3 mb-3">
+        <h2 class="display-5">Editar usuario</h2>
+    </div>
+    <div class="container mt-3 mb-3">
+        <form id="formSol" name="formularioSolicitud" method="post">
+            <div class="row mt-3 mb-3">
+                                                
+                <div class="col-md-4">
+                    <label for="userN" class="form-label display-6 fs-4 px-1">Usuario</label>
+                    <input id="userN" type="text" class="form-control" placeholder="Usuario" name="Usuario">
+                </div>
+                
+                <div class="col-md-4">
+                    <label for="pwdU" class="form-label display-6 fs-4 px-1">Contraseña</label>
+                    <input id="pwdU" type="password" class="form-control" placeholder="Contrasena" name="Contrasena">
+                </div>
+                
+                <div class="col-md-4">
+                    <label for="roleU" class="form-label display-6 fs-4 px-1">Rol</label>
+                    <select id="roleU" name="Rol" class="form-control">
+                        <option value="" disabled>--Rol--</option>
+                        <option value="CC">Administrador</option>
+                        <option value="TI">Otro</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mt-3 mb-3">
+                <div class="col-md-8">
+                    <label for="correo" class="form-label display-6 fs-4 px-1">Correo electronico</label>
+                    <input type="email" id="correo" name="Correo" class="form-control" placeholder="Correo electronico"
+                        required>
+                </div>
+                <div class="col-md-4">
+                    <label for="status" class="form-label display-6 fs-4 px-1">Estado</label>
+                    <select id="status" name="Estado" class="form-control">
+                        <option value="" disabled>--Estado--</option>
+                        <option value="1">Activo</option>
+                        <option value="0">Inactivo</option>
+                    </select>
+                </div>   
+            </div>
+            <div class="text-center mt-3 mb-3">
+                <button type="submit" class="btn btn-primary text-light">Guardar</button>
+            </div>
+        </form>
+    </div>
+
+</body>
+
+</html>
