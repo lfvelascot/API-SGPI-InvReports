@@ -12026,10 +12026,12 @@ textarea.form-control-lg {
 }
 a {
   text-decoration: none;
+  cursor: pointer;
 }
 
 .nav-link {
   color: black;
   font-weight: 500;
   font-size: larger;
+  font-family: sans-serif;
 }
