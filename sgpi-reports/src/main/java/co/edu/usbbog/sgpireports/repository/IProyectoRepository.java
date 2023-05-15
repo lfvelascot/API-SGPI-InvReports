@@ -37,6 +37,22 @@ public interface IProyectoRepository extends JpaRepository<Proyecto, Integer> {
 	 */
 	@Query(value = "SELECT * FROM proyecto WHERE tipo_proyecto = ?1", nativeQuery = true)
 	List<Proyecto> findByTipoProyecto(String tipo_proyecto);
+	
+	/**
+	 * lista de proyectos por su tipo 
+	 * @param tipo_proyecto
+	 * @return
+	 */
+	@Query(value = "SELECT * FROM proyecto WHERE tipo_proyecto = ?1 and semillero = ?2", nativeQuery = true)
+	List<Proyecto> findByTipoProyectoS(String tipo_proyecto, int cc);
+	
+	/**
+	 * lista de proyectos por su tipo 
+	 * @param tipo_proyecto
+	 * @return
+	 */
+	@Query(value = "SELECT * FROM proyecto WHERE estado = ?1 and semillero = ?2", nativeQuery = true)
+	List<Proyecto> findByEstadoS(String tipo_proyecto, int cc);
 	/**
 	 * lista de proyectos por area de conocimiento 
 	 * @param area_conocimiento
@@ -215,4 +231,43 @@ public interface IProyectoRepository extends JpaRepository<Proyecto, Integer> {
 			+ "			participantes,convocatoria where proyectos_convocatoria.proyectos=proyecto.id and \r\n"
 			+ "            convocatoria.id=proyectos_convocatoria.convocatoria and participantes.usuario=?1",nativeQuery = true)
 	List<JSONObject> proyectosConvocatoriaUsuario(String cedula);
+	/**
+	 * busqueda de proyectos por Grupo de investigación
+	 * @param proyectoId
+	 * @return
+	 */
+	@Query(value= "SELECT p.* FROM proyecto p inner join semillero s on p.semillero = s.id WHERE s.grupo_investigacion =?1",nativeQuery = true)
+	List<Proyecto> findByGI(int gi);
+	/**
+	 * busqueda de proyectos por Semillero
+	 * @param proyectoId
+	 * @return
+	 */
+	@Query(value= "SELECT * FROM sgpi_db.proyecto where semillero=?1",nativeQuery = true)
+	List<Proyecto> findBySemillero(int gi);
+	/**
+	 * busqueda de proyectos por Semillero
+	 * @param proyectoId
+	 * @return
+	 */
+	@Query(value= "SELECT DISTINCT estado FROM proyecto",nativeQuery = true)
+	List<String> getEstados();
+	
+	/**
+	 * busqueda de proyectos por Semillero
+	 * @param proyectoId
+	 * @return
+	 */
+	@Query(value= "SELECT DISTINCT estado FROM proyecto WHERE semillero = ?1",nativeQuery = true)
+	List<String> getEstadosSemillero(int cc);
+	
+	/**
+	 * busqueda de proyectos por Semillero
+	 * @param proyectoId
+	 * @return
+	 */
+	@Query(value= "SELECT DISTINCT tipo_proyecto FROM proyecto WHERE semillero = ?1",nativeQuery = true)
+	List<String> getTiposSemillero(int cc);
 }
+
+

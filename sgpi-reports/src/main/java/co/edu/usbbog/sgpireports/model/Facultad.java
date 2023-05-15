@@ -166,5 +166,13 @@ public class Facultad implements Serializable {
     	return facultadJson;
     	
     }
+
+	public Object toJsonF() {
+    	JSONObject facultadJson=new JSONObject();
+    	facultadJson.put("id",this.getId());
+    	facultadJson.put("nombre",this.getNombre());
+    	return facultadJson;
+    	
+	}
     
 }

@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import co.edu.usbbog.sgpireports.model.Participantes;
 import co.edu.usbbog.sgpireports.model.ParticipantesPK;
+import net.minidev.json.JSONObject;
 
 public interface IParticipantesRepository extends JpaRepository<Participantes, ParticipantesPK>{
 	/**
@@ -21,5 +22,13 @@ public interface IParticipantesRepository extends JpaRepository<Participantes, P
 	@Transactional
 	@Query(value = "UPDATE `sgpi_db`.`participantes` SET `fecha_fin` = ?3 WHERE (`usuario` = ?2) and (`proyecto` = ?1)", nativeQuery = true)
 	void actualizarParticipante(int id, String cedula, LocalDate fechafin);
+	
+	/**
+	 * obtener nombre con la cedula de un usuario 
+	 * @param cedula
+	 * @return
+	 */
+	@Query(value = "SELECT COUNT(*) FROM participantes p WHERE p.usuario =?1", nativeQuery = true)
+	int contProyectosPorUsuario(String cedula);
 
 }

@@ -5,7 +5,7 @@
 package co.edu.usbbog.sgpireports.model;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author SIGUSBBOG
  */
 @Entity
-@Table(name = "modulo", catalog = "sgpi_db", schema = "")
+@Table(catalog = "sgpi_db", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Modulo.findAll", query = "SELECT m FROM Modulo m"),
@@ -34,13 +34,11 @@ public class Modulo implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "nombre")
+    @Column(nullable = false, length = 70)
     private String nombre;
     @Basic(optional = false)
-    @Column(name = "descripcion")
+    @Column(nullable = false, length = 45)
     private String descripcion;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "modulo1")
-    private Collection<Actividades> actividadesCollection;
 
     public Modulo() {
     }
@@ -70,15 +68,6 @@ public class Modulo implements Serializable {
         this.descripcion = descripcion;
     }
 
-    @XmlTransient
-    public Collection<Actividades> getActividadesCollection() {
-        return actividadesCollection;
-    }
-
-    public void setActividadesCollection(Collection<Actividades> actividadesCollection) {
-        this.actividadesCollection = actividadesCollection;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -101,7 +90,7 @@ public class Modulo implements Serializable {
 
     @Override
     public String toString() {
-        return "javaapplication1.Modulo[ nombre=" + nombre + " ]";
+        return "co.edu.usbbog.sgpireports.model.Modulo[ nombre=" + nombre + " ]";
     }
     
 }

@@ -36,7 +36,6 @@ public class GestionUsuarioController {
 	@GetMapping("/listarusuarios")
 	public JSONArray getAllUsuarios() {
 		JSONArray salida = new JSONArray();
-
 		List<Usuario> usuarios = iGestionUsuariosService.todosLosUsuarios();
 		for (Iterator<Usuario> iterator = usuarios.iterator(); iterator.hasNext();) {
 			Usuario usuario = (Usuario) iterator.next();
@@ -96,7 +95,6 @@ public class GestionUsuarioController {
 		JSONObject salida = new JSONObject();
 		String tipoUsuario = "";
 		BigInteger nbumero= new BigInteger(entrada.getAsString("codUniversitario"));
-		
 		String num= entrada.getAsString("codUniversitario");
 		Usuario usuario = new Usuario(entrada.getAsString("cedula"),
 				nbumero, entrada.getAsString("correoEst"),

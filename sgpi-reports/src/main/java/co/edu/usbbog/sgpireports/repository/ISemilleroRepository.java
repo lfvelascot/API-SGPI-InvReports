@@ -34,8 +34,8 @@ public interface ISemilleroRepository extends JpaRepository<Semillero, Integer>{
 	List<Semillero> findByLineaInvestigacion(String linea);
 	
 	//solo para consultar el programa
-		@Query(value = "SELECT * FROM programas_semilleros where semillero = ?1", nativeQuery = true)
-		List<JSONObject> findByPrograma(int semillero);
+		@Query(value = "SELECT g.* from semillero g inner join programas_semilleros p on g.id = p.semillero WHERE p.programa =?1", nativeQuery = true)
+		List<Semillero> findByPrograma(int semillero);
 
 		
 		//des asignar semillero a programa

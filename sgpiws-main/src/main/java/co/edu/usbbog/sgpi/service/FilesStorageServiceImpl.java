@@ -22,7 +22,6 @@ public class FilesStorageServiceImpl implements FilesStorageService {
   @Override
   public void init() {
     try {
-      
       if(!Files.exists(root)) {
     	  Files.createDirectory(root); 
       }
@@ -46,7 +45,6 @@ public class FilesStorageServiceImpl implements FilesStorageService {
     try {
       Path file = root.resolve(filename);
       Resource resource = new UrlResource(file.toUri());
-
       if (resource.exists() || resource.isReadable()) {
         return resource;
       } else {

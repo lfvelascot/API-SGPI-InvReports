@@ -27,6 +27,7 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 
 /**
@@ -446,6 +447,15 @@ public class Proyecto implements Serializable {
     	proyectoJson.put("semillero","este proyecto no tiene asociado ningun semillero");
     	}else {
     		proyectoJson.put("semillero", this.getSemillero().getNombre());
+    	}
+    	if(this.getParticipantes().isEmpty()) {
+    		proyectoJson.put("participantes","Sin participantes registrados");
+    	} else {
+    		JSONArray participantes = new JSONArray();
+    		for(Participantes p : this.getParticipantes()) {
+    			participantes.add(p.toJson());
+    		}
+    		proyectoJson.put("participantes", participantes);
     	}
     	return proyectoJson;
     }

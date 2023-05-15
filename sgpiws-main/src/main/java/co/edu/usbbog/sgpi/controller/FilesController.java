@@ -35,7 +35,6 @@ public class FilesController {
 		String message = "";
 		try {
 			storageService.save(file);
-
 			message = "http://localhost:8080/archivo/files/" + file.getOriginalFilename();
 			return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
 		} catch (Exception e) {

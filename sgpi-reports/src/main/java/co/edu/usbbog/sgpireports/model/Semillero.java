@@ -244,6 +244,13 @@ public class Semillero implements Serializable {
     	return semilleroJson;
     }
 
+	public JSONObject toJsonF() {
+    	JSONObject semilleroJson=new JSONObject();
+    	semilleroJson.put("id",this.getId());
+    	semilleroJson.put("nombre",this.getNombre());
+    	return semilleroJson;
+	}
+
 	
 
 	

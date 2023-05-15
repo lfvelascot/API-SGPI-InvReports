@@ -20,6 +20,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -97,6 +98,8 @@ public class Usuario implements Serializable {
     private List<Facultad> decanoFacultad;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
     private List<Participantes> participantes;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "usuario")
+    private Firma firma;
 
     public Usuario() {
     }
@@ -356,6 +359,14 @@ public class Usuario implements Serializable {
         hash += (cedula != null ? cedula.hashCode() : 0);
         return hash;
     }
+    
+    public Firma getFirma() {
+        return firma;
+    }
+
+    public void setFirma(Firma firma) {
+        this.firma = firma;
+    }
 
     @Override
     public boolean equals(Object object) {
@@ -377,7 +388,11 @@ public class Usuario implements Serializable {
     	usuarioJson.put("contrasena",this.getCedula());
     	usuarioJson.put("nombres",this.getNombres());
     	usuarioJson.put("apellidos",this.getApellidos());
-    	usuarioJson.put("telefono",this.getTelefono());
+    	if(this.getTelefono()==null) {
+    		usuarioJson.put("telefono","Sin registro");
+    	} else {
+    		usuarioJson.put("telefono",this.getTelefono());
+    	}
     	usuarioJson.put("visbilidad",this.getVisibilidad());
     	usuarioJson.put("correo_personal",this.getCorreoPersonal());
 
@@ -385,7 +400,7 @@ public class Usuario implements Serializable {
         		usuarioJson.put("rol","");
         	}else {
         		
-        		usuarioJson.put("rol",this.getTiposUsuario().toString());
+        		usuarioJson.put("rol",this.getTiposUsuario().get(0).getNombre());
         	}
     	if(this.getSemilleroId()==null) {
     		usuarioJson.put("semillero_id","");
@@ -401,9 +416,15 @@ public class Usuario implements Serializable {
     	return usuarioJson;
     	
     }
+    
+
     @Override
     public String toString() {
         return toJson().toString();
     }
+
+	public String getNombreCompleto() {
+		return this.getNombres() + " " + this.getApellidos();
+	}
     
 }

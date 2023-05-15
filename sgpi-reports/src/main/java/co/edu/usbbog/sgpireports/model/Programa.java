@@ -230,6 +230,13 @@ public class Programa implements Serializable {
     	}
     	return programaJson;
     }
+    
+    public JSONObject toJsonF() {
+    	JSONObject programaJson=new JSONObject();
+    	programaJson.put("id",this.getId());
+    	programaJson.put("nombre",this.getNombre());
+    	return programaJson;
+    }
     @Override
     public String toString() {
         return toJson().toString();

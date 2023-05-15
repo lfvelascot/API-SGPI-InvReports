@@ -3,22 +3,21 @@
  */
 package co.edu.usbbog.sgpireports.repository;
 
-import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.data.jpa.repository.Query;
-import co.edu.usbbog.sgpireports.model.Programa;
 import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import co.edu.usbbog.sgpireports.model.Usuario;
+import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 
 /**
  * @author 57310
  *
  */
-public interface IUsuarioRepository   {
+public interface IUsuarioRepository  extends JpaRepository<Usuario, String> {
 
 	//solo para consultar por programa
 			@Query(value = "SELECT * FROM usuario where programa_id = ?1", nativeQuery = true)
@@ -58,8 +57,8 @@ public interface IUsuarioRepository   {
 	 * @param tipo
 	 * @return
 	 */
-	@Query(value = "select * from usuario,usuarios where usuario.correo_est=?1 && usuario.contrasena=?2	 && usuarios.tipo_usuario=?3 && usuario.cedula=usuarios.usuario" , nativeQuery = true)
-	JSONObject Login(String correo, String contrasena,String tipo );
+	@Query(value = "select * from usuario where usuario.correo_est=?1 && usuario.contrasena=?2" , nativeQuery = true)
+	JSONObject Login(String correo, String contrasena);
 	/**
 	 * busqueda de un usuario en especifico 
 	 * @param correo
@@ -68,47 +67,17 @@ public interface IUsuarioRepository   {
 	@Query(value = "select * from usuario where usuario.correo_est=?1", nativeQuery = true)
 	Usuario JSONObject(String correo);
 	/**
-	 * lista de todos los usuarios inactivos 
+	 *  lista de todos los usuarios por untipo
 	 * @return
 	 */
-	@Query(value = "select * from usuarios where tipo_usuario= \"Estudiante inactivo\"", nativeQuery = true)
-	JSONObject getByTipoEstudianteInactivo();
+	@Query(value = "select u.* from usuarios s inner join usuario u on s.usuario = u.cedula WHERE s.tipo_usuario=?1", nativeQuery = true)
+	List<Usuario> getByTipoUsuario(String tipoUsuario);
 	/**
-	 * lista de todos los usuarios activos ñ
+	 *  lista de todos los usuarios por untipo
 	 * @return
 	 */
-	@Query(value = "select * from usuarios where tipo_usuario= \"Estudiante activo\"", nativeQuery = true)
-	JSONObject getByTipoEstudianteActivo();	
-	/**
-	 * lista de todos los usuarios egresados 
-	 * @return
-	 */
-	@Query(value = "select * from usuarios where tipo_usuario= \"Egresado\"", nativeQuery = true)
-	JSONObject getByTipoEstudianteEgresado();
-	/**
-	 *  lista de todos los usuarios investigador en formacion
-	 * @return
-	 */
-	@Query(value = "select * from usuarios where tipo_usuario= \"Investigador formacion\"", nativeQuery = true)
-	JSONObject getByTipoInvestigadorFormacion();
-	/**
-	 *  lista de todos los usuarios personal de biblioteca
-	 * @return
-	 */
-	@Query(value = "select * from usuarios where tipo_usuario= \"Personal biblioteca\"", nativeQuery = true)
-	JSONObject getByTipoPersonalBiblioteca();
-	/**
-	 *  lista de todos los usuarios personal de publicaciones
-	 * @return
-	 */
-	@Query(value = "select * from usuarios where tipo_usuario= \"Personal publicaciones\"", nativeQuery = true)
-	JSONObject getByTipoPersonalPublicaciones();
-	/**
-	 *  lista de todos los usuarios semillrista
-	 * @return
-	 */
-	@Query(value = "select * from usuarios where tipo_usuario= \"Semillerista\"", nativeQuery = true)
-	JSONObject getByTipoSemillerista();
+	@Query(value = "select tipo_usuario from usuarios WHERE usuario=?1", nativeQuery = true)
+	String getTipoUsuario(String cedula);
 	/**
 	 * obtener datos de un usuario por su correo 
 	 * @param correo
@@ -140,4 +109,12 @@ public interface IUsuarioRepository   {
 	@Transactional
 	@Query(value = "DELETE FROM `sgpi_db`.`usuarios` WHERE (`usuario` = ?1) and (`tipo_usuario` = 'Semillerista')", nativeQuery = true)
 	void quitarRol(String cedula);
+	
+	/**
+	 * obtener datos miembros de semillero
+	 * @param cedula
+	 * @return
+	 */
+	@Query(value = "SELECT * FROM `usuario`WHERE `semillero_id` = ?1 and visibilidad = 'ACTIVO' ORDER BY nombres ASC;", nativeQuery = true)
+	List<Usuario> getMiembrosSemillero(int cedula);
 }

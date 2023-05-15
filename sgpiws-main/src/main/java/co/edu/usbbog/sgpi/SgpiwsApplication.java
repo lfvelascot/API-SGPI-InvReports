@@ -4,7 +4,6 @@ import javax.annotation.Resource;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
 import co.edu.usbbog.sgpi.service.FilesStorageService;
 
 @SpringBootApplication
@@ -16,7 +15,6 @@ public class SgpiwsApplication implements CommandLineRunner{
 	}
 	@Override
 	  public void run(String... arg) throws Exception {
-	    
 	    storageService.init();
 	  }
 
