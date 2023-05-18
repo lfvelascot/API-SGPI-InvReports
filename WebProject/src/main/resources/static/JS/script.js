@@ -1,13 +1,13 @@
 function displayProyectos(){
-    document.getElementById("menuI").setAttribute("src","/Html/index/proyectos.html");
+    document.getElementById("menuI").setAttribute("src","/Html/inicio/proyectos.html");
 }
 
 function displayGrupos(){
-    document.getElementById("menuI").setAttribute("src","/Html/index/grupos_investigacion.html");
+    document.getElementById("menuI").setAttribute("src","/Html/inicio/grupos_investigacion.html");
 }
 
 function displaySemilleros(){
-    document.getElementById("menuI").setAttribute("src","/Html/index/semilleros.html");
+    document.getElementById("menuI").setAttribute("src","/Html/inicio/semilleros.html");
 }
 
 function menuGrupos(){
