@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--En caso de no funcionar, cambiar la ruta del archivo main.scss en la carpeta Css-->
+    <link rel="stylesheet" href="/Css/main.css" />
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="row text-bg-dark">
+        <div class="col-md-2">
+            <a class="display-6 text-bg-dark fs-4 px-3" href="/Html/menu_sistema/menu.html">Inicio</a>
+        </div>
+    </div>
+    <div class="container mt-5 border">
+        <h1 class="display-6 fs-2">Editar perfil</h1>
+        <form id="formPerf" name="formularioEditarPerfil" method="post">
+            <div class="row mt-3 mb-3">
+                <div class="col">
+                    <input id="nombreUser" type="text" class="form-control" placeholder="Nombre(s)" name="Fname"
+                        disabled>
+                </div>
+                <div class="col">
+                    <input id="apellidoUser" type="text" class="form-control" placeholder="Apellido(s)" name="Lname"
+                        disabled>
+                </div>
+            </div>
+            <div class="row mt-3 mb-3">
+                <div class="col">
+                    <select id="tipoDoc" name="Documento" class="form-control" disabled>
+                        <option value="">--Tipo de documento--</option>
+                        <option value="CC">Cedula de Ciudadania</option>
+                        <option value="TI">Documento de identidad</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <input id="numDoc" type="text" class="form-control" placeholder="Número de documento" name="docId"
+                        disabled>
+                </div>
+            </div>
+            <div class="row mt-3 mb-3">
+                <div class="col">
+                    <select id="role" name="Rol" class="form-control" disabled>
+                        <option value="">--Rol--</option>
+                        <option value="Student">Estudiante</option>
+                        <option value="Teacher">Profesor</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <input id="uniId" type="text" class="form-control" placeholder="Código universitario"
+                        name="collCode" disabled>
+                </div>
+            </div>
+            <div id="optional" class="row mt-3 mb-3">
+                <div class="col">
+                    <select id="faculty" name="Facultad" class="form-control" disabled>
+                        <option value="">--Escoja una facultad--</option>
+                        <option value="Engineering">Ingeniería</option>
+                        <option value="Other">Otro</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <select id="program" name="Programa" class="form-control" disabled>
+                        <option value="">--Escoja un programa--</option>
+                        <option value="Systems">Sistemas</option>
+                        <option value="Multimedia">Multimedia</option>
+                        <option value="Other">Otro</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mt-3 mb-3">
+                <div class="col">
+                    <input type="email" id="mailP" name="CorreoP" class="form-control" placeholder="Correo personal"
+                        required>
+                </div>
+            </div>
+            <div class="row mt-3 mb-3">
+                <div class="col">
+                    <input type="number" id="tel" name="Telefono" class="form-control" placeholder="Número telefónico">
+                </div>
+                <div class="col">
+                    <input type="password" id="pwd" name="Contrasena" class="form-control" placeholder="Contraseña">
+                </div>
+            </div>
+            <div class="row mt-3 mb-3">
+                <div class="text-center mt-3 mb-3">
+                    <button type="submit" class="btn btn-primary text-light">Guardar</button>
+                </div>
+            </div>
+        </form>
+
+
+    </div>
+
+</body>
+
+</html>
