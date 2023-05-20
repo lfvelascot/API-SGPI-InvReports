@@ -242,6 +242,10 @@ public class GrupoInvestigacion implements Serializable {
     	return grupoInvestigacionJson;
     	
     }
+    
+    public int countSemilleros() {
+    	return this.getSemilleros().size();
+    }
 
 	public Object toJsonF() {
     	JSONObject grupoInvestigacionJson=new JSONObject();

@@ -1,6 +1,7 @@
-package co.edu.usbbog.sgpireports.model;
+package co.edu.usbbog.sgpireports.model.datamodels;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class ProyectoR {
 
@@ -14,25 +15,28 @@ public class ProyectoR {
 	private String integrantes;
 	private String semillero;
 
-	public ProyectoR(String titulo, String estado, String tipo, String descripcion, String fechaInicio, LocalDate fechaFin,
+	public ProyectoR(String titulo, String estado, String tipo, String descripcion, LocalDate fechaInicio, LocalDate fechaFin,
 			String metodologia, String integrantes, String semillero) {
-		super();
 		this.titulo = titulo;
 		this.estado = estado;
 		this.tipo = tipo;
 		this.descripcion = descripcion;
-		this.fechaInicio = fechaInicio;
-		if(fechaFin == null) {
-			this.fechaFin = "";
-		} else {
-			this.fechaFin = fechaFin.toString();
-		}
+		this.fechaInicio = getFechaFormateada(fechaInicio);
+		this.fechaFin = getFechaFormateada(fechaFin);
 		this.metodologia = metodologia;
 		this.integrantes = integrantes;
 		if(semillero == null) {
 			this.semillero = "sin registro";
 		} else {
 			this.semillero = semillero;
+		}
+	}
+	
+	private String getFechaFormateada(LocalDate fecha) {
+		if(fecha != null) {
+			return fecha.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+		} else {
+			return "";
 		}
 	}
 
@@ -107,9 +111,5 @@ public class ProyectoR {
 	public void setSemillero(String semillero) {
 		this.semillero = semillero;
 	}
-	
-	
-	
-	
 
 }

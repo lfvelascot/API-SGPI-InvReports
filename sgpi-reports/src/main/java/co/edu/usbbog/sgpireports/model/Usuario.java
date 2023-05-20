@@ -167,7 +167,11 @@ public class Usuario implements Serializable {
     }
 
     public String getTelefono() {
-        return telefono;
+        if (this.telefono == null) {
+        	return "sin numero registrado";
+        } else {
+        	return this.telefono;
+        }
     }
 
     public void setTelefono(String telefono) {

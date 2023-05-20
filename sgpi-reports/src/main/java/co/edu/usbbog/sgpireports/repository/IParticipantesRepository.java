@@ -29,6 +29,6 @@ public interface IParticipantesRepository extends JpaRepository<Participantes, P
 	 * @return
 	 */
 	@Query(value = "SELECT COUNT(*) FROM participantes p WHERE p.usuario =?1", nativeQuery = true)
-	int contProyectosPorUsuario(String cedula);
+	Integer contProyectosPorUsuario(String cedula);
 
 }

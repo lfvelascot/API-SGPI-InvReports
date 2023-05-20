@@ -9,8 +9,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import co.edu.usbbog.sgpireports.model.GrupoInvestigacion;
-import co.edu.usbbog.sgpireports.model.Proyecto;
-import co.edu.usbbog.sgpireports.model.Usuario;
 import net.minidev.json.JSONObject;
 
 public interface IGrupoInvestigacionRepository extends JpaRepository<GrupoInvestigacion, Integer> {

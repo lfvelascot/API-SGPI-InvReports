@@ -1,4 +1,4 @@
-package co.edu.usbbog.sgpireports.service;
+package co.edu.usbbog.sgpireports.model.datamodels;
 
 public class ProyectosConvocatoriaR {
 	private String proyecto, convocatoria, fechaInicio, fechaFin, entidad, semillero, estado;

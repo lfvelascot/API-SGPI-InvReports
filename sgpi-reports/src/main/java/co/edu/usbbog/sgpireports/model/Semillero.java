@@ -243,6 +243,10 @@ public class Semillero implements Serializable {
     	
     	return semilleroJson;
     }
+    
+    public int countProyectos() {
+    	return this.getProyectos().size();
+    }
 
 	public JSONObject toJsonF() {
     	JSONObject semilleroJson=new JSONObject();

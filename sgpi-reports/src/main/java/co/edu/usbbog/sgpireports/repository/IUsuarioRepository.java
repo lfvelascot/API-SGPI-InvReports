@@ -10,7 +10,6 @@ import javax.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import co.edu.usbbog.sgpireports.model.Usuario;
-import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 
 /**

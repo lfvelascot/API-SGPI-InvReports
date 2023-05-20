@@ -20,8 +20,8 @@ public interface IConvocatoriaRepository extends JpaRepository<Convocatoria, Int
 	 * @param estado
 	 * @return
 	 */
-	@Query(value = "SELECT * FROM proyectos_convocatoria p INNER JOIN participantes pp on p.proyectos = pp.proyecto WHERE pp.usuario =?1", nativeQuery = true)
-	int CountParticpacionesEnConvocatorias(String estado);
+	@Query(value = "SELECT COUNT(*) FROM proyectos_convocatoria p INNER JOIN participantes pp on p.proyectos = pp.proyecto WHERE pp.usuario =?1", nativeQuery = true)
+	Integer CountParticpacionesEnConvocatorias(String estado);
 
 	/**
 	 * obtener nombre con la cedula de un usuario 
@@ -29,5 +29,5 @@ public interface IConvocatoriaRepository extends JpaRepository<Convocatoria, Int
 	 * @return
 	 */
 	@Query(value = "SELECT COUNT(*) FROM proyectos_convocatoria p INNER JOIN proyecto pp on p.proyectos = pp.id WHERE pp.semillero =?1", nativeQuery = true)
-	int countParticipacionesSemillero(Integer id);
+	Integer countParticipacionesSemillero(Integer id);
 }

@@ -1,4 +1,4 @@
-package co.edu.usbbog.sgpireports.service;
+package co.edu.usbbog.sgpireports.model.datamodels;
 
 public class TipoPEstado {
 	

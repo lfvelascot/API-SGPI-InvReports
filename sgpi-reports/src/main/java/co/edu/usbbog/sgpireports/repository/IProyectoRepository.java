@@ -1,17 +1,13 @@
 package co.edu.usbbog.sgpireports.repository;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import co.edu.usbbog.sgpireports.model.Proyecto;
-import co.edu.usbbog.sgpireports.model.TipoProyecto;
-import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 
 public interface IProyectoRepository extends JpaRepository<Proyecto, Integer> {
@@ -268,6 +264,14 @@ public interface IProyectoRepository extends JpaRepository<Proyecto, Integer> {
 	 */
 	@Query(value= "SELECT DISTINCT tipo_proyecto FROM proyecto WHERE semillero = ?1",nativeQuery = true)
 	List<String> getTiposSemillero(int cc);
+	/**
+	 * busqueda de proyectos por Semillero
+	 * @param proyectoId
+	 * @return
+	 */
+	@Query(value= "SELECT DISTINCT year(fecha_fin) anio FROM proyecto WHERE fecha_fin is not null and semillero =?1",nativeQuery = true)
+	List<String> getAniosFinalización(int semillero);
+
 }
 
 
