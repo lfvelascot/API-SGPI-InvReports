@@ -5,41 +5,34 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import co.edu.usbbog.sgpireports.model.Participaciones;
 import co.edu.usbbog.sgpireports.model.Producto;
 import co.edu.usbbog.sgpireports.model.Proyecto;
 import co.edu.usbbog.sgpireports.model.ProyectosConvocatoria;
 import co.edu.usbbog.sgpireports.model.Semillero;
 import co.edu.usbbog.sgpireports.model.datamodels.ProductoR;
-import co.edu.usbbog.sgpireports.repository.ISemilleroRepository;
+
 @Service
 public class ProductosRService {
 
-	@Autowired
-	private ISemilleroRepository semillero;
+
 
 
 	public List<ProductoR> getProductosGI(List<Semillero> semilleros) {
 		List<ProductoR> salida = new ArrayList<>();
 		for (Semillero s : semilleros) {
-			salida.addAll(getProductosSemillero(s.getId()));
+			salida.addAll(getProductosSemillero(s.getProyectos()));
 		}
 		return salida;
 	}
 
-	public List<ProductoR> getProductosSemillero(int cc) {
+	public List<ProductoR> getProductosSemillero(List<Proyecto> lista) {
 		List<ProductoR> salida = new ArrayList<>();
-		List<Proyecto> lista = semillero.getById(cc).getProyectos();
 		for (Proyecto p : lista) {
 			List<Producto> aux = p.getProductos();
 			if (!aux.isEmpty()) {
-				for (Producto pp : aux) {
-					salida.add(new ProductoR(p.getTitulo(), pp.getTituloProducto(), pp.getTipoProducto(),
-							pp.getUrlRepo(), getFechaFormateada(pp.getFecha())));
-				}
+				salida.addAll(getProductosProyecto(aux));
 			}
 		}
 		return salida;
@@ -49,9 +42,8 @@ public class ProductosRService {
 		return fecha.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")); // 17-02-2022
 	}
 
-	public List<ProductoR> getProductosProyectosActSemillero(int cc) {
+	public List<ProductoR> getProductosProyectosActSemillero(List<Proyecto> lista) {
 		List<ProductoR> salida = new ArrayList<>();
-		List<Proyecto> lista = semillero.getById(cc).getProyectos();
 		for (Proyecto p : lista) {
 			if (p.getFechaFin() == null) {
 				List<Producto> aux = p.getProductos();
@@ -66,9 +58,8 @@ public class ProductosRService {
 		return salida;
 	}
 
-	public List<ProductoR> getProductosProyectosFin(int cc) {
+	public List<ProductoR> getProductosProyectosFin(List<Proyecto> lista) {
 		List<ProductoR> salida = new ArrayList<>();
-		List<Proyecto> lista = semillero.getById(cc).getProyectos();
 		for (Proyecto p : lista) {
 			if (p.getFechaFin() != null) {
 				if (!p.getProductos().isEmpty()) {
@@ -85,7 +76,7 @@ public class ProductosRService {
 	public List<ProductoR> getProductosProyectosActGI(List<Semillero> semilleros) {
 		List<ProductoR> salida = new ArrayList<>();
 		for (Semillero s : semilleros) {
-			salida.addAll(getProductosProyectosActSemillero(s.getId()));
+			salida.addAll(getProductosProyectosActSemillero(s.getProyectos()));
 		}
 		return salida;
 	}
@@ -93,7 +84,7 @@ public class ProductosRService {
 	public List<ProductoR> getProductosProyectosFinGI(List<Semillero> semilleros) {
 		List<ProductoR> salida = new ArrayList<>();
 		for (Semillero s : semilleros) {
-			salida.addAll(getProductosProyectosFin(s.getId()));
+			salida.addAll(getProductosProyectosFin(s.getProyectos()));
 		}
 		return salida;
 	}
@@ -101,15 +92,14 @@ public class ProductosRService {
 	public List<ProductoR> getProductosProyecto(List<Producto> productos) {
 		List<ProductoR> salida = new ArrayList<>();
 		for (Producto p : productos) {
-			salida.add(new ProductoR("", p.getTituloProducto(), p.getTipoProducto(), p.getUrlRepo(),
+			salida.add(new ProductoR(p.getProyecto().getTitulo(), p.getTituloProducto(), p.getTipoProducto(), p.getUrlRepo(),
 					getFechaFormateada(p.getFecha())));
 		}
 		return salida;
 	}
 
-	public List<ProductoR> getProductosProyectosSemConv(int cc) {
+	public List<ProductoR> getProductosProyectosSemConv(List<Proyecto> lista) {
 		List<ProductoR> salida = new ArrayList<>();
-		List<Proyecto> lista = semillero.getById(cc).getProyectos();
 		for (Proyecto p : lista) {
 			if (!p.getProductos().isEmpty() && !p.getProyectosConvocatoria().isEmpty()) {
 				for (Producto pc : p.getProductos()) {
@@ -120,11 +110,34 @@ public class ProductosRService {
 		}
 		return salida;
 	}
+	
+	public List<ProductoR> getProductosProyectosSemConvA(List<Proyecto> lista) {
+		List<ProductoR> salida = new ArrayList<>();
+		for (Proyecto p : lista) {
+			if (!p.getProductos().isEmpty() && !p.getProyectosConvocatoria().isEmpty()) {
+				for(ProyectosConvocatoria pc : p.getProyectosConvocatoria()) {
+					if(pc.getConvocatoria().getEstado().equals("ABIERTA")) {
+						salida.addAll(getProductosProyecto(p.getProductos()));
+						break;
+					}
+				}
+			}
+		}
+		return salida;
+	}
 
 	public List<ProductoR> getProductosProyectosGIConv(List<Semillero> semilleros) {
 		List<ProductoR> salida = new ArrayList<>();
 		for (Semillero s : semilleros) {
-			salida.addAll(getProductosProyectosSemConv(s.getId()));
+			salida.addAll(getProductosProyectosSemConv(s.getProyectos()));
+		}
+		return salida;
+	}
+	
+	public List<ProductoR> getProductosProyectosGIConvA(List<Semillero> semilleros) {
+		List<ProductoR> salida = new ArrayList<>();
+		for (Semillero s : semilleros) {
+			salida.addAll(getProductosProyectosSemConvA(s.getProyectos()));
 		}
 		return salida;
 	}
@@ -133,10 +146,7 @@ public class ProductosRService {
 		List<ProductoR> salida = new ArrayList<>();
 		for (Proyecto p : proyectos) {
 			if (!p.getParticipaciones().isEmpty() && !p.getProductos().isEmpty()) {
-				for (Producto pc : p.getProductos()) {
-					salida.add(new ProductoR(p.getTitulo(), pc.getTituloProducto(), pc.getTipoProducto(),
-							pc.getUrlRepo(), getFechaFormateada(pc.getFecha())));
-				}
+				salida.addAll(getProductosProyecto(p.getProductos()));
 			}
 		}
 		return salida;

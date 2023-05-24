@@ -19,11 +19,11 @@ import co.edu.usbbog.sgpireports.repository.IGrupoInvestigacionRepository;
 public class LineasInvestigacionRService {
 	
 	
-	public List<LineasGI> getLineasInvGI(GrupoInvestigacion s) {
+	public List<LineasGI> getLineasInvGI(GrupoInvestigacion g ) {
 		List<LineasGI> salida = new ArrayList<>();
-		for(LineaInvestigacion l : s.getLineasInvestigacion()) {
+		for(LineaInvestigacion l : g.getLineasInvestigacion()) {
 			var x = new LineasGI(l.getNombre(), l.getDescripcion(), getFechaFormateada(l.getFecha()));
-			x.setGi(s.getNombre());
+			x.setGi(g.getNombre());
 			salida.add(x);
 		}
 		return salida;
@@ -32,10 +32,8 @@ public class LineasInvestigacionRService {
 	public List<LineasGI> getLineasInvFacultad(List<GrupoInvestigacion> aux) {
 		List<LineasGI> salida = new ArrayList<>();
 		for(GrupoInvestigacion g : aux) {
-			for(LineaInvestigacion l : g.getLineasInvestigacion()) {
-				var x = new LineasGI(l.getNombre(), l.getDescripcion(), getFechaFormateada(l.getFecha()));
-				x.setGi(g.getNombre());
-				salida.add(x);
+			if(!g.getLineasInvestigacion().isEmpty()) {
+				salida.addAll(getLineasInvGI(g));
 			}
 		}
 		return salida;

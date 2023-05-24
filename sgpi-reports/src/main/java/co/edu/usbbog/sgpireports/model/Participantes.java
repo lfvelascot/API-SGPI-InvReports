@@ -142,7 +142,11 @@ public class Participantes implements Serializable {
     	//paticipantesJson.put("fecha_fin",this.getFechaInicio());
     	paticipantesJson.put("rol",this.getRol());
     	paticipantesJson.put("nombre",this.getUsuario().getNombres());
-    	paticipantesJson.put("programa",this.getUsuario().getProgramaId().getNombre());
+    	if(this.getUsuario().getProgramaId() != null) {
+    		paticipantesJson.put("programa",this.getUsuario().getProgramaId().getNombre());
+    	} else {
+    		paticipantesJson.put("programa","sin dato");
+    	}
     	paticipantesJson.put("cedula",this.getUsuario().getCedula());
     	paticipantesJson.put("titulo",this.getProyecto().getTitulo());
     	paticipantesJson.put("id",this.getProyecto().getId()	);

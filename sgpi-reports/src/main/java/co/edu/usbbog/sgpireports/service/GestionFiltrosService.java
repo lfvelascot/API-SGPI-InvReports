@@ -30,6 +30,7 @@ public class GestionFiltrosService implements IGestionFiltros {
 	@Autowired
 	private IProyectoRepository iProyectoRepository;
 	
+	
 	@Override
 	public List<Facultad> buscarFacultades() {
 		return iFacultadRepository.findAll();
@@ -87,7 +88,7 @@ public class GestionFiltrosService implements IGestionFiltros {
 
 	@Override
 	public List<Proyecto> buscarProyectos() {
-		return iProyectoRepository.findAll();
+		return iProyectoRepository.findAllByVisibilidad();
 	}
 
 	@Override
@@ -102,7 +103,13 @@ public class GestionFiltrosService implements IGestionFiltros {
 
 	@Override
 	public List<Proyecto> buscarProyectosPorEstado(String cc) {
-		return iProyectoRepository.findByEstado(cc);
+		var salida = iProyectoRepository.findByEstado(cc);
+		for(int i = 0; i < salida.size();i++) {
+			if(salida.get(i).getVisibilidad() == 0) {
+				salida.remove(i);
+			}
+		}
+		return salida;
 	}
 
 

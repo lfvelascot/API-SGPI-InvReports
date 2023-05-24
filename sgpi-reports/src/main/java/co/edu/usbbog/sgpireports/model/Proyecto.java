@@ -119,6 +119,8 @@ public class Proyecto implements Serializable {
     private List<Presupuesto> presupuestos;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "proyecto")
     private List<Participantes> participantes;
+    @Column(name = "nota")
+    private Double nota;
 
     public Proyecto() {
     }
@@ -138,7 +140,18 @@ public class Proyecto implements Serializable {
         this.justificacion = justificacion;
     }
     
-    public Integer getId() {
+    
+    
+    public Double getNota() {
+		return nota;
+	}
+
+	public void setNota(Double nota) {
+		this.nota = nota;
+	}
+
+
+	public Integer getId() {
         return id;
     }
 
@@ -459,6 +472,13 @@ public class Proyecto implements Serializable {
     	}
     	return proyectoJson;
     }
+
+	public JSONObject toJsonF() {
+		JSONObject proyectoJson=new JSONObject();
+    	proyectoJson.put("id",this.getId());
+    	proyectoJson.put("titulo",this.getTitulo());
+    	return proyectoJson;
+	}
 
 
 }

@@ -1,21 +1,19 @@
 package co.edu.usbbog.sgpireports.service.report;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.NoSuchElementException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import co.edu.usbbog.sgpireports.model.GrupoInvestigacion;
-import co.edu.usbbog.sgpireports.model.LineaInvestigacion;
 import co.edu.usbbog.sgpireports.model.MiembrosSemillero;
-import co.edu.usbbog.sgpireports.model.Programa;
 import co.edu.usbbog.sgpireports.model.Semillero;
 import co.edu.usbbog.sgpireports.model.Usuario;
-import co.edu.usbbog.sgpireports.model.datamodels.LineasGI;
 import co.edu.usbbog.sgpireports.model.datamodels.ParticipantesR;
-import co.edu.usbbog.sgpireports.repository.IGrupoInvestigacionRepository;
 import co.edu.usbbog.sgpireports.repository.IUsuarioRepository;
 
 @Service
@@ -23,6 +21,7 @@ public class MiembrosSemilleroRService {
 	
 	@Autowired
 	private IUsuarioRepository usuarios;
+	private final List<String> investigadoresF = new ArrayList<>(Arrays.asList("SEMILLERISTA", "ESTUDIANTE ACTIVO", "ESTUDIANTE") );
 
 	
 	public List<MiembrosSemillero> getLideresSemillerosDetallado(GrupoInvestigacion s) {
@@ -30,15 +29,17 @@ public class MiembrosSemilleroRService {
 		return getLideresSemillerosDetalladoPrograma(aux);
 	}
 	
-	public List<MiembrosSemillero> getMiembrosSemillero(int cc) {
-		List<Usuario> aux = usuarios.getMiembrosSemillero(cc);
+	public List<MiembrosSemillero> getMiembrosSemillero(List<Usuario> aux) {
 		List<MiembrosSemillero> salida = new ArrayList<>();
 		for(Usuario u: aux) {
-			salida.add(new MiembrosSemillero(u.getCodUniversitario().toString(),
+			var us = new MiembrosSemillero(u.getCodUniversitario().toString(),
 					u.getNombreCompleto(),
 					u.getTelefono(),
 					u.getCorreoEst(),
-					u.getProgramaId().getNombre()));
+					u.getProgramaId().getNombre());
+			us.setSemillero(u.getSemilleroId().getNombre());
+			salida.add(us);
+			
 		}
 		return salida;
 	}
@@ -76,18 +77,69 @@ public class MiembrosSemilleroRService {
 		for(Semillero p: semilleros) {
 			Usuario u = p.getLiderSemillero();
 			if(u != null){
+				String program = "N/A";
+				if(u.getProgramaId() != null) {
+					program = u.getProgramaId().getNombre();
+				}
 				MiembrosSemillero m = new MiembrosSemillero(u.getCodUniversitario().toString(),
 						u.getNombreCompleto(),
 						u.getTelefono(),
 						u.getCorreoEst(),
-						u.getProgramaId().getNombre());
+						program);
 				m.setSemillero(p.getNombre());
 				salida.add(m);
 			}
 		}
 		return salida;
 	}
-	
-	
 
+	public List<MiembrosSemillero> getMiembrosSemilleros(List<Semillero> semilleros) {
+		List<MiembrosSemillero> salida = new ArrayList<>();
+		for(Usuario u : getUsuariosSemilleros(semilleros)) {
+			String program = "N/A";
+			if(u.getProgramaId() != null) {
+				program = u.getProgramaId().getNombre();
+			}
+			MiembrosSemillero m = new MiembrosSemillero(u.getCodUniversitario().toString(),
+					u.getNombreCompleto(),
+					u.getTelefono(),
+					u.getCorreoEst(),
+					program);
+			m.setSemillero(u.getSemilleroId().getNombre());
+			salida.add(m);
+		}
+		return salida;
+	}
+	
+	private List<Usuario> getUsuariosSemilleros(List<Semillero> semilleros){
+		List<Usuario> salida = new ArrayList<>();
+		for(Semillero s : semilleros) {
+			salida.addAll(usuarios.getMiembrosSemillero(s.getId()));
+		}
+		return salida;
+	}
+
+	public List<MiembrosSemillero> getMiembrosSemilleroInv(List<Usuario> aux) {
+		List<MiembrosSemillero> salida = new ArrayList<>();
+		for(Usuario u: aux) {
+			if(investigadoresF.contains(u.getTiposUsuario().get(0).getNombre().toUpperCase())) {
+				var us = new MiembrosSemillero(u.getCodUniversitario().toString(),
+						u.getNombreCompleto(),
+						u.getTelefono(),
+						u.getCorreoEst(),
+						u.getProgramaId().getNombre());
+				us.setSemillero(u.getSemilleroId().getNombre());
+				salida.add(us);
+			}
+		}
+		return salida;
+	}
+
+	public List<MiembrosSemillero> getMiembrosGIInv(List<Semillero> semilleros) {
+		List<MiembrosSemillero> salida = new ArrayList<>();
+		for(Semillero u: semilleros) {
+			salida.addAll(getMiembrosSemilleroInv(u.getUsuarios()));
+		}
+		return salida;
+	}
 }

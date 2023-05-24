@@ -5,25 +5,23 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import co.edu.usbbog.sgpireports.model.Participaciones;
 import co.edu.usbbog.sgpireports.model.Proyecto;
 import co.edu.usbbog.sgpireports.model.Semillero;
 import co.edu.usbbog.sgpireports.model.datamodels.EventoR;
-import co.edu.usbbog.sgpireports.repository.IProyectoRepository;
 
 @Service
 public class EventosRService {
 	
-	@Autowired
-	private IProyectoRepository proyecto;
+	public Logger logger = LoggerFactory.getLogger(EventosRService.class);
 
-	public List<EventoR> getProyectosEventos(int cc) {
-		List<Proyecto> aux = proyecto.findBySemillero(cc);
+	public List<EventoR> getProyectosEventos(List<Proyecto> lista) {
 		List<EventoR> salida = new ArrayList<>();
-		for(Proyecto p : aux) {
+		for(Proyecto p : lista) {
 			if(!p.getParticipaciones().isEmpty()) {
 				for(Participaciones pp : p.getParticipaciones()) {
 					salida.add(new EventoR(p.getTitulo(),
@@ -41,7 +39,7 @@ public class EventosRService {
 		List<EventoR> salida = new ArrayList<>();
 		for(Semillero s : semilleros) {
 			if(!s.getProyectos().isEmpty()) {
-				salida.addAll(getProyectosEventos(s.getId()));
+				salida.addAll(getProyectosEventos(s.getProyectos()));
 			}
 		}
 		return salida;
@@ -55,13 +53,17 @@ public class EventosRService {
 	public Object getParticipacionesProyecto(List<Participaciones> participaciones) {
 		List<EventoR> salida = new ArrayList<>();
 		for(Participaciones pp : participaciones) {
-			salida.add(new EventoR("",
+			EventoR x = new EventoR("",
 					pp.getEvento().getNombre(),
 					getFechaFormateada(pp.getEvento().getFecha()),
 					pp.getEvento().getEntidad(),
-					pp.getEvento().getEstado()));
+					pp.getEvento().getEstado());
+			if(pp.getReconocimientos() != null) {
+				x.setSemillero(pp.getReconocimientos());
+			}
+			salida.add(x);
 		}
-		return null;
+		return salida;
 	}
 
 }

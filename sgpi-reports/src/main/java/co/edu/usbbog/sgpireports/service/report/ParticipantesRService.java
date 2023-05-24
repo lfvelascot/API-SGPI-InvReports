@@ -5,33 +5,24 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import co.edu.usbbog.sgpireports.model.Participantes;
 import co.edu.usbbog.sgpireports.model.Proyecto;
+import co.edu.usbbog.sgpireports.model.ProyectosConvocatoria;
 import co.edu.usbbog.sgpireports.model.Semillero;
 import co.edu.usbbog.sgpireports.model.datamodels.ParticipantesR;
-import co.edu.usbbog.sgpireports.repository.IProyectoRepository;
-import co.edu.usbbog.sgpireports.repository.ISemilleroRepository;
+
 
 @Service
 public class ParticipantesRService {
 
-	@Autowired
-	private IProyectoRepository proyecto;
-	@Autowired
-	private ISemilleroRepository semillero;
 
-	public List<ParticipantesR> getIntegrantes(int cc) {
-		List<Proyecto> aux = proyecto.findBySemillero(cc);
+	public List<ParticipantesR> getIntegrantes(List<Proyecto> lista) {
 		List<ParticipantesR> salida = new ArrayList<>();
-		for (Proyecto p : aux) {
-			List<Participantes> participantes = p.getParticipantes();
-			for (Participantes pa : participantes) {
-				salida.add(new ParticipantesR(p.getTitulo(), pa.getUsuario().getNombreCompleto(), pa.getRol(),
-						getFechaFormateada(pa.getParticipantesPK().getFechaInicio()),
-						getFechaFormateada(pa.getFechaFin()), p.getSemillero().getNombre()));
+		for (Proyecto p : lista) {
+			if(!p.getParticipantes().isEmpty()) {
+				salida.addAll(getIntegrantesProyecto(p.getParticipantes()));
 			}
 		}
 		return salida;
@@ -45,17 +36,11 @@ public class ParticipantesRService {
 		}
 	}
 
-	public List<ParticipantesR> getIntegrantesE(int cc) {
-		List<Proyecto> aux = proyecto.findBySemillero(cc);
+	public List<ParticipantesR> getIntegrantesE(List<Proyecto> lista) {
 		List<ParticipantesR> salida = new ArrayList<>();
-		for (Proyecto p : aux) {
-			if (!p.getParticipaciones().isEmpty()) {
-				List<Participantes> participantes = p.getParticipantes();
-				for (Participantes pa : participantes) {
-					salida.add(new ParticipantesR(p.getTitulo(), pa.getUsuario().getNombreCompleto(), pa.getRol(),
-							getFechaFormateada(pa.getParticipantesPK().getFechaInicio()),
-							getFechaFormateada(pa.getFechaFin()), p.getSemillero().getNombre()));
-				}
+		for (Proyecto p : lista) {
+			if (!p.getParticipaciones().isEmpty() && !p.getParticipantes().isEmpty()) {
+				salida.addAll(getIntegrantesProyecto(p.getParticipantes()));
 			}
 		}
 		return salida;
@@ -64,21 +49,39 @@ public class ParticipantesRService {
 	public List<ParticipantesR> getIntegrantesCGI(List<Semillero> semilleros) {
 		List<ParticipantesR> salida = new ArrayList<>();
 		for (Semillero s : semilleros) {
-			salida.addAll(getIntegrantesC(s.getId()));
+			salida.addAll(getIntegrantesC(s.getProyectos()));
+		}
+		return salida;
+	}
+	
+	public List<ParticipantesR> getIntegrantesCGIA(List<Semillero> semilleros) {
+		List<ParticipantesR> salida = new ArrayList<>();
+		for (Semillero s : semilleros) {
+			salida.addAll(getIntegrantesCA(s.getProyectos()));
 		}
 		return salida;
 	}
 
-	public List<ParticipantesR> getIntegrantesC(int cc) {
-		List<Proyecto> aux = proyecto.findBySemillero(cc);
+
+	public List<ParticipantesR> getIntegrantesC(List<Proyecto> lista) {
 		List<ParticipantesR> salida = new ArrayList<>();
-		for (Proyecto p : aux) {
+		for (Proyecto p : lista) {
+			if (!p.getProyectosConvocatoria().isEmpty() && !p.getParticipantes().isEmpty()) {
+				salida.addAll(getIntegrantesProyecto(p.getParticipantes()));
+			}
+		}
+		return salida;
+	}
+	
+	public List<ParticipantesR> getIntegrantesCA(List<Proyecto> lista) {
+		List<ParticipantesR> salida = new ArrayList<>();
+		for (Proyecto p : lista) {
 			if (!p.getProyectosConvocatoria().isEmpty()) {
-				List<Participantes> participantes = p.getParticipantes();
-				for (Participantes pa : participantes) {
-					salida.add(new ParticipantesR(p.getTitulo(), pa.getUsuario().getNombreCompleto(), pa.getRol(),
-							getFechaFormateada(pa.getParticipantesPK().getFechaInicio()),
-							getFechaFormateada(pa.getFechaFin()), p.getSemillero().getNombre()));
+				for(ProyectosConvocatoria pc : p.getProyectosConvocatoria()) {
+					if(pc.getConvocatoria().getEstado().equals("ABIERTA") && !p.getParticipantes().isEmpty()) {
+						salida.addAll(getIntegrantesProyecto(p.getParticipantes()));
+						break;
+					}
 				}
 			}
 		}
@@ -88,30 +91,24 @@ public class ParticipantesRService {
 	public List<ParticipantesR> getIntegrantesEGI(List<Semillero> semilleros) {
 		List<ParticipantesR> salida = new ArrayList<>();
 		for (Semillero s : semilleros) {
-			salida.addAll(getIntegrantesE(s.getId()));
+			salida.addAll(getIntegrantesE(s.getProyectos()));
 		}
 		return salida;
 	}
 
-	public List<ParticipantesR> getIntegrantesProyActivos(int cc) {
+	public List<ParticipantesR> getIntegrantesProyActivos(List<Proyecto> lista) {
 		List<ParticipantesR> salida = new ArrayList<>();
-		Semillero s = semillero.getById(cc);
-		for (Proyecto p : s.getProyectos()) {
+		for (Proyecto p : lista) {
 			if (p.getFechaFin() == null && !p.getParticipantes().isEmpty()) {
-				for (Participantes pp : p.getParticipantes()) {
-					salida.add(new ParticipantesR(p.getTitulo(), pp.getUsuario().getNombreCompleto(), pp.getRol(),
-							getFechaFormateada(pp.getParticipantesPK().getFechaInicio()),
-							getFechaFormateada(pp.getFechaFin()), p.getSemillero().getNombre()));
-				}
+				salida.addAll(getIntegrantesProyecto(p.getParticipantes()));
 			}
 		}
 		return salida;
 	}
 
-	public int countParticipantesProyectosActSemillero(int cc) {
+	public int countParticipantesProyectosActSemillero(List<Proyecto> lista) {
 		List<String> salida = new ArrayList<>();
-		Semillero s = semillero.getById(cc);
-		for (Proyecto p : s.getProyectos()) {
+		for (Proyecto p : lista) {
 			if (p.getFechaFin() == null && !p.getParticipantes().isEmpty()) {
 				for (Participantes pp : p.getParticipantes()) {
 					if (!salida.contains(pp.getUsuario().getCedula())) {
@@ -123,10 +120,9 @@ public class ParticipantesRService {
 		return salida.size();
 	}
 
-	public int countParticipantesProyectosFinSemillero(int cc) {
+	public int countParticipantesProyectosFinSemillero(List<Proyecto> lista) {
 		List<String> salida = new ArrayList<>();
-		Semillero s = semillero.getById(cc);
-		for (Proyecto p : s.getProyectos()) {
+		for (Proyecto p : lista) {
 			if (p.getFechaFin() != null && !p.getParticipantes().isEmpty()) {
 				for (Participantes pp : p.getParticipantes()) {
 					if (!salida.contains(pp.getUsuario().getCedula())) {
@@ -141,21 +137,16 @@ public class ParticipantesRService {
 	public List<ParticipantesR> getIntegrantesProyActivosGI(List<Semillero> semilleros) {
 		List<ParticipantesR> salida = new ArrayList<>();
 		for (Semillero s : semilleros) {
-			salida.addAll(getIntegrantesProyActivos(s.getId()));
+			salida.addAll(getIntegrantesProyActivos(s.getProyectos()));
 		}
 		return salida;
 	}
 
-	public List<ParticipantesR> getIntegrantesProyFin(int cc) {
+	public List<ParticipantesR> getIntegrantesProyFin(List<Proyecto> lista) {
 		List<ParticipantesR> salida = new ArrayList<>();
-		Semillero s = semillero.getById(cc);
-		for (Proyecto p : s.getProyectos()) {
+		for (Proyecto p : lista) {
 			if (p.getFechaFin() != null && !p.getParticipantes().isEmpty()) {
-				for (Participantes pp : p.getParticipantes()) {
-					salida.add(new ParticipantesR(p.getTitulo(), pp.getUsuario().getNombreCompleto(), pp.getRol(),
-							getFechaFormateada(pp.getParticipantesPK().getFechaInicio()),
-							getFechaFormateada(pp.getFechaFin()), p.getSemillero().getNombre()));
-				}
+				salida.addAll(getIntegrantesProyecto(p.getParticipantes()));
 			}
 		}
 		return salida;
@@ -164,7 +155,7 @@ public class ParticipantesRService {
 	public List<ParticipantesR> getIntegrantesProyFinGI(List<Semillero> semilleros) {
 		List<ParticipantesR> salida = new ArrayList<>();
 		for (Semillero s : semilleros) {
-			salida.addAll(getIntegrantesProyFin(s.getId()));
+			salida.addAll(getIntegrantesProyFin(s.getProyectos()));
 		}
 		return salida;
 	}
@@ -172,8 +163,10 @@ public class ParticipantesRService {
 	public List<ParticipantesR> getIntegrantesProyecto(List<Participantes> participantes) {
 		List<ParticipantesR> salida = new ArrayList<>();
 		for (Participantes p : participantes) {
-			salida.add(new ParticipantesR(p.getProyecto().getTitulo(), p.getUsuario().getNombreCompleto(), p.getRol(),
-					getFechaFormateada(p.getParticipantesPK().getFechaInicio()), getFechaFormateada(p.getFechaFin()),
+			salida.add(new ParticipantesR(p.getProyecto().getTitulo(),
+					p.getUsuario().getNombreCompleto(), p.getRol(),
+					getFechaFormateada(p.getParticipantesPK().getFechaInicio()),
+					getFechaFormateada(p.getFechaFin()),
 					p.getProyecto().getSemillero().getNombre()));
 		}
 		return salida;

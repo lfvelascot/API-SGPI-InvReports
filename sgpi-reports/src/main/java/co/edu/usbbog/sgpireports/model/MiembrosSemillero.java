@@ -8,38 +8,8 @@ public class MiembrosSemillero {
 	private String correo;
 	private String programa;
 	private String Semillero;
-	public String getCodigo() {
-		return codigo;
-	}
-	public void setCodigo(String codigo) {
-		this.codigo = codigo;
-	}
-	public String getNombre() {
-		return nombre;
-	}
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-	public String getTelefono() {
-		return telefono;
-	}
-	public void setTelefono(String telefono) {
-		this.telefono = telefono;
-	}
-	public String getCorreo() {
-		return correo;
-	}
-	public void setCorreo(String correo) {
-		this.correo = correo;
-	}
-	public String getPrograma() {
-		return programa;
-	}
-	public void setPrograma(String programa) {
-		this.programa = programa;
-	}
+	
 	public MiembrosSemillero(String codigo, String nombre, String telefono, String correo, String programa) {
-		super();
 		this.codigo = codigo;
 		this.nombre = nombre;
 		if(telefono == null) {
@@ -54,12 +24,48 @@ public class MiembrosSemillero {
 	public String getSemillero() {
 		return Semillero;
 	}
+	public String getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public String getTelefono() {
+		return telefono;
+	}
+
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
+	}
+
+	public String getCorreo() {
+		return correo;
+	}
+
+	public void setCorreo(String correo) {
+		this.correo = correo;
+	}
+
+	public String getPrograma() {
+		return programa;
+	}
+
+	public void setPrograma(String programa) {
+		this.programa = programa;
+	}
+
 	public void setSemillero(String semillero) {
 		Semillero = semillero;
 	}
 	
-	
-	
-	
-
 }

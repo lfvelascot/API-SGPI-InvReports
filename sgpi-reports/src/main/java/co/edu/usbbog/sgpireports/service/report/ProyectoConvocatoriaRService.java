@@ -5,25 +5,21 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import co.edu.usbbog.sgpireports.model.Proyecto;
 import co.edu.usbbog.sgpireports.model.ProyectosConvocatoria;
 import co.edu.usbbog.sgpireports.model.Semillero;
 import co.edu.usbbog.sgpireports.model.datamodels.ProyectosConvocatoriaR;
-import co.edu.usbbog.sgpireports.repository.IProyectoRepository;
+
 
 @Service
 public class ProyectoConvocatoriaRService {
 
-	@Autowired
-	private IProyectoRepository proyecto;
 
-	public List<ProyectosConvocatoriaR> getProyectosConvAbiertas(int cc) {
-		List<Proyecto> aux = proyecto.findBySemillero(cc);
+	public List<ProyectosConvocatoriaR> getProyectosConvAbiertas(List<Proyecto> lista) {
 		List<ProyectosConvocatoriaR> salida = new ArrayList<>();
-		for (Proyecto p : aux) {
+		for (Proyecto p : lista) {
 			List<ProyectosConvocatoria> aux2 = p.getProyectosConvocatoria();
 				for (ProyectosConvocatoria pc : aux2) {
 					if (pc.getConvocatoria().getEstado().equals("ABIERTA")) {
@@ -46,7 +42,7 @@ public class ProyectoConvocatoriaRService {
 	public List<ProyectosConvocatoriaR> getProyectosConvAbiertasGI(List<Semillero> semilleros) {
 		List<ProyectosConvocatoriaR> salida = new ArrayList<>();
 		for (Semillero s : semilleros) {
-			salida.addAll(getProyectosConvAbiertas(s.getId()));
+			salida.addAll(getProyectosConvAbiertas(s.getProyectos()));
 		}
 		return salida;
 	}
@@ -54,15 +50,14 @@ public class ProyectoConvocatoriaRService {
 	public List<ProyectosConvocatoriaR> getProyectosConvCerradasGI(List<Semillero> semilleros) {
 		List<ProyectosConvocatoriaR> salida = new ArrayList<>();
 		for (Semillero s : semilleros) {
-			salida.addAll(getProyectosConvCerradas(s.getId()));
+			salida.addAll(getProyectosConvCerradas(s.getProyectos()));
 		}
 		return salida;
 	}
 
-	public List<ProyectosConvocatoriaR> getProyectosConvCerradas(int cc) {
-		List<Proyecto> aux = proyecto.findBySemillero(cc);
+	public List<ProyectosConvocatoriaR> getProyectosConvCerradas(List<Proyecto> lista) {
 		List<ProyectosConvocatoriaR> salida = new ArrayList<>();
-		for (Proyecto p : aux) {
+		for (Proyecto p : lista) {
 			List<ProyectosConvocatoria> aux2 = p.getProyectosConvocatoria();
 			if (!aux2.isEmpty()) {
 				for (ProyectosConvocatoria pc : aux2) {
@@ -89,5 +84,16 @@ public class ProyectoConvocatoriaRService {
 		}
 		return salida;
 	}
+
+	public int countConvocatorias(List<ProyectosConvocatoriaR> aux3) {
+		List<String> salida = new ArrayList<>();
+		for(var i : aux3) {
+			if(!salida.contains(i.getConvocatoria())) {
+				salida.add(i.getConvocatoria());
+			}
+		}
+		return salida.size();
+	}
+
 
 }

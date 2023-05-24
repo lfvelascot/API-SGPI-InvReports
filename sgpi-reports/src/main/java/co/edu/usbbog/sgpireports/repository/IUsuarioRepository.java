@@ -114,6 +114,6 @@ public interface IUsuarioRepository  extends JpaRepository<Usuario, String> {
 	 * @param cedula
 	 * @return
 	 */
-	@Query(value = "SELECT * FROM `usuario`WHERE `semillero_id` = ?1 and visibilidad = 'ACTIVO' ORDER BY nombres ASC;", nativeQuery = true)
+	@Query(value = "SELECT * FROM `usuario`WHERE `semillero_id` = ?1 and visibilidad = '1' ORDER BY nombres ASC;", nativeQuery = true)
 	List<Usuario> getMiembrosSemillero(int cedula);
 }

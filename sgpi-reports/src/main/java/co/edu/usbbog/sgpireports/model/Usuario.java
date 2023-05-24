@@ -71,9 +71,9 @@ public class Usuario implements Serializable {
     private String apellidos;
     @Column(length = 45)
     private String telefono;
-    @Basic(optional = false, fetch = FetchType.LAZY)
-    @Column(nullable = false, length = 50)
-    private String visibilidad;
+    @Basic(optional = false)
+    @Column(name = "visibilidad")
+    private short visibilidad;
     @Column(name = "correo_personal", length = 45)
     private String correoPersonal;
     @ManyToMany(mappedBy = "usuarios")
@@ -86,7 +86,7 @@ public class Usuario implements Serializable {
     private List<Clase> clases;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "liderSemillero")
     private List<Semillero> semilleros;
-    @JoinColumn(name = "programa_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "programa_id", referencedColumnName = "id", nullable = true)
     @ManyToOne(optional = true, fetch = FetchType.LAZY)
     private Programa programaId;
     @JoinColumn(name = "semillero_id", referencedColumnName = "id",nullable = true)
@@ -108,7 +108,7 @@ public class Usuario implements Serializable {
         this.cedula = cedula;
     }
 
-    public Usuario(String cedula, BigInteger codUniversitario, String correoEst, String contrasena, String nombres, String apellidos, String visiblidad) {
+    public Usuario(String cedula, BigInteger codUniversitario, String correoEst, String contrasena, String nombres, String apellidos, short visiblidad) {
         this.cedula = cedula;
         this.codUniversitario = codUniversitario;
         this.correoEst = correoEst;
@@ -178,11 +178,11 @@ public class Usuario implements Serializable {
         this.telefono = telefono;
     }
 
-    public String getVisibilidad() {
+    public short getVisibilidad() {
         return visibilidad;
     }
 
-    public void setVisibilidad(String visibilidad) {
+    public void setVisibilidad(short visibilidad) {
         this.visibilidad = visibilidad;
     }
 
@@ -310,16 +310,19 @@ public class Usuario implements Serializable {
     public void setCoorInvFacultad(List<Facultad> coorInvFacultad) {
         this.coorIncFacultad = coorInvFacultad;
     }
+    
     public Facultad addCoodInvFacultad(Facultad facultad) {
     	getCoorIncFacultad().add(facultad);
     	facultad.setCoorInv(this);
     	return facultad;
     }
+    
     public Facultad removeCoorInvFacultad(Facultad facultad) {
     	getCoorIncFacultad().remove(facultad);
     	facultad.setCoorInv(null);
     	return facultad;
     }
+    
     @XmlTransient
     public List<Facultad> getDecanoFacultad() {
         return decanoFacultad;
@@ -328,16 +331,19 @@ public class Usuario implements Serializable {
     public void setDecanoFacultad(List<Facultad> deFacultad) {
         this.decanoFacultad = deFacultad;
     }
+    
     public Facultad addDecanoFacultad(Facultad facultad) {
     	getDecanoFacultad().add(facultad);
     	facultad.setDecano(this);
     	return facultad;
     }
+    
     public Facultad removeDeFacultad(Facultad facultad) {
     	getDecanoFacultad().remove(facultad);
     	facultad.setDecano(null);
     	return facultad;
     }
+    
     @XmlTransient
     public List<Participantes> getParticipantes() {
         return participantes;
@@ -412,7 +418,7 @@ public class Usuario implements Serializable {
     		usuarioJson.put("semillero",this.getSemilleroId().getNombre());
     		usuarioJson.put("semillero_id",this.getSemilleroId().getId());
     	}
-    	if(this.getProgramaId()==null) {
+    	if(this.getProgramaId() ==null) {
     		usuarioJson.put("programa","");
     	}else {
     		usuarioJson.put("programa",this.getProgramaId().getNombre());

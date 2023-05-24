@@ -388,7 +388,7 @@
 				<text><![CDATA[Programa:]]></text>
 			</staticText>
 		</band>
-		<band height="183">
+		<band height="158">
 			<rectangle radius="9">
 				<reportElement x="8" y="4" width="385" height="96" backcolor="#FADEC3" uuid="73f007ae-da6a-4345-8b30-9ce370a62ded"/>
 				<graphicElement>

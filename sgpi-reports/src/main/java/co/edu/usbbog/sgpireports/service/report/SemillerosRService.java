@@ -5,10 +5,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import co.edu.usbbog.sgpireports.model.Proyecto;
+import co.edu.usbbog.sgpireports.model.ProyectosConvocatoria;
 import co.edu.usbbog.sgpireports.model.Semillero;
 import co.edu.usbbog.sgpireports.model.datamodels.SemillerosR;
 import co.edu.usbbog.sgpireports.repository.IConvocatoriaRepository;
@@ -23,6 +26,8 @@ public class SemillerosRService {
 	private IConvocatoriaRepository c;
 	@Autowired
 	private MiembrosSemilleroRService miembros;
+	
+	public Logger logger = LoggerFactory.getLogger(SemillerosRService.class);
 	
 	public List<SemillerosR> getSemillerosGI(List<Semillero> semilleros) {
 		List<SemillerosR> salida = new ArrayList<>();
@@ -41,6 +46,31 @@ public class SemillerosRService {
 					if(!p.getProyectosConvocatoria().isEmpty()) {
 						flag = true;
 						break;
+					}
+				}
+				if(flag) {
+					salida.add(createSemilleroR(s));
+				}
+			}
+		}
+		return salida;
+	}
+	
+	public List<SemillerosR> getSemillerosConAGI(List<Semillero> semilleros) {
+		List<SemillerosR> salida = new ArrayList<>();
+		for(Semillero s : semilleros) {
+			if(!s.getProyectos().isEmpty()) {
+				boolean flag = false;
+				for(Proyecto p : s.getProyectos()) {
+					if(!p.getProyectosConvocatoria().isEmpty()) {
+						for(ProyectosConvocatoria pc :  p.getProyectosConvocatoria())
+							if(pc.getConvocatoria().getEstado().equals("ABIERTA")) {
+								flag = true;
+								break;
+							}
+						if(flag) {
+							break;
+						}
 					}
 				}
 				if(flag) {

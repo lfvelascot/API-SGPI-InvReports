@@ -5,7 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,7 +21,7 @@ import net.minidev.json.JSONObject;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/reporte")
+@RequestMapping("/info")
 public class FiltrosController {
 	
 	@Autowired
@@ -33,9 +34,9 @@ public class FiltrosController {
 	 * @param nombre
 	 * @return
 	 */
-	@GetMapping("/semilleros/{cc}")
-	public JSONArray buscarSemillerosPorPrograma(@PathVariable int cc) {
-		List<Semillero> lista = filtros.buscarSemillerosPorPrograma(cc);
+	@PostMapping("/semillero/programa")
+	public JSONArray buscarSemillerosPorPrograma(@RequestBody JSONObject entrada) {
+		List<Semillero> lista = filtros.buscarSemillerosPorPrograma(Integer.valueOf(entrada.getAsString("programa")));
 		JSONArray salida = new JSONArray();
 		for(Semillero p : lista) {
 			salida.add(p.toJson());
@@ -43,21 +44,6 @@ public class FiltrosController {
 		return salida;
 	}
 	
-	/**
-	 * verificar si existe un tipo de usuario
-	 * 
-	 * @param nombre
-	 * @return
-	 */
-	@GetMapping("/semilleros/facultad/{cc}")
-	public JSONArray buscarSemillerosPorFacultad(@PathVariable int cc) {
-		List<Semillero> lista = filtros.buscarSemillerosPorGI(cc);
-		JSONArray salida = new JSONArray();
-		for(Semillero p : lista) {
-			salida.add(p.toJsonF());
-		}
-		return salida;
-	}
 	
 	/**
 	 * verificar si existe un tipo de usuario
@@ -65,59 +51,11 @@ public class FiltrosController {
 	 * @param nombre
 	 * @return
 	 */
-	@GetMapping("/semilleros")
+	@GetMapping("/semillero")
 	public JSONArray buscarSemilleros() {
 		List<Semillero> lista = filtros.buscarSemilleros();
 		JSONArray salida = new JSONArray();
 		for(Semillero p : lista) {
-			salida.add(p.toJson());
-		}
-		return salida;
-	}
-	
-	/**
-	 * verificar si existe un tipo de usuario
-	 * 
-	 * @param nombre
-	 * @return
-	 */
-	@GetMapping("/gi/{cc}")
-	public JSONArray buscarGIPorPrograma(@PathVariable int cc) {
-		List<GrupoInvestigacion> lista = filtros.buscarGruposInvPorPrograma(cc);
-		JSONArray salida = new JSONArray();
-		for(GrupoInvestigacion p : lista) {
-			salida.add(p.toJson());
-		}
-		return salida;
-	}
-	
-	/**
-	 * Lista de Grupos de investigación para filtros
-	 * 
-	 * @param nombre
-	 * @return
-	 */
-	@GetMapping("/gi/g")
-	public JSONArray buscarGIs() {
-		List<GrupoInvestigacion> lista = filtros.buscarGruposInv();;
-		JSONArray salida = new JSONArray();
-		for(GrupoInvestigacion p : lista) {
-			salida.add(p.toJsonF());
-		}
-		return salida;
-	}
-	
-	/**
-	 * Lista de Grupos de investigación
-	 * 
-	 * @param nombre
-	 * @return
-	 */
-	@GetMapping("/gi")
-	public JSONArray buscarGIsGeneral() {
-		List<GrupoInvestigacion> lista = filtros.buscarGruposInv();;
-		JSONArray salida = new JSONArray();
-		for(GrupoInvestigacion p : lista) {
 			salida.add(p.toJson());
 		}
 		return salida;
@@ -140,46 +78,14 @@ public class FiltrosController {
 	}
 	
 	/**
-	 * Lista de facultades
-	 * 
-	 * @param nombre
-	 * @return
-	 */
-	@GetMapping("/facultad/g")
-	public JSONArray buscarFacultadesGeneral() {
-		List<Facultad> lista = filtros.buscarFacultades();
-		JSONArray salida = new JSONArray();
-		for(Facultad p : lista) {
-			salida.add(p.toJson());
-		}
-		return salida;
-	}
-	
-	/**
 	 * verificar si existe un tipo de usuario
 	 * 
 	 * @param nombre
 	 * @return
 	 */
-	@GetMapping("/programa/{cc}")
-	public JSONArray buscarProgramasPorFacultad(@PathVariable int cc) {
-		List<Programa> lista = filtros.buscarProgramasPorFacultad(cc);
-		JSONArray salida = new JSONArray();
-		for(Programa p : lista) {
-			salida.add(p.toJsonF());
-		}
-		return salida;
-	}
-	
-	/**
-	 * Lista de programas para filtros
-	 * 
-	 * @param nombre
-	 * @return
-	 */
-	@GetMapping("/programa")
-	public JSONArray buscarProgramas() {
-		List<Programa> lista = filtros.buscarProgramas();
+	@PostMapping("/facultad/programa")
+	public JSONArray buscarProgramasPorFacultad(@RequestBody JSONObject entrada) {
+		List<Programa> lista = filtros.buscarProgramasPorFacultad(Integer.valueOf(entrada.getAsString("facultad")));
 		JSONArray salida = new JSONArray();
 		for(Programa p : lista) {
 			salida.add(p.toJsonF());
@@ -194,15 +100,16 @@ public class FiltrosController {
 	 * @param nombre
 	 * @return
 	 */
-	@GetMapping("/sproyecto/{cc}")
-	public JSONArray buscarProyectosPorSemillero(@PathVariable int cc) {
-		List<Proyecto> lista = filtros.buscarProyectosPorSemillero(cc);
+	@PostMapping("/facultad/gi/semillero/proyecto")
+	public JSONArray buscarProyectosPorSemillero(@RequestBody JSONObject entrada) {
+		List<Proyecto> lista = filtros.buscarProyectosPorSemillero(Integer.valueOf(entrada.getAsString("semillero")));
 		JSONArray salida = new JSONArray();
 		for(Proyecto p : lista) {
-			salida.add(p.toJson());
+			salida.add(p.toJsonF());
 		}
 		return salida;
 	}
+	
 	
 	/**
 	 * verificar si existe un tipo de usuario
@@ -210,28 +117,13 @@ public class FiltrosController {
 	 * @param nombre
 	 * @return
 	 */
-	@GetMapping("/giproyecto/{cc}")
-	public JSONArray buscarProyectosPorGI(@PathVariable int cc) {
-		List<Proyecto> lista = filtros.buscarProyectosPorGI(cc);
-		JSONArray salida = new JSONArray();
-		for(Proyecto p : lista) {
-			salida.add(p.toJson());
-		}
-		return salida;
-	}
-	
-	/**
-	 * verificar si existe un tipo de usuario
-	 * 
-	 * @param nombre
-	 * @return
-	 */
-	@GetMapping("/gi/f/{cc}")
-	public JSONArray buscarGIPorFacultad(@PathVariable int cc) {
-		List<GrupoInvestigacion> lista = filtros.buscarGruposInvPorFacultad(cc);
+	@PostMapping("/facultad/gi")
+	public JSONArray buscarGIPorFacultadFiltro(@RequestBody JSONObject entrada) {
+		List<GrupoInvestigacion> lista = filtros.buscarGruposInvPorFacultad(
+				Integer.valueOf(entrada.getAsString("facultad")));
 		JSONArray salida = new JSONArray();
 		for(GrupoInvestigacion p : lista) {
-			salida.add(p.toJson());
+			salida.add(p.toJsonF());
 		}
 		return salida;
 	}
@@ -242,11 +134,12 @@ public class FiltrosController {
 	 * @param nombre
 	 * @return
 	 */
-	@GetMapping("/gi/ff/{cc}")
-	public JSONArray buscarGIPorFacultadFiltro(@PathVariable int cc) {
-		List<GrupoInvestigacion> lista = filtros.buscarGruposInvPorFacultad(cc);
+	@PostMapping("/facultad/gi/semillero")
+	public JSONArray buscarSemillerosPorGIFiltro(@RequestBody JSONObject entrada) {
+		List<Semillero> lista = filtros.buscarSemillerosPorGrupoInv(
+				Integer.valueOf(entrada.getAsString("gi")));
 		JSONArray salida = new JSONArray();
-		for(GrupoInvestigacion p : lista) {
+		for(Semillero p : lista) {
 			salida.add(p.toJsonF());
 		}
 		return salida;
@@ -275,25 +168,9 @@ public class FiltrosController {
 	 * @param nombre
 	 * @return
 	 */
-	@GetMapping("/estadosp")
-	public JSONArray buscarEstadosProyectos() {
-		List<String> lista = filtros.buscarEstadoProyectos();
-		JSONArray salida = new JSONArray();
-		for(int i = 0; i < lista.size();i++) {
-			salida.add(lista.get(i));
-		}
-		return salida;
-	}
-	
-	/**
-	 * verificar si existe un tipo de usuario
-	 * 
-	 * @param nombre
-	 * @return
-	 */
-	@GetMapping("/proyecto/estado/{cc}")
-	public JSONArray buscarProyectosPorEstado(@PathVariable String cc) {
-		List<Proyecto> lista = filtros.buscarProyectosPorEstado(cc);
+	@PostMapping("/proyecto/estado")
+	public JSONArray buscarProyectosPorEstado(@RequestBody JSONObject entrada) {
+		List<Proyecto> lista = filtros.buscarProyectosPorEstado(entrada.getAsString("estado"));
 		JSONArray salida = new JSONArray();
 		for(Proyecto p : lista) {
 			salida.add(p.toJson());

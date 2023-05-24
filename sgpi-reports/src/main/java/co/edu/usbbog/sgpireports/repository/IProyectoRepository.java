@@ -271,6 +271,14 @@ public interface IProyectoRepository extends JpaRepository<Proyecto, Integer> {
 	 */
 	@Query(value= "SELECT DISTINCT year(fecha_fin) anio FROM proyecto WHERE fecha_fin is not null and semillero =?1",nativeQuery = true)
 	List<String> getAniosFinalización(int semillero);
+	/**
+	 * busqueda de proyectos por Semillero
+	 * @param proyectoId
+	 * @return
+	 */
+	@Query(value= "SELECT * FROM proyecto WHERE visibilidad = '1'",nativeQuery = true)
+	List<Proyecto> findAllByVisibilidad();
+
 
 }
 

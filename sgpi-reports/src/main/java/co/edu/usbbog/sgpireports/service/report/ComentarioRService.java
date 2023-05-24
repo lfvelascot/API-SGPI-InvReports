@@ -19,8 +19,8 @@ public class ComentarioRService {
 		for (Producto p : productos) {
 			if (!p.getComentarios().isEmpty()) {
 				for (Comentario c : p.getComentarios()) {
-					String calificacion = "sin dato";
-					if (c.getComentario() != null) {
+					String calificacion = "N/A";
+					if (c.getCalificacion() != null) {
 						calificacion = String.valueOf(c.getCalificacion());
 					}
 					salida.add(new ComentarioR(p.getTituloProducto(), c.getComentario(), calificacion, c.getFase(),

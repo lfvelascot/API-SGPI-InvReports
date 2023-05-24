@@ -1,0 +1,514 @@
+{
+	"info": {
+		"_postman_id": "6c8eba16-7422-4359-a486-6162a2f767cb",
+		"name": "SGPI - Modulo Reportes Requests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13153883",
+		"_collection_link": "https://restless-capsule-521597.postman.co/workspace/sgpi~cae07987-7be0-49ef-a22c-022efd2497e4/collection/13153883-6c8eba16-7422-4359-a486-6162a2f767cb?action=share&creator=13153883&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "Filtros",
+			"item": [
+				{
+					"name": "Filtro facultades",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/info/facultad",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"info",
+								"facultad"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Filtro GIs x Facultad",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"facultad\": 1001\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/info/facultad/gi",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"info",
+								"facultad",
+								"gi"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Filtro Semilleros x Gi",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"gi\": 3003\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/info/facultad/gi/semillero",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"info",
+								"facultad",
+								"gi",
+								"semillero"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Filtro Programas x Facultad",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"facultad\": 1001\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/info/facultad/programa",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"info",
+								"facultad",
+								"programa"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Filtro Proyectos x Semillers",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"semillero\": 4018\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/info/facultad/gi/semillero/proyecto",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"info",
+								"facultad",
+								"gi",
+								"semillero",
+								"proyecto"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Firmas",
+			"item": [
+				{
+					"name": "Cargar firma",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/SIGUSBBOG/Pictures/FirmaDigital.png"
+								},
+								{
+									"key": "usuario",
+									"value": "1000689373",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8081/archivo/upload",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"archivo",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Firma",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cc\": \"1000689373\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/archivo/get/firma",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"archivo",
+								"get",
+								"firma"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Reportes",
+			"item": [
+				{
+					"name": "Generar reporte semillero",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"dato\": \"4018\",\r\n  \"reporte\": \"0\",\r\n  \"usuario\" : \"1000689373\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/report/generar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"report",
+								"generar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Generar reporte GI",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"dato\": \"2001\",\r\n  \"reporte\": \"18\",\r\n  \"usuario\" : \"1000689373\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/report/generar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"report",
+								"generar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Generar reporte programa",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"dato\": \"5005\",\r\n  \"reporte\": \"20\",\r\n  \"usuario\" : \"1000689373\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/report/generar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"report",
+								"generar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Generar reporte facultad",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"dato\": \"1001\",\r\n  \"reporte\": \"19\",\r\n  \"usuario\" : \"1000689373\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/report/generar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"report",
+								"generar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Generar reporte proyecto",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"dato\": \"5005\",\r\n  \"reporte\": \"20\",\r\n  \"usuario\" : \"1000689373\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/report/generar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"report",
+								"generar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Reporte",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"reporte\": \"RepProy-Proyecto 5-1000689373.pdf\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/archivo/get/reporte",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"archivo",
+								"get",
+								"reporte"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Datos generales",
+			"item": [
+				{
+					"name": "Get Datos Semillero",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/info/semillero",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"info",
+								"semillero"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Semilleros x Programa",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"programa\": 2001\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/info/semillero/programa",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"info",
+								"semillero",
+								"programa"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Proyectos x Estado",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"estado\": \"Finalizado\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/info/proyecto/estado",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"info",
+								"proyecto",
+								"estado"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Proyectos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/info/proyecto",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"info",
+								"proyecto"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

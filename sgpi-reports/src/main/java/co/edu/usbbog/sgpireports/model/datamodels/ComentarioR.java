@@ -2,7 +2,7 @@ package co.edu.usbbog.sgpireports.model.datamodels;
 
 public class ComentarioR {
 	
-	String producto, comentario, calificacion, fase, nivel, fecha;
+	private String producto, comentario, calificacion, fase, nivel, fecha;
 
 	public ComentarioR(String producto, String comentario, String calificacion, String fase, String nivel,
 			String fecha) {

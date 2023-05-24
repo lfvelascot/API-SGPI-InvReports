@@ -2,10 +2,6 @@ package co.edu.usbbog.sgpireports.service;
 
 import org.json.JSONObject;
 
-import com.mysql.cj.xdevapi.JsonArray;
-
-import co.edu.usbbog.sgpireports.model.Programa;
-
 import org.json.JSONArray;
 import java.util.ArrayList;
 import java.util.List;

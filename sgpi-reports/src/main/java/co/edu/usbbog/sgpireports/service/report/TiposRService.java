@@ -9,24 +9,18 @@ import org.springframework.stereotype.Service;
 
 import co.edu.usbbog.sgpireports.model.GrupoInvestigacion;
 import co.edu.usbbog.sgpireports.model.Participaciones;
-import co.edu.usbbog.sgpireports.model.Programa;
 import co.edu.usbbog.sgpireports.model.Proyecto;
 import co.edu.usbbog.sgpireports.model.ProyectosConvocatoria;
 import co.edu.usbbog.sgpireports.model.Semillero;
 import co.edu.usbbog.sgpireports.model.datamodels.TipoPEstado;
-import co.edu.usbbog.sgpireports.repository.IGrupoInvestigacionRepository;
 import co.edu.usbbog.sgpireports.repository.IProyectoRepository;
-import co.edu.usbbog.sgpireports.repository.ISemilleroRepository;
 
 @Service
 public class TiposRService {
 
-	@Autowired
-	private ISemilleroRepository semillero;
+
 	@Autowired
 	private IProyectoRepository proyecto;
-	@Autowired 
-	private IGrupoInvestigacionRepository grupos;
 
 
 	public List<TipoPEstado> getProduccionSemillerosGI(List<Semillero> semilleros) {
@@ -100,11 +94,24 @@ public class TiposRService {
 		}
 		return salida;
 	}
-
-	public List<TipoPEstado> getProyectosAnioE(int cc) {
-		List<Proyecto> aux = proyecto.findBySemillero(cc);
+	
+	public List<TipoPEstado> getProyectosEstadosConvA(List<Proyecto> proyectos) {
 		List<TipoPEstado> salida = new ArrayList<>();
-		for (Proyecto p : aux) {
+		for (Proyecto p : proyectos) {
+			if (!p.getProyectosConvocatoria().isEmpty()) {
+				for (ProyectosConvocatoria pc : p.getProyectosConvocatoria()) {
+					if(pc.getConvocatoria().getEstado().equals("ABIERTA")) {
+						salida = sumar(salida, pc.getIdProyecto());
+					}
+				}
+			}
+		}
+		return salida;
+	}
+
+	public List<TipoPEstado> getProyectosAnioE(List<Proyecto> lista) {
+		List<TipoPEstado> salida = new ArrayList<>();
+		for (Proyecto p : lista) {
 			if (!p.getParticipaciones().isEmpty()) {
 				for (Participaciones pp : p.getParticipaciones()) {
 					salida = sumar(salida, String.valueOf(pp.getFechaPart().getYear()));
@@ -137,11 +144,24 @@ public class TiposRService {
 		}
 		return salida;
 	}
-
-	public List<TipoPEstado> getProducciónPorAnio(int cc) {
+	
+	public List<TipoPEstado> getProyectosEstadosConvAGI(List<Semillero> semilleros) {
 		List<TipoPEstado> salida = new ArrayList<>();
-		List<Proyecto> aux = semillero.getById(cc).getProyectos();
-		for (Proyecto p : aux) {
+		for (Proyecto p : getAllProyectosGI(semilleros)) {
+			if (!p.getProyectosConvocatoria().isEmpty()) {
+				for (ProyectosConvocatoria pc : p.getProyectosConvocatoria()) {
+					if(pc.getConvocatoria().getEstado().equals("ABIERTA")) {
+						salida = sumar(salida, pc.getIdProyecto());
+					}
+				}
+			}
+		}
+		return salida;
+	}
+
+	public List<TipoPEstado> getProducciónPorAnio(List<Proyecto> lista) {
+		List<TipoPEstado> salida = new ArrayList<>();
+		for (Proyecto p : lista) {
 			if (p.getFechaFin() != null) {
 				salida = sumar(salida, String.valueOf(p.getFechaFin().getYear()));
 			}
@@ -172,10 +192,9 @@ public class TiposRService {
 		}
 	}
 
-	public List<TipoPEstado> getProyectosAnioConvSem(int cc) {
-		List<Proyecto> aux = proyecto.findBySemillero(cc);
+	public List<TipoPEstado> getProyectosAnioConvSem(List<Proyecto> lista) {
 		List<TipoPEstado> salida = new ArrayList<>();
-		for (Proyecto p : aux) {
+		for (Proyecto p : lista) {
 			if (!p.getProyectosConvocatoria().isEmpty()) {
 				for (ProyectosConvocatoria pc : p.getProyectosConvocatoria()) {
 					salida = sumar(salida, String.valueOf(pc.getConvocatoria().getFechaInicio().getYear()));
@@ -304,6 +323,55 @@ public class TiposRService {
 		for (Proyecto p : proyectos) {
 			if (p.getFechaFin() != null) {
 				salida = sumar(salida, String.valueOf(p.getFechaFin().getYear()));
+			}
+		}
+		return salida;
+	}
+
+	public List<TipoPEstado> getParticpacionesESemilleros(List<Semillero> semilleros) {
+		List<TipoPEstado> salida = new ArrayList<>();
+		for (Semillero s : semilleros) {
+			if(s.getProyectos().isEmpty()) {
+				salida.add(new TipoPEstado(s.getNombre(), 0));
+			} else {
+				var aux = new TipoPEstado(s.getNombre(),0);
+				for(Proyecto p : s.getProyectos()) {
+					if(!p.getParticipaciones().isEmpty()) {
+						aux.setNumero(aux.getNumero() + p.getParticipaciones().size());
+					}
+				}
+				salida.add(aux);
+			}
+		}
+		return salida;
+	}
+	public List<TipoPEstado> getParticpacionesCASemilleros(List<Semillero> semilleros) {
+		List<TipoPEstado> salida = new ArrayList<>();
+		for (Semillero s : semilleros) {
+			if(s.getProyectos().isEmpty()) {
+				salida.add(new TipoPEstado(s.getNombre(), 0));
+			} else {
+				var aux = new TipoPEstado(s.getNombre(),0);
+				for(Proyecto p : s.getProyectos()) {
+					if(!p.getProyectosConvocatoria().isEmpty()) {
+						for(ProyectosConvocatoria pc : p.getProyectosConvocatoria()) {
+							if(pc.getConvocatoria().getEstado().equals("ABIERTA")) {
+								aux.setNumero(aux.getNumero() + 1);
+							}
+						}
+					}
+				}
+				salida.add(aux);
+			}
+		}
+		return salida;
+	}
+	
+	public int countSemillerosPE(List<TipoPEstado> aux6) {
+		int salida = 0;
+		for(TipoPEstado t : aux6) {
+			if(t.getNumero() != 0) {
+				salida ++;
 			}
 		}
 		return salida;
