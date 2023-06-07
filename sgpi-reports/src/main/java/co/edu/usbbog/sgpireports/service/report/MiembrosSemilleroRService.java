@@ -4,13 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import co.edu.usbbog.sgpireports.model.GrupoInvestigacion;
-import co.edu.usbbog.sgpireports.model.MiembrosSemillero;
+import co.edu.usbbog.sgpireports.model.datamodels.MiembrosSemillero;
 import co.edu.usbbog.sgpireports.model.Semillero;
 import co.edu.usbbog.sgpireports.model.Usuario;
 import co.edu.usbbog.sgpireports.model.datamodels.ParticipantesR;
@@ -36,8 +34,12 @@ public class MiembrosSemilleroRService {
 					u.getNombreCompleto(),
 					u.getTelefono(),
 					u.getCorreoEst(),
-					u.getProgramaId().getNombre());
-			us.setSemillero(u.getSemilleroId().getNombre());
+					u.getProgramaId());
+			if(u.getSemilleroId() != null) {
+				us.setSemillero(u.getSemilleroId().getNombre());
+			} else {
+				us.setSemillero("");
+			}
 			salida.add(us);
 			
 		}
@@ -141,5 +143,15 @@ public class MiembrosSemilleroRService {
 			salida.addAll(getMiembrosSemilleroInv(u.getUsuarios()));
 		}
 		return salida;
+	}
+
+	public int countParticipantesProyectosA(List<ParticipantesR> aux3) {
+		int i = 0;
+		for(ParticipantesR p : aux3) {
+			if(p.getFin() == "") {
+				i++;
+			}
+		}
+		return i;
 	}
 }

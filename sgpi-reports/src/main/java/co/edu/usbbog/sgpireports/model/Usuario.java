@@ -82,8 +82,6 @@ public class Usuario implements Serializable {
     private List<GrupoInvestigacion> gruposInvestigacion;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "director")
     private List<Programa> programas;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "profesor")
-    private List<Clase> clases;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "liderSemillero")
     private List<Semillero> semilleros;
     @JoinColumn(name = "programa_id", referencedColumnName = "id", nullable = true)
@@ -249,24 +247,6 @@ public class Usuario implements Serializable {
     	return programa;
     } 
 
-    @XmlTransient
-    public List<Clase> getClases() {
-        return clases;
-    }
-
-    public void setClases(List<Clase> clases) {
-        this.clases = clases;
-    }
-    public Clase addClase(Clase clase) {
-    	getClases().add(clase);
-    	clase.setProfesor(this);
-    	return clase;
-    }
-    public Clase removeClase(Clase clase) {
-    	getClases().remove(clase);
-    	clase.setProfesor(null);
-    	return clase;
-    }
 
     @XmlTransient
     public List<Semillero> getSemilleros() {

@@ -1,6 +1,7 @@
 package co.edu.usbbog.sgpireports.repository;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -30,5 +31,13 @@ public interface IParticipantesRepository extends JpaRepository<Participantes, P
 	 */
 	@Query(value = "SELECT COUNT(*) FROM participantes p WHERE p.usuario =?1", nativeQuery = true)
 	Integer contProyectosPorUsuario(String cedula);
+
+	/**
+	 * obtener nombre con la cedula de un usuario 
+	 * @param cedula
+	 * @return
+	 */
+	@Query(value = "SELECT * FROM participantes WHERe proyecto = ?1 ORDER by fecha_inicio desc;", nativeQuery = true)
+	List<Participantes> findByProyecto(int id);
 
 }

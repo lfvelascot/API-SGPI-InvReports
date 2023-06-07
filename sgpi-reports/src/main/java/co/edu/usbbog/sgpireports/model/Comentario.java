@@ -38,7 +38,7 @@ import net.minidev.json.JSONObject;
     , @NamedQuery(name = "Comentario.findByFase", query = "SELECT c FROM Comentario c WHERE c.fase = :fase")
     , @NamedQuery(name = "Comentario.findByNivel", query = "SELECT c FROM Comentario c WHERE c.nivel = :nivel")
     , @NamedQuery(name = "Comentario.findByFecha", query = "SELECT c FROM Comentario c WHERE c.fecha = :fecha")})
-public class Comentario implements Serializable {
+public class Comentario implements Serializable, Comparable<Comentario> {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -179,5 +179,10 @@ public class Comentario implements Serializable {
     	comentarioJson.put("producto_id",this.getProductoId().getId());
     	return comentarioJson;
     	
+    }
+    
+    @Override
+    public int compareTo(Comentario employee) {
+        return getFecha().compareTo(employee.getFecha());
     }
 }

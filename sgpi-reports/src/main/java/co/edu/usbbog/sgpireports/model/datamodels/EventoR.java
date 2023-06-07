@@ -1,6 +1,9 @@
 package co.edu.usbbog.sgpireports.model.datamodels;
 
-public class EventoR {
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+public class EventoR implements Comparable<EventoR>{
 	
 	private String titulo, nombre,fecha,entidad, estado, semillero;
 
@@ -58,5 +61,16 @@ public class EventoR {
 
 	public void setSemillero(String semillero) {
 		this.semillero = semillero;
+	}
+	
+	public LocalDate getDate() {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		LocalDate fecha = LocalDate.parse(this.getFecha(), formatter);
+		return fecha;
+	}
+
+	@Override
+	public int compareTo(EventoR o) {
+		return getDate().compareTo(o.getDate());
 	}
 }

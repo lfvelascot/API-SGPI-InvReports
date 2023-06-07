@@ -91,8 +91,6 @@ public class Proyecto implements Serializable {
     private String justificacion;
     @ManyToMany(mappedBy = "proyectos")
     private List<AreaConocimiento> areasConocimiento;
-    @ManyToMany(mappedBy = "proyectos")
-    private List<Clase> clases;
     @JoinTable(name = "antecedentes", joinColumns = {
         @JoinColumn(name = "proyecto", referencedColumnName = "id", nullable = false)}, inverseJoinColumns = {
         @JoinColumn(name = "ancedente", referencedColumnName = "id", nullable = false)})
@@ -266,28 +264,7 @@ public class Proyecto implements Serializable {
 		return areaConocimiento;
 	}
 
-	
-    @XmlTransient
-    public List<Clase> getClases() {
-        return clases;
-    }
 
-    public void setClases(List<Clase> clases) {
-        this.clases = clases;
-    }
-
-	public Clase addClases(Clase clase) {
-		getClases().add(clase);
-		clase.addProyectos(this);
-		return clase;
-	}
-
-	public Clase removeClases(Clase clase) {
-		getClases().remove(clase);
-		clase.removeProyectos(this);
-		return clase;
-		
-	}
     @XmlTransient
     public List<Proyecto> getAntecedentes() {
         return antecedentes;

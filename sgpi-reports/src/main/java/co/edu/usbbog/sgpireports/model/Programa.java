@@ -63,8 +63,6 @@ public class Programa implements Serializable {
     @JoinColumn(name = "director", referencedColumnName = "cedula", nullable = true)
     @ManyToOne(optional = true, fetch = FetchType.LAZY)
     private Usuario director;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "programa")
-    private List<Materia> materias;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "programaId")
     private List<Usuario> usuarios;
 
@@ -148,25 +146,6 @@ public class Programa implements Serializable {
 
     public void setDirector(Usuario director) {
         this.director = director;
-    }
-
-    @XmlTransient
-    public List<Materia> getMaterias() {
-        return materias;
-    }
-
-    public void setMaterias(List<Materia> materias) {
-        this.materias = materias;
-    }
-    public Materia addMateria(Materia materia) {
-    	getMaterias().add(materia);
-    	materia.setPrograma(this);
-    	return materia;
-    }
-    public Materia removeMateria(Materia materia) {
-    	getMaterias().remove(materia);
-    	materia.setPrograma(null);
-    	return materia;
     }
 
     @XmlTransient

@@ -39,7 +39,7 @@ import net.minidev.json.JSONObject;
     , @NamedQuery(name = "Presupuesto.findById", query = "SELECT p FROM Presupuesto p WHERE p.id = :id")
     , @NamedQuery(name = "Presupuesto.findByMonto", query = "SELECT p FROM Presupuesto p WHERE p.monto = :monto")
     , @NamedQuery(name = "Presupuesto.findByFecha", query = "SELECT p FROM Presupuesto p WHERE p.fecha = :fecha")})
-public class Presupuesto implements Serializable {
+public class Presupuesto implements Serializable, Comparable<Presupuesto> {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -168,6 +168,11 @@ public class Presupuesto implements Serializable {
     	presupuestoJson.put("proyecto", this.getProyecto().getId());
     	return presupuestoJson;
     }
+
+	@Override
+	public int compareTo(Presupuesto o) {
+		return getFecha().compareTo(o.getFecha());
+	}
 	
     
 }

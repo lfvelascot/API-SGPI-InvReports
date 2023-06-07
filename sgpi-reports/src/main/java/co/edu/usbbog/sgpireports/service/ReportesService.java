@@ -12,9 +12,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import co.edu.usbbog.sgpireports.model.Usuario;
+import co.edu.usbbog.sgpireports.model.datamodels.ComentarioR;
+import co.edu.usbbog.sgpireports.model.datamodels.CompraR;
+import co.edu.usbbog.sgpireports.model.datamodels.PresupuestoR;
+import co.edu.usbbog.sgpireports.model.datamodels.ProyectoR;
 import co.edu.usbbog.sgpireports.model.Facultad;
 import co.edu.usbbog.sgpireports.model.GrupoInvestigacion;
 import co.edu.usbbog.sgpireports.model.Programa;
@@ -32,7 +38,6 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 
 @Service
@@ -84,35 +89,35 @@ public class ReportesService implements IReportesService {
 
 	private final Path rootReportes = Paths.get("reportes");
 
-	private final List<String> nombrePlantillas = new ArrayList<>(
-			Arrays.asList("reporteSemillero.jrxml", "reporteSemilleroIntegrantes.jrxml",
-					"reporteSemilleroProduccion.jrxml", "reporteParticipacionesEventosSemillero.jrxml",
-					"reporteParticipacionesConvSemillero.jrxml", "reporteProyectosConvAbiertasSemillero.jrxml",
-					"reporteSemilleroProyectosActivos.jrxml", "reporteSemilleroProyectosFinalizados.jrxml",
-					"reporteSemilleroInvestigadoresF.jrxml", "reporteGIProduccion.jrxml", "reporteGIIntegrantes.jrxml",
-					"reporteGI.jrxml", "reporteParticipacionesEventosGI.jrxml", "reporteParticipacionesConvGI.jrxml",
-					"reporteProyectosConvAbiertasGI.jrxml", "reporteGIProyectosActivos.jrxml",
-					"reporteGIProyectosFinalizados.jrxml", "reporteGIInvestigadoresF.jrxml",
-					"reporteSemillerosxPrograma.jrxml", "reporteGIxFacultad.jrxml", "reporteProyecto.jrxml"));
+	private final List<String> nombrePlantillas = new ArrayList<>(Arrays.asList("reporteSemillero.jrxml",
+			"reporteSemilleroIntegrantes.jrxml", "reporteSemilleroProduccion.jrxml",
+			"reporteParticipacionesEventosSemillero.jrxml", "reporteParticipacionesConvSemillero.jrxml",
+			"reporteProyectosConvAbiertasSemillero.jrxml", "reporteSemilleroProyectosActivos.jrxml",
+			"reporteSemilleroProyectosFinalizados.jrxml", "reporteSemilleroInvestigadoresF.jrxml",
+			"reportePresupuestoSemillero.jrxml", "reporteGIProduccion.jrxml", "reporteGIIntegrantes.jrxml",
+			"reporteGI.jrxml", "reporteParticipacionesEventosGI.jrxml", "reporteParticipacionesConvGI.jrxml",
+			"reporteProyectosConvAbiertasGI.jrxml", "reporteGIProyectosActivos.jrxml",
+			"reporteGIProyectosFinalizados.jrxml", "reporteGIInvestigadoresF.jrxml", "reportePresupuestoGI.jrxml",
+			"reporteSemillerosxPrograma.jrxml", "reporteGIxFacultad.jrxml", "reporteProyecto.jrxml"));
 
 	private final List<String> nombrePDF = new ArrayList<>(Arrays.asList("RepSem-%s-%s.pdf", "RepSemInt-%s-%s.pdf",
 			"RepSemProd-%s-%s.pdf", "RepSemPartEventos-%s-%s.pdf", "RepSemPartConv-%s-%s.pdf",
 			"RepSemPartConvA-%s-%s.pdf", "RepSemProyAct-%s-%s.pdf", "RepSemProyFin-%s-%s.pdf",
-			"RepSemInvForm-%s-%s.pdf", "RepGIProd-%s-%s.pdf", "RepGIInt-%s-%s.pdf", "RepGI-%s-%s.pdf",
-			"RepGIPartEventos-%s-%s.pdf", "RepGIPartConv-%s-%s.pdf", "RepGIPartConvA-%s-%s.pdf",
-			"RepGIProyAct-%s-%s.pdf", "RepGIProyFin-%s-%s.pdf", "RepGIInvForm-%s-%s.pdf", "RepSemsProg-%s-%s.pdf",
-			"RepGIsFac-%s-%s.pdf", "RepProy-%s-%s.pdf"));
+			"RepSemInvForm-%s-%s.pdf", "RepPresSem-%s-%s.pdf", "RepGIProd-%s-%s.pdf", "RepGIInt-%s-%s.pdf",
+			"RepGI-%s-%s.pdf", "RepGIPartEventos-%s-%s.pdf", "RepGIPartConv-%s-%s.pdf", "RepGIPartConvA-%s-%s.pdf",
+			"RepGIProyAct-%s-%s.pdf", "RepGIProyFin-%s-%s.pdf", "RepGIInvForm-%s-%s.pdf", "RepPresGI-%s-%s.pdf",
+			"RepSemsProg-%s-%s.pdf", "RepGIsFac-%s-%s.pdf", "RepProy-%s-%s.pdf"));
 
 	public String crearReporte(int cc, int rep, String usuario) throws JRException, IOException {
-		if (rep <= 20) {
+		if (rep < 23 && rep >= 0) {
 			JasperReport reporte = JasperCompileManager
 					.compileReport(new FileInputStream("src/main/resources/" + nombrePlantillas.get(rep)));
 			Map<String, Object> datos = getDatos(new HashMap<String, Object>(), cc, rep, usuario);
 			if (datos != null) {
-				JasperPrint p = JasperFillManager.fillReport(reporte, datos, new JREmptyDataSource());
 				String nombre = String.format(nombrePDF.get(rep), datos.get("n").toString(), usuario.toString());
-				String salida = this.rootReportes.resolve(nombre).toString();
-				JasperExportManager.exportReportToPdfFile(p, salida);
+				JasperExportManager.exportReportToPdfFile(
+						JasperFillManager.fillReport(reporte, datos, new JREmptyDataSource()),
+						this.rootReportes.resolve(nombre).toString());
 				return nombre;
 			} else {
 				return "Error al generar reporte";
@@ -125,14 +130,10 @@ public class ReportesService implements IReportesService {
 	private Map<String, Object> getDatos(Map<String, Object> map, int cc, int rep, String usuario) {
 		Semillero s = null;
 		GrupoInvestigacion g = null;
-		Programa p = null;
-		Facultad f = null;
-		Proyecto pr = null;
 		map = setDatosCreador(map, usuario);
 		if (map == null) {
 			return null;
-		}
-		if (rep <= 8) {
+		} else if (rep <= 9) {
 			try {
 				s = semillero.getById(cc);
 				if (!s.equals(null)) {
@@ -141,7 +142,7 @@ public class ReportesService implements IReportesService {
 			} catch (javax.persistence.EntityNotFoundException e) {
 				return null;
 			}
-		} else if (rep <= 17 && rep > 8) {
+		} else if (rep <= 19 && rep > 9) {
 			try {
 				g = gi.getById(cc);
 				if (!g.equals(null)) {
@@ -150,103 +151,110 @@ public class ReportesService implements IReportesService {
 			} catch (javax.persistence.EntityNotFoundException e) {
 				return null;
 			}
-		} else if (rep == 18) {
-			try {
-				p = programa.getById(cc);
-				if (!p.equals(null)) {
-					map = setDatosPrograma(map, p);
-				}
-			} catch (javax.persistence.EntityNotFoundException e) {
-				return null;
-			}
-		} else if (rep == 19) {
-			try {
-				f = facultad.getById(cc);
-				if (!f.equals(null)) {
-					map = setDatosFacultad(map, f);
-				}
-			} catch (javax.persistence.EntityNotFoundException e) {
-				return null;
-			}
-		} else if (rep == 20) {
-			try {
-				pr = proyecto.getById(cc);
-				if (pr.equals(null)) {
-					return null;
-				}
-			} catch (javax.persistence.EntityNotFoundException e) {
-				return null;
-			}
-		} else {
-			return null;
 		}
 		switch (rep) {
 		case 0:
-			map = getDatosSemilleroP(map, s);
-			break;
+			return getDatosSemilleroP(map, s);
 		case 1:
-			map = getDatosSemilleroIntegrantesP(map, s);
-			break;
+			return getDatosSemilleroIntegrantesP(map, s);
 		case 2:
-			map = getDatosSemilleroProduccionP(map, s);
-			break;
+			return getDatosSemilleroProduccionP(map, s);
 		case 3:
-			map = getDatosParticipacionesEventosSemilleroP(map, s);
-			break;
+			return getDatosParticipacionesEventosSemilleroP(map, s);
 		case 4:
-			map = getDatosParticipacionesConvSemilleroP(map, s);
-			break;
+			return getDatosParticipacionesConvSemilleroP(map, s);
 		case 5:
-			map = getDatosProyectosConvAbiertasSemilleroP(map, s);
-			break;
+			return getDatosProyectosConvAbiertasSemilleroP(map, s);
 		case 6:
-			map = getDatosProyectosActivosSemilleroP(map, s);
-			break;
+			return getDatosProyectosActivosSemilleroP(map, s);
 		case 7:
-			map = getDatosProyectosFinSemilleroP(map, s);
-			break;
+			return getDatosProyectosFinSemilleroP(map, s);
 		case 8:
-			map = getDatosInvestigadoresFormP(map, s); // Falta
-			break;
+			return getDatosInvestigadoresFormP(map, s);
 		case 9:
-			map = getDatosGIProduccionP(map, g);
-			break;
+			return getDatosPresupuestoSemP(map, s);
 		case 10:
-			map = getDatosGIIntegrantesP(map, g);
-			break;
+			return getDatosGIProduccionP(map, g);
 		case 11:
-			map = getDatosGIP(map, g);
-			break;
+			return getDatosGIIntegrantesP(map, g);
 		case 12:
-			map = getDatosParticipacionesEventosGI(map, g);
-			break;
+			return getDatosGIP(map, g);
 		case 13:
-			map = getDatosParticipacionesConvGIP(map, g);
-			break;
+			return getDatosParticipacionesEventosGI(map, g);
 		case 14:
-			map = getDatosProyectosConvAbiertasGIP(map, g);
-			break;
+			return getDatosParticipacionesConvGIP(map, g);
 		case 15:
-			map = getDatosProyectosActivosGIP(map, g);
-			break;
+			return getDatosProyectosConvAbiertasGIP(map, g);
 		case 16:
-			map = getDatosProyectosFinGIP(map, g);
-			break;
+			return getDatosProyectosActivosGIP(map, g);
 		case 17:
-			map = getDatosInvestigadoresFormPGI(map, g); // Falta
-			break;
-		case 18:
-			map = getDatosSemillerosxProgramaP(map, p);
-			break;
+			return getDatosProyectosFinGIP(map, g);
 		case 19:
-			map = getDatosGIxFacultadP(map, f);
-			break;
+			return getDatosPresupuestoGIP(map, g);
+		case 18:
+			return getDatosInvestigadoresFormPGI(map, g); // Falta
 		case 20:
-			map = getDatosProyectoP(map, pr); // Falta
-			break;
+			try {
+				Programa p = programa.getById(cc);
+				if (p.equals(null)) {
+					return null;
+				}
+				map = setDatosPrograma(map, p);
+				return getDatosSemillerosxProgramaP(map, p);
+			} catch (javax.persistence.EntityNotFoundException e) {
+				return null;
+			}
+		case 21:
+			try {
+				Facultad f = facultad.getById(cc);
+				if (f.equals(null)) {
+					return null;
+				}
+				map = getDatosGIxFacultadP(map, f);
+				return setDatosFacultad(map, f);
+			} catch (EntityNotFoundException e) {
+				return null;
+			}
+		case 22:
+			try {
+				Proyecto pr = proyecto.getById(cc);
+				if (pr.equals(null)) {
+					return null;
+				}
+				return getDatosProyectoP(map, pr);
+			} catch (EntityNotFoundException e) {
+				return null;
+			}
 		default:
-			break;
+			return null;
 		}
+	}
+
+	private Map<String, Object> getDatosPresupuestoGIP(Map<String, Object> map, GrupoInvestigacion g) {
+		List<ProyectoR> aux1 = proyectos.getProyectosPresGI(g.getSemilleros());
+		List<PresupuestoR> aux2 = presupuesto.getPresupuestosGI(g.getSemilleros());
+		List<CompraR> aux3 = presupuesto.getComprasGI(g.getSemilleros());
+		double totalPresupuesto = presupuesto.getTotalPresupuestoGI(g.getSemilleros());
+		double totalCompras = presupuesto.getTotalComprasGI(g.getSemilleros());
+		map.put("datasource1", aux1);
+		map.put("datasource2", aux2);
+		map.put("datasource3", aux3);
+		map.put("totalMiembros", "$ " + String.valueOf(totalPresupuesto) + " Total presupuestos");
+		map.put("TotalProyectosActivos", "$ " + String.valueOf(totalCompras) + " Total compras");
+		return map;
+	}
+
+	private Map<String, Object> getDatosPresupuestoSemP(Map<String, Object> map, Semillero s) {
+		List<ProyectoR> aux1 = proyectos.getProyectosPresSem(s.getProyectos());
+		List<PresupuestoR> aux2 = presupuesto.getPresupuestosSem(s.getProyectos());
+		List<CompraR> aux3 = presupuesto.getComprasSem(s.getProyectos());
+		double totalPresupuesto = presupuesto.getTotalPresupuestoSem(s.getProyectos());
+		double totalCompras = presupuesto.getTotalComprasSem(s.getProyectos());
+		map.put("datasource1", aux1);
+		map.put("datasource2", aux2);
+		map.put("datasource3", aux3);
+		map.put("totalMiembros", "$ " + String.valueOf(totalPresupuesto) + " Total presupuestos");
+		map.put("TotalProyectosActivos", "$ " + String.valueOf(totalCompras) + " Total compras");
 		return map;
 	}
 
@@ -255,7 +263,8 @@ public class ReportesService implements IReportesService {
 		var aux2 = miembrosExtra.getMiembrosGIExtraInv(g.getSemilleros());
 		map.put("datasource1", aux1);
 		map.put("datasource2", aux2);
-		map.put("totalMiembros", String.valueOf(aux1.size()) + " miembros");
+		map.put("totalMiembros", String.valueOf(aux1.size()) + " miembro(s) activos(s)");
+		map.put("totalSemilleros", String.valueOf(g.getSemilleros().size()) + " semillero(s) asociados");
 		return map;
 	}
 
@@ -265,7 +274,7 @@ public class ReportesService implements IReportesService {
 		var aux2 = miembrosExtra.getMiembrosSemilleroExtraInv(aux);
 		map.put("datasource1", aux1);
 		map.put("datasource2", aux2);
-		map.put("totalMiembros", String.valueOf(aux1.size()) + " miembros");
+		map.put("totalMiembros", String.valueOf(aux1.size()) + " investigador(es) en formación");
 		return map;
 	}
 
@@ -315,11 +324,13 @@ public class ReportesService implements IReportesService {
 		var aux1 = semilleros.getSemillerosGI(s.getSemilleros());
 		var aux2 = miembros.getLideresSemillerosDetalladoPrograma(s.getSemilleros());
 		var aux3 = miembros.getMiembrosSemilleros(s.getSemilleros());
+		var aux4 = miembrosExtra.getMiembrosGIExtraInv(s.getSemilleros());
 		map.put("datasource1", aux1);
 		map.put("datasource2", aux2);
 		map.put("datasource3", aux3);
+		map.put("datasource4", aux4);
 		map.put("totalMiembros", String.valueOf(aux1.size()) + " semillero(s)");
-		map.put("totalMiembros2", String.valueOf(aux1.size()) + " miembro(s)");
+		map.put("totalMiembros2", String.valueOf(aux3.size()) + " miembro(s)");
 		return map;
 	}
 
@@ -336,7 +347,7 @@ public class ReportesService implements IReportesService {
 		map.put("datasource3", aux3);
 		map.put("datasource4", aux4);
 		map.put("datasource5", aux5);
-		map.put("TotalProyectosActivos", String.valueOf(s.countProyectos()) + " proyecto(s) finalizado(s)");
+		map.put("TotalProyectosActivos", String.valueOf(aux1.size()) + " proyecto(s) asociado(s)");
 		map.put("totalMiembros", String.valueOf(miembros.countParticipantesProyectos(aux2)) + " miembro(s)");
 		return map;
 	}
@@ -358,7 +369,7 @@ public class ReportesService implements IReportesService {
 		map.put("datasource5", aux5);
 		map.put("datasource6", aux6);
 		map.put("TotalProyectosActivos", String.valueOf(aux1.size()) + " proyecto(s)");
-		map.put("totalMiembros", String.valueOf(x) + " semilleros asociados(s)");
+		map.put("totalMiembros", String.valueOf(x) + " semillero(s) asociados(s)");
 		return map;
 	}
 
@@ -377,7 +388,7 @@ public class ReportesService implements IReportesService {
 		map.put("datasource5", aux5);
 		map.put("datasource6", aux6);
 		map.put("datasource7", aux7);
-		map.put("TotalProyectosActivos", String.valueOf(s.countProyectos()) + " proyecto(s) finalizado(s)");
+		map.put("TotalProyectosActivos", String.valueOf(aux1.size()) + " proyecto(s) asociado(s)");
 		map.put("totalMiembros", String.valueOf(miembros.countParticipantesProyectos(aux2)) + " participante(s)");
 		return map;
 	}
@@ -410,31 +421,35 @@ public class ReportesService implements IReportesService {
 		var aux3 = productos.getProductosProyectosActSemillero(s.getProyectos());
 		var aux4 = datosTablas.getProyectosActTipos(s.getProyectos());
 		var aux5 = datosTablas.getProyectosActProductos(s.getProyectos());
-		int x = semilleros.numProyectosActivos(s.getProyectos());
+		var aux6 = comentario.getProyectosActComentarios(s.getProyectos());
 		int y = participantes.countParticipantesProyectosActSemillero(s.getProyectos());
 		map.put("datasource1", aux1);
 		map.put("datasource2", aux2);
 		map.put("datasource3", aux3);
 		map.put("datasource4", aux4);
 		map.put("datasource5", aux5);
-		map.put("TotalProyectosActivos", String.valueOf(x) + " proyectos activos");
-		map.put("totalMiembros", String.valueOf(y) + " miembros de los proyectos");
+		map.put("datasource6", aux6);
+		map.put("TotalProyectosActivos", String.valueOf(aux1.size()) + " proyecto(s) activos");
+		map.put("totalMiembros", String.valueOf(y) + " miembro(s) de los proyectos");
 		return map;
 	}
 
 	private Map<String, Object> getDatosProyectosActivosGIP(Map<String, Object> map, GrupoInvestigacion s) {
-		int x = proyectos.countProyectosFinalizadosGI(s), y = proyectos.countProyectosGI(s);
 		var aux1 = proyectos.getProyectosActivosGI(s.getSemilleros());
 		var aux2 = participantes.getIntegrantesProyActivosGI(s.getSemilleros());
 		var aux3 = productos.getProductosProyectosActGI(s.getSemilleros());
 		var aux4 = datosTablas.getProyectosActTipos(datosTablas.getAllProyectosGI(s.getSemilleros()));
 		var aux5 = datosTablas.getProyectosActProductos(datosTablas.getAllProyectosGI(s.getSemilleros()));
+		var aux6 = comentario.getProyectosActComentariosGI(s.getSemilleros());
 		map.put("datasource1", aux1);
 		map.put("datasource2", aux2);
 		map.put("datasource3", aux3);
 		map.put("datasource4", aux4);
 		map.put("datasource5", aux5);
-		map.put("TotalProyectosActivos", String.valueOf(y - x) + " proyectos activos");
+		map.put("datasource6", aux6);
+		map.put("TotalProyectosActivos", String.valueOf(aux1.size()) + " proyecto(s) activo(s)");
+		map.put("totalMiembros",
+				String.valueOf(miembros.countParticipantesProyectos(aux2)) + " miembro(s) de los proyectos");
 		return map;
 	}
 
@@ -444,31 +459,34 @@ public class ReportesService implements IReportesService {
 		var aux3 = productos.getProductosProyectosFin(s.getProyectos());
 		var aux4 = datosTablas.getProyectosFinTipos(s.getProyectos());
 		var aux5 = datosTablas.getProduccionAnioSem(s.getProyectos());
-		int x = semilleros.numProyectosFinalizados(s.getProyectos());
+		var aux6 = comentario.getProyectosFinComentarios(s.getProyectos());
 		int y = participantes.countParticipantesProyectosFinSemillero(s.getProyectos());
 		map.put("datasource1", aux1);
 		map.put("datasource2", aux2);
 		map.put("datasource3", aux3);
 		map.put("datasource4", aux4);
 		map.put("datasource5", aux5);
-		map.put("totalProyectosFinalizados", String.valueOf(x) + " proyectos activos");
-		map.put("totalMiembros", String.valueOf(y) + " miembros de los proyectos");
+		map.put("datasource6", aux6);
+		map.put("totalProyectosFinalizados", String.valueOf(aux1.size()) + " proyecto(s) finalizado(s)");
+		map.put("totalMiembros", String.valueOf(y) + " miembro(s) de los proyectos");
 		return map;
 	}
 
 	private Map<String, Object> getDatosProyectosFinGIP(Map<String, Object> map, GrupoInvestigacion s) {
-		int x = proyectos.countProyectosFinalizadosGI(s);
 		var aux1 = proyectos.getProyectosFinGI(s.getSemilleros());
 		var aux2 = participantes.getIntegrantesProyFinGI(s.getSemilleros());
 		var aux3 = productos.getProductosProyectosFinGI(s.getSemilleros());
-		var aux5 = datosTablas.getProduccionAnioGI(s.getSemilleros());
-		var aux6 = datosTablas.getProyectosFinTipos(datosTablas.getAllProyectosGI(s.getSemilleros()));
+		var aux4 = datosTablas.getProduccionAnioGI(s.getSemilleros());
+		var aux5 = datosTablas.getProyectosFinTipos(datosTablas.getAllProyectosGI(s.getSemilleros()));
+		var aux6 = comentario.getProyectosFinComentariosGI(s.getSemilleros());
 		map.put("datasource1", aux1);
 		map.put("datasource2", aux2);
 		map.put("datasource3", aux3);
-		map.put("datasource4", aux6);
+		map.put("datasource4", aux4);
 		map.put("datasource5", aux5);
-		map.put("totalProyectosFinalizados", String.valueOf(x) + " proyectos finalizados");
+		map.put("datasource6", aux6);
+		map.put("totalProyectosFinalizados", String.valueOf(aux1.size()) + " proyecto(s) finalizado(s)");
+		map.put("totalMiembros", String.valueOf(miembros.countParticipantesProyectos(aux2)) + " miembro(s)");
 		return map;
 	}
 
@@ -498,32 +516,33 @@ public class ReportesService implements IReportesService {
 		map.put("datasource9", aux9);
 		if (totalProyectos == 0) {
 			map.put("totalProyectosFinalizados", "0 proyectos finalizados");
-			map.put("TotalProyectosActivos", "0 proyectos finalizados");
+			map.put("TotalProyectosActivos", "0 proyectos activos");
 			map.put("totalProyectosConP", "0 proyectos con productos");
 			map.put("totalProyectosSinP", " proyectos sin productos");
 			map.put("TotalProyectos", "0 proyectos");
-			map.put("totalMiembros", "0 grupos de investigación");
 			map.put("PorProyectosFinalizados", "0 % proyectos finalizados");
 			map.put("PorProyectosActivos", "0 % proyectos activos");
 			map.put("PorProyectosConP", "0 % proyectos con productos");
 			map.put("PorProyectosSinP", "0 % proyectos sin productos");
 		} else {
-			map.put("totalProyectosFinalizados", String.valueOf(x) + " proyectos finalizados");
-			map.put("TotalProyectosActivos", String.valueOf(totalProyectos - x) + " proyectos finalizados");
-			map.put("totalProyectosConP", String.valueOf(proyectosConProductos) + " proyectos con productos");
+			map.put("totalProyectosFinalizados", String.valueOf(x) + " proyecto(s) finalizado(s)");
+			map.put("TotalProyectosActivos", String.valueOf(totalProyectos - x) + " proyecto(s) finalizado(s)");
+			map.put("totalProyectosConP", String.valueOf(proyectosConProductos) + " proyecto(s) con productos");
 			map.put("totalProyectosSinP",
-					String.valueOf(totalProyectos - proyectosConProductos) + " proyectos sin productos");
-			map.put("TotalProyectos", String.valueOf(totalProyectos) + " proyectos");
-			map.put("totalMiembros", String.valueOf(aux2.size()) + " grupos de investigación");
-			map.put("PorProyectosFinalizados", String.valueOf((100 * x) / totalProyectos) + " % proyectos finalizados");
+					String.valueOf(totalProyectos - proyectosConProductos) + " proyecto(s) sin productos");
+			map.put("TotalProyectos", String.valueOf(totalProyectos) + " proyecto(s) en total");
+			map.put("PorProyectosFinalizados",
+					String.valueOf((100 * x) / totalProyectos) + " % proyecto(s) finalizado(s)");
 			map.put("PorProyectosActivos",
-					String.valueOf((100 * (totalProyectos - x)) / totalProyectos) + " % proyectos activos");
+					String.valueOf((100 * (totalProyectos - x)) / totalProyectos) + " % proyecto(s) activo(s)");
 			map.put("PorProyectosConP",
-					String.valueOf((100 * proyectosConProductos) / totalProyectos) + " % proyectos con productos");
+					String.valueOf((100 * proyectosConProductos) / totalProyectos) + " % proyecto(s) con productos");
 			map.put("PorProyectosSinP",
 					String.valueOf((100 * (totalProyectos - proyectosConProductos)) / totalProyectos)
-							+ " % proyectos sin productos");
+							+ " % proyecto(s) sin productos");
 		}
+		map.put("totalMiembros", String.valueOf(aux2.size()) + " grupo(s) de investigación");
+		map.put("totalLineas", String.valueOf(aux4.size()) + " linea(s) de investigación");
 		return map;
 	}
 
@@ -544,10 +563,11 @@ public class ReportesService implements IReportesService {
 		var aux6 = comentario.getComentariosProyecto(s.getProductos()); // Se crea
 		var aux7 = presupuesto.getPresupuestosProyecto(s); // Se crea
 		var aux8 = presupuesto.getComprasProyecto(s); // Se crea
-		var aux9 = proyectos.getProyectosFacultad(s.getAntecedentes()); // Existe
+		var aux9 = proyectos.getProyectosFacultad(s.getAntecedentes());
+		var aux10 = miembros.getMiembrosSemillero(usuarios.findParticipantesProyecto(s.getId()));
 		map.put("nombre", s.getTitulo());
 		map.put("estado", s.getEstado());
-		if(s.getNota() == null) {
+		if (s.getNota() == null) {
 			map.put("nota", "N/A");
 		} else {
 			map.put("nota", String.valueOf(s.getNota()));
@@ -571,6 +591,12 @@ public class ReportesService implements IReportesService {
 		map.put("justificacion", s.getJustificacion());
 		map.put("tipo", s.getTipoProyecto().getNombre());
 		map.put("semillero", s.getSemillero().getNombre());
+		map.put("totalMiembros", String.valueOf(miembros.countParticipantesProyectos(aux3)) + " participante(s)");
+		map.put("totalMiembrosA",
+				String.valueOf(miembros.countParticipantesProyectosA(aux3)) + " participante(s) activo(s)");
+		map.put("totalParticipacionesEventos", String.valueOf(aux4.size()) + " participacion(es) en eventos");
+		map.put("totalPartcipacionesConv", String.valueOf(aux5.size()) + "participacion(es) en convocatorias");
+		map.put("totalProductos", String.valueOf(aux2.size()) + " producto(s) existente(s)");
 		map.put("datasource1", aux1);
 		map.put("datasource2", aux2);
 		map.put("datasource3", aux3);
@@ -580,6 +606,7 @@ public class ReportesService implements IReportesService {
 		map.put("datasource7", aux7);
 		map.put("datasource8", aux8);
 		map.put("datasource9", aux9);
+		map.put("datasource10", aux10);
 		map.put("n", s.getTitulo());
 		return map;
 	}
@@ -598,6 +625,7 @@ public class ReportesService implements IReportesService {
 		var aux3 = proyectos.getProyectosSemillero(s.getProyectos());
 		var aux1 = productos.getProductosSemillero(s.getProyectos());
 		var aux4 = datosTablas.getProducciónPorAnio(s.getProyectos());
+		List<ComentarioR> aux5 = comentario.getComentariosProyectos(s.getProyectos());
 		int totalProyectos = s.countProyectos();
 		int x = semilleros.numProyectosFinalizados(s.getProyectos());
 		int proyectosSinProductos = proyectos.numProyectosSinProductoSemillero(s.getProyectos());
@@ -607,21 +635,32 @@ public class ReportesService implements IReportesService {
 		map.put("datasource3", datosTablas.getProyectosSemilleroPorTipo(s.getId()));
 		map.put("datasource4", aux1);
 		map.put("datasource5", aux4);
+		map.put("datasource6", aux5);
 		if (totalProyectos == 0) {
-			totalProyectos = 1;
+			map.put("totalProyectosFinalizados", "0 proyecto(s) finalizado(s)");
+			map.put("TotalProyectosActivos", "0 proyecto(s) activo(s)");
+			map.put("totalProyectosConP", "0 proyecto(s) con productos");
+			map.put("totalProyectosSinP", "0 proyecto(s) sin productos");
+			map.put("TotalProyectos", "0 proyecto(s) de " + s.getNombre());
+			map.put("PorProyectosFinalizados", "0 % proyecto(s) finalizado(s)");
+			map.put("PorProyectosActivos", "0 % proyecto(s) activo(s)");
+			map.put("PorProyectosConP", "0 % proyecto(s) con productos");
+			map.put("PorProyectosSinP", "0 % proyecto(s) sin productos");
+		} else {
+			map.put("totalProyectosFinalizados", String.valueOf(x) + " proyecto(s) finalizado(s)");
+			map.put("TotalProyectosActivos", String.valueOf(totalProyectos - x) + " proyecto(s) activo(s)");
+			map.put("totalProyectosConP", String.valueOf(proyectosConProductos) + " proyecto(s) con productos");
+			map.put("totalProyectosSinP", String.valueOf(proyectosSinProductos) + " proyecto(s) sin productos");
+			map.put("TotalProyectos", String.valueOf(totalProyectos) + " proyecto(s) de " + s.getNombre());
+			map.put("PorProyectosFinalizados",
+					String.valueOf((100 * x) / totalProyectos) + " % proyecto(s) finalizado(s)");
+			map.put("PorProyectosActivos",
+					String.valueOf((100 * (totalProyectos - x)) / totalProyectos) + " % proyecto(s) activo(s)");
+			map.put("PorProyectosConP",
+					String.valueOf((100 * proyectosConProductos) / totalProyectos) + " % proyecto(s) con productos");
+			map.put("PorProyectosSinP",
+					String.valueOf((100 * proyectosSinProductos) / totalProyectos) + " % proyecto(s) sin productos");
 		}
-		map.put("totalProyectosFinalizados", String.valueOf(x) + " proyectos finalizados");
-		map.put("TotalProyectosActivos", String.valueOf(totalProyectos - x) + " proyectos finalizados");
-		map.put("totalProyectosConP", String.valueOf(proyectosConProductos) + " proyectos con productos");
-		map.put("totalProyectosSinP", String.valueOf(proyectosSinProductos) + " proyectos sin productos");
-		map.put("TotalProyectos", String.valueOf(totalProyectos) + " proyectos del semillero " + s.getNombre());
-		map.put("PorProyectosFinalizados", String.valueOf((100 * x) / totalProyectos) + " % proyectos finalizados");
-		map.put("PorProyectosActivos",
-				String.valueOf((100 * (totalProyectos - x)) / totalProyectos) + " % proyectos activos");
-		map.put("PorProyectosConP",
-				String.valueOf((100 * proyectosConProductos) / totalProyectos) + " % proyectos con productos");
-		map.put("PorProyectosSinP",
-				String.valueOf((100 * proyectosSinProductos) / totalProyectos) + " % proyectos sin productos");
 		return map;
 	}
 
@@ -636,7 +675,9 @@ public class ReportesService implements IReportesService {
 		var aux4 = datosTablas.getTiposProyectosGI(s.getSemilleros());
 		var aux5 = datosTablas.getProyectosEstadoGI(s.getSemilleros());
 		var aux6 = datosTablas.getProduccionAnioGI(s.getSemilleros());
-		var aux7 = datosTablas.getProduccionSemillerosGI(s.getSemilleros());
+		var aux7 = datosTablas.getProyFinSemillerosGI(s.getSemilleros());
+		aux7 = datosTablas.getProduccionSemillerosGI2(s.getSemilleros(), aux7);
+		List<ComentarioR> aux8 = comentario.getProductosGI(s.getSemilleros());
 		map.put("datasource1", aux1);
 		map.put("datasource2", aux2);
 		map.put("datasource3", aux3);
@@ -644,6 +685,7 @@ public class ReportesService implements IReportesService {
 		map.put("datasource5", aux5);
 		map.put("datasource6", aux6);
 		map.put("datasource7", aux7);
+		map.put("datasource8", aux8);
 		if (totalProyectos == 0) {
 			map.put("totalProyectosFinalizados", "0 proyectos finalizados");
 			map.put("TotalProyectosActivos", "0 proyectos finalizados");
@@ -655,23 +697,24 @@ public class ReportesService implements IReportesService {
 			map.put("PorProyectosConP", "0 % proyectos con productos");
 			map.put("PorProyectosSinP", "0 % proyectos sin productos");
 		} else {
-			map.put("totalProyectosFinalizados", String.valueOf(proyectosFinalizados) + " proyectos finalizados");
+			map.put("totalProyectosFinalizados", String.valueOf(proyectosFinalizados) + " proyecto(s) finalizado(s)");
 			map.put("TotalProyectosActivos",
-					String.valueOf(totalProyectos - proyectosFinalizados) + " proyectos finalizados");
-			map.put("totalProyectosConP", String.valueOf(proyectosConProductos) + " proyectos con productos");
-			map.put("totalProyectosSinP", String.valueOf(proyectosSinProductos) + " proyectos sin productos");
-			map.put("TotalProyectos", String.valueOf(totalProyectos) + " proyectos del grupo " + s.getNombre());
+					String.valueOf(totalProyectos - proyectosFinalizados) + " proyecto(s) activo(s)");
+			map.put("totalProyectosConP", String.valueOf(proyectosConProductos) + " proyecto(s) con productos");
+			map.put("totalProyectosSinP", String.valueOf(proyectosSinProductos) + " proyecto(s) sin productos");
+			map.put("TotalProyectos", String.valueOf(totalProyectos) + " proyecto(s) de " + s.getNombre());
 			map.put("PorProyectosFinalizados",
-					String.valueOf((100 * proyectosFinalizados) / totalProyectos) + " % proyectos finalizados");
+					String.valueOf((100 * proyectosFinalizados) / totalProyectos) + " % proyecto(s) finalizado(s)");
 			map.put("PorProyectosActivos",
 					String.valueOf((100 * (totalProyectos - proyectosFinalizados)) / totalProyectos)
-							+ " % proyectos activos");
+							+ " % proyecto(s) activo(s)");
 			map.put("PorProyectosConP",
-					String.valueOf((100 * proyectosConProductos) / totalProyectos) + " % proyectos con productos");
+					String.valueOf((100 * proyectosConProductos) / totalProyectos) + " % proyecto(s) con productos");
 			map.put("PorProyectosSinP",
-					String.valueOf((100 * proyectosSinProductos) / totalProyectos) + " % proyectos sin productos");
+					String.valueOf((100 * proyectosSinProductos) / totalProyectos) + " % proyecto(s) sin productos");
 		}
-		map.put("totalMiembros", String.valueOf(s.countSemilleros()) + " semilleros");
+		map.put("tp", totalProyectos);
+		map.put("totalMiembros", String.valueOf(s.countSemilleros()) + " semillero(s)");
 		return map;
 	}
 
@@ -679,10 +722,13 @@ public class ReportesService implements IReportesService {
 		int x = proyectos.countProyectosFinalizadosGI(s), y = proyectos.countProyectosGI(s);
 		var aux1 = semilleros.getSemillerosGI(s.getSemilleros());
 		map.put("datasource1", aux1);
-		map.put("datasource2", miembros.getLideresSemillerosDetallado(s));
-		map.put("totalProyectosFinalizados", String.valueOf(x) + " proyectos finalizados");
-		map.put("TotalProyectosActivos", String.valueOf(y - x) + " proyectos finalizados");
-		map.put("totalMiembros", String.valueOf(aux1.size()) + " semilleros");
+		map.put("datasource2", miembros.getMiembrosSemillero(usuarios.getMiembrosGI(s.getId())));
+		map.put("datasource3", miembrosExtra.getMiembrosSemilleroExtra(usuarios.getMiembrosGI(s.getId())));
+		map.put("datasource4", miembros.getLideresSemillerosDetallado(s));
+		map.put("totalProyectosFinalizados", String.valueOf(x) + " proyecto(s) finalizado(s)");
+		map.put("TotalProyectosActivos", String.valueOf(y - x) + " proyecto(s) activo(s)");
+		map.put("totalMiembros", String.valueOf(aux1.size()) + " semillero(s)");
+		map.put("totalProyectos", y);
 		return map;
 	}
 
@@ -692,7 +738,7 @@ public class ReportesService implements IReportesService {
 		var aux2 = miembrosExtra.getMiembrosSemilleroExtra(aux);
 		map.put("datasource1", aux1);
 		map.put("datasource2", aux2);
-		map.put("totalMiembros", String.valueOf(aux1.size()) + " miembros");
+		map.put("totalMiembros", String.valueOf(aux1.size()) + " miembro(s)");
 		return map;
 	}
 
@@ -731,9 +777,9 @@ public class ReportesService implements IReportesService {
 		map.put("datasource4", datosTablas.getProyectosSemilleroPorTipo(s.getId()));
 		map.put("datasource5", aux4);
 		map.put("datasource6", aux5);
-		map.put("totalProyectosFinalizados", String.valueOf(x) + " proyectos finalizados");
-		map.put("TotalProyectosActivos", String.valueOf(s.countProyectos() - x) + " proyectos finalizados");
-		map.put("totalMiembros", String.valueOf(aux1.size()) + " miembros");
+		map.put("totalProyectosFinalizados", String.valueOf(x) + " proyecto(s) finalizado(s)");
+		map.put("TotalProyectosActivos", String.valueOf(s.countProyectos() - x) + " proyecto(s) activos(s)");
+		map.put("totalMiembros", String.valueOf(aux1.size()) + " miembro(s)");
 		return map;
 	}
 
@@ -743,9 +789,9 @@ public class ReportesService implements IReportesService {
 		map.put("datasource1", lineas.getLineasInvGI(s));
 		map.put("datasource2", aux1);
 		map.put("datasource3", miembros.getLideresSemillerosDetallado(s));
-		map.put("totalProyectosFinalizados", String.valueOf(x) + " proyectos finalizados");
-		map.put("TotalProyectosActivos", String.valueOf(y - x) + " proyectos finalizados");
-		map.put("totalMiembros", String.valueOf(aux1.size()) + " semilleros");
+		map.put("totalProyectosFinalizados", String.valueOf(x) + " proyecto(s) finalizado(s)");
+		map.put("TotalProyectosActivos", String.valueOf(y - x) + " proyecto(s) activos(s)");
+		map.put("totalMiembros", String.valueOf(aux1.size()) + " semillero(s)");
 		return map;
 	}
 
@@ -805,22 +851,22 @@ public class ReportesService implements IReportesService {
 		var i = s.getFacultadId();
 		map.put("facultad", i.getNombre());
 		if (s.getDirector() == null) {
-			map.put("liderSemillero", "sin decano registrado");
-			map.put("correoILider", "sin decano registrado");
-			map.put("telefonoLider", "sin decano registrado");
+			map.put("liderSemillero1", "sin director registrado");
+			map.put("correoILider1", "sin director registrado");
+			map.put("telefonoLider1", "sin director registrado");
 		} else {
 			map.put("liderSemillero", s.getDirector().getNombreCompleto());
-			map.put("correoILider", s.getDirector().getCorreoEst());
-			map.put("telefonoLider", s.getDirector().getTelefono());
+			map.put("correoILider1", s.getDirector().getCorreoEst());
+			map.put("telefonoLider1", s.getDirector().getTelefono());
 		}
 		if (i.getDecano() == null) {
 			map.put("liderSemillero", "sin decano registrado");
 			map.put("correoILider", "sin decano registrado");
 			map.put("telefonoLider", "sin decano registrado");
 		} else {
-			map.put("liderSemillero1", i.getDecano().getNombreCompleto());
-			map.put("correoILider1", i.getDecano().getCorreoEst());
-			map.put("telefonoLider1", i.getDecano().getTelefono());
+			map.put("liderSemillero", i.getDecano().getNombreCompleto());
+			map.put("correoILider", i.getDecano().getCorreoEst());
+			map.put("telefonoLider", i.getDecano().getTelefono());
 		}
 		map.put("n", s.getNombre());
 		return map;

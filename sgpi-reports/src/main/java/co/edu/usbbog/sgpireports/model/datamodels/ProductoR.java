@@ -1,6 +1,9 @@
 package co.edu.usbbog.sgpireports.model.datamodels;
 
-public class ProductoR {
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+public class ProductoR implements Comparable<ProductoR> {
 	
 	private String proyecto, titulo, tipo, url, fecha, semillero;
 
@@ -61,6 +64,16 @@ public class ProductoR {
 	}
 	
 	
+	public LocalDate getDate() {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		LocalDate fecha = LocalDate.parse(this.getFecha(), formatter);
+		return fecha;
+	}
+
+	@Override
+	public int compareTo(ProductoR o) {
+		return getDate().compareTo(o.getDate());
+	}
 	
 	
 	

@@ -34,7 +34,7 @@ import net.minidev.json.JSONObject;
     , @NamedQuery(name = "Participaciones.findByProyectoIdProyecto", query = "SELECT p FROM Participaciones p WHERE p.participacionesPK.proyectoIdProyecto = :proyectoIdProyecto")
     , @NamedQuery(name = "Participaciones.findByFechaPart", query = "SELECT p FROM Participaciones p WHERE p.fechaPart = :fechaPart")
     , @NamedQuery(name = "Participaciones.findByReconocimientos", query = "SELECT p FROM Participaciones p WHERE p.reconocimientos = :reconocimientos")})
-public class Participaciones implements Serializable {
+public class Participaciones implements Serializable, Comparable<Participaciones> {
 
     private static final long serialVersionUID = 1L;
     @EmbeddedId
@@ -140,5 +140,10 @@ public class Participaciones implements Serializable {
     	
     	return participacionesJson;
     }
+
+	@Override
+	public int compareTo(Participaciones o) {
+		return getFechaPart().compareTo(o.getFechaPart());
+	}
 
 }

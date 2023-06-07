@@ -1,29 +1,34 @@
-package co.edu.usbbog.sgpireports.model;
+package co.edu.usbbog.sgpireports.model.datamodels;
+
+import co.edu.usbbog.sgpireports.model.Programa;
 
 public class MiembrosSemillero {
 	
-	private String codigo;
-	private String nombre;
-	private String telefono;
-	private String correo;
-	private String programa;
-	private String Semillero;
+	private String codigo, nombre, telefono, correo, programa, semillero;
 	
-	public MiembrosSemillero(String codigo, String nombre, String telefono, String correo, String programa) {
+	
+
+	public MiembrosSemillero(String codigo, String nombre, String telefono, String correo, Programa programa) {
 		this.codigo = codigo;
 		this.nombre = nombre;
-		if(telefono == null) {
-			this.telefono = "sin telefono registrado";
-		} else {
-			this.telefono = telefono;
-		}
+		this.telefono = telefono;
 		this.correo = correo;
-		this.programa = programa;
+		if(programa != null) {
+			this.programa = programa.getNombre();
+		} else {
+			this.programa = "";
+		}
 	}
-	
-	public String getSemillero() {
-		return Semillero;
+
+	public MiembrosSemillero(String codigo, String nombre, String telefono, String correo,
+			String nombre2) {
+		this.codigo = codigo;
+		this.nombre = nombre;
+		this.telefono = telefono;
+		this.correo = correo;
+		this.programa = nombre2;
 	}
+
 	public String getCodigo() {
 		return codigo;
 	}
@@ -64,8 +69,14 @@ public class MiembrosSemillero {
 		this.programa = programa;
 	}
 
+	public String getSemillero() {
+		return semillero;
+	}
+
 	public void setSemillero(String semillero) {
-		Semillero = semillero;
+		this.semillero = semillero;
 	}
 	
+	
+
 }

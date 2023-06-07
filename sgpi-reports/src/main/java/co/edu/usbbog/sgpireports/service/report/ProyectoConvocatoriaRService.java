@@ -3,6 +3,7 @@ package co.edu.usbbog.sgpireports.service.report;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -32,6 +33,11 @@ public class ProyectoConvocatoriaRService {
 					}
 				}
 			}
+		return ordenarSalida(salida);
+	}
+
+	private List<ProyectosConvocatoriaR> ordenarSalida(List<ProyectosConvocatoriaR> salida) {
+		Collections.sort(salida, Collections.reverseOrder());
 		return salida;
 	}
 
@@ -44,7 +50,7 @@ public class ProyectoConvocatoriaRService {
 		for (Semillero s : semilleros) {
 			salida.addAll(getProyectosConvAbiertas(s.getProyectos()));
 		}
-		return salida;
+		return ordenarSalida(salida);
 	}
 
 	public List<ProyectosConvocatoriaR> getProyectosConvCerradasGI(List<Semillero> semilleros) {
@@ -52,7 +58,7 @@ public class ProyectoConvocatoriaRService {
 		for (Semillero s : semilleros) {
 			salida.addAll(getProyectosConvCerradas(s.getProyectos()));
 		}
-		return salida;
+		return ordenarSalida(salida);
 	}
 
 	public List<ProyectosConvocatoriaR> getProyectosConvCerradas(List<Proyecto> lista) {
@@ -71,7 +77,7 @@ public class ProyectoConvocatoriaRService {
 				}
 			}
 		}
-		return salida;
+		return ordenarSalida(salida);
 	}
 
 	public List<ProyectosConvocatoriaR> getParticipacionesProyecto(List<ProyectosConvocatoria> proyectosConvocatoria) {
@@ -82,7 +88,7 @@ public class ProyectoConvocatoriaRService {
 						getFechaFormateada(pc.getConvocatoria().getFechaFinal()), pc.getConvocatoria().getEntidad(), "",
 						pc.getIdProyecto()));
 		}
-		return salida;
+		return ordenarSalida(salida);
 	}
 
 	public int countConvocatorias(List<ProyectosConvocatoriaR> aux3) {

@@ -38,6 +38,44 @@ public class TiposRService {
 		}
 		return salida;
 	}
+	
+	public List<TipoPEstado> getProduccionSemillerosGI2(List<Semillero> semilleros, List<TipoPEstado> salida) {
+		int i = 0;
+		for (Semillero s : semilleros) {
+			if (!s.getProyectos().isEmpty()) {
+				for (Proyecto p : s.getProyectos()) {
+					if (!p.getProductos().isEmpty()) {
+						var x = salida.get(i);
+						x.setNumero2(x.getNumero2()+1);
+						salida.set(i, x);
+					}
+				}
+			}
+			i++;
+		}
+		return salida;
+	}
+	
+	private List<TipoPEstado> sumar2(List<TipoPEstado> salida, String nombre) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<TipoPEstado> getProyFinSemillerosGI(List<Semillero> semilleros) {
+		List<TipoPEstado> salida = new ArrayList<>();
+		for (Semillero s : semilleros) {
+			if (!s.getProyectos().isEmpty()) {
+				for (Proyecto p : s.getProyectos()) {
+					if (p.getFechaFin() != null) {
+						salida = sumar(salida, s.getNombre());
+					}
+				}
+			} else {
+				salida.add(new TipoPEstado(s.getNombre(), 0));
+			}
+		}
+		return salida;
+	}
 
 	public List<TipoPEstado> getProduccionAnioGI(List<Semillero> semilleros) {
 		List<TipoPEstado> salida = new ArrayList<>();
@@ -169,7 +207,7 @@ public class TiposRService {
 		return salida;
 	}
 
-	public List<TipoPEstado> sumar(List<TipoPEstado> salida, String valor) {
+	private List<TipoPEstado> sumar(List<TipoPEstado> salida, String valor) {
 		if (salida.isEmpty()) {
 			salida.add(new TipoPEstado(valor, 1));
 			return salida;
@@ -376,5 +414,6 @@ public class TiposRService {
 		}
 		return salida;
 	}
+
 
 }

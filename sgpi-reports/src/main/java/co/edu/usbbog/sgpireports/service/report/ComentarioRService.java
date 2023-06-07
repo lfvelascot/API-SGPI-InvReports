@@ -3,12 +3,15 @@ package co.edu.usbbog.sgpireports.service.report;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import co.edu.usbbog.sgpireports.model.Comentario;
 import co.edu.usbbog.sgpireports.model.Producto;
+import co.edu.usbbog.sgpireports.model.Proyecto;
+import co.edu.usbbog.sgpireports.model.Semillero;
 import co.edu.usbbog.sgpireports.model.datamodels.ComentarioR;
 @Service
 public class ComentarioRService {
@@ -28,11 +31,77 @@ public class ComentarioRService {
 				}
 			}
 		}
-		return salida;
+		return orderComments(salida);
+	}
+
+	private List<ComentarioR> orderComments(List<ComentarioR> comentarios) {
+		Collections.sort(comentarios, Collections.reverseOrder());
+		return comentarios;
 	}
 
 	private String getFechaFormateada(LocalDate fecha) {
 		return fecha.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")); // 17-02-2022
 	}
+
+	public List<ComentarioR> getComentariosProyectos(List<Proyecto> proyectos) {
+		List<ComentarioR> salida = new ArrayList<>();
+		for(Proyecto p: proyectos) {
+			if(!p.getProductos().isEmpty()) {
+				salida.addAll(getComentariosProyecto(p.getProductos()));
+			}
+		}
+		return orderComments(salida);
+	}
+
+	public List<ComentarioR> getProductosGI(List<Semillero> semilleros) {
+		List<ComentarioR> salida = new ArrayList<>();
+		for(Semillero s: semilleros) {
+			if(!s.getProyectos().isEmpty()) {
+				salida.addAll(getComentariosProyectos(s.getProyectos()));
+			}
+		}
+		return orderComments(salida);
+	}
+
+	public List<ComentarioR> getProyectosActComentarios(List<Proyecto> proyectos) {
+		List<ComentarioR> salida = new ArrayList<>();
+		for(Proyecto p : proyectos) {
+			if(p.getFechaFin() == null && !p.getProductos().isEmpty()) {
+				salida.addAll(getComentariosProyecto(p.getProductos()));
+			}
+		}
+		return orderComments(salida);
+	}
+	
+	public List<ComentarioR> getProyectosFinComentarios(List<Proyecto> proyectos) {
+		List<ComentarioR> salida = new ArrayList<>();
+		for(Proyecto p : proyectos) {
+			if(p.getFechaFin() != null && !p.getProductos().isEmpty()) {
+				salida.addAll(getComentariosProyecto(p.getProductos()));
+			}
+		}
+		return orderComments(salida);
+	}
+	
+	public List<ComentarioR> getProyectosActComentariosGI(List<Semillero> semilleros) {
+		List<ComentarioR> salida = new ArrayList<>();
+		for(Semillero s: semilleros) {
+			if(!s.getProyectos().isEmpty()) {
+				salida.addAll(getProyectosActComentarios(s.getProyectos()));
+			}
+		}
+		return orderComments(salida);
+	}
+	
+	public List<ComentarioR> getProyectosFinComentariosGI(List<Semillero> semilleros) {
+		List<ComentarioR> salida = new ArrayList<>();
+		for(Semillero s: semilleros) {
+			if(!s.getProyectos().isEmpty()) {
+				salida.addAll(getProyectosFinComentarios(s.getProyectos()));
+			}
+		}
+		return orderComments(salida);
+	}
+
 
 }

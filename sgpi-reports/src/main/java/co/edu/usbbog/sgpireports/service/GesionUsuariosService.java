@@ -20,8 +20,6 @@ public class GesionUsuariosService implements IGestionUsuariosService {
 	@Autowired
 	private IUsuarioRepository usuario;
 	
-	public Logger logger = LoggerFactory.getLogger(GesionUsuariosService.class);
-	
 	
 	@Override
 	public boolean saveFirma(String cedula) {

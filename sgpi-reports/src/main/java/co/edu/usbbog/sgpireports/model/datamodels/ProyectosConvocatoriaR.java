@@ -1,11 +1,13 @@
 package co.edu.usbbog.sgpireports.model.datamodels;
 
-public class ProyectosConvocatoriaR {
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+public class ProyectosConvocatoriaR implements Comparable<ProyectosConvocatoriaR> {
 	private String proyecto, convocatoria, fechaInicio, fechaFin, entidad, semillero, estado;
 
 	public ProyectosConvocatoriaR(String proyecto, String convocatoria, String fechaInicio, String fechaFin,
 			String entidad, String semillero, String estado) {
-		super();
 		this.proyecto = proyecto;
 		this.convocatoria = convocatoria;
 		this.fechaInicio = fechaInicio;
@@ -78,7 +80,16 @@ public class ProyectosConvocatoriaR {
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
-	
-	
+
+	public LocalDate getDate() {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		LocalDate fecha = LocalDate.parse(this.getFechaInicio(), formatter);
+		return fecha;
+	}
+
+	@Override
+	public int compareTo(ProyectosConvocatoriaR o) {
+		return getDate().compareTo(o.getDate());
+	}
 
 }

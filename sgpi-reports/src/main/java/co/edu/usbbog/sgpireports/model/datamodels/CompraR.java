@@ -1,6 +1,9 @@
 package co.edu.usbbog.sgpireports.model.datamodels;
 
-public class CompraR {
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+public class CompraR implements Comparable<CompraR>{
 
 	private String fecha_solicitud, nombre, tipo, codigo_compra, valor,  fecha_compra, estado, link, descripcion,
 			presupuesto;
@@ -10,7 +13,7 @@ public class CompraR {
 		this.fecha_solicitud = fecha_solicitud;
 		this.nombre = nombre;
 		this.tipo = tipo;
-		if (valor == 0.0) {
+		if (valor != 0.0) {
 			this.valor = "$ "+String.valueOf(valor);
 		} else {
 			this.valor = "sin valor";
@@ -114,6 +117,18 @@ public class CompraR {
 
 	public void setPresupuesto(String presupuesto) {
 		this.presupuesto = presupuesto;
+	}
+
+
+	public LocalDate getDate() {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		LocalDate fecha = LocalDate.parse(this.getFecha_solicitud(), formatter);
+		return fecha;
+	}
+
+	@Override
+	public int compareTo(CompraR o) {
+		return getDate().compareTo(o.getDate());
 	}
 
 }

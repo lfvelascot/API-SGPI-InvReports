@@ -48,8 +48,6 @@ public class TipoUsuario implements Serializable {
         @JoinColumn(name = "usuario", referencedColumnName = "cedula", nullable = false)})
     @ManyToMany
     private List<Usuario> usuarios;
-    @ManyToMany(mappedBy = "tipoUsuarios")
-    private List<Actividad> actividades;
 
     public TipoUsuario() {
     }
@@ -84,14 +82,6 @@ public class TipoUsuario implements Serializable {
         return usuarios;
     }
     
-    @XmlTransient
-    public List<Actividad> getactividades() {
-        return actividades;
-    }
-
-    public void setActividades(List<Actividad> actividades) {
-        this.actividades = actividades;
-    }
 
     public void setUsuarios(List<Usuario> usuarios) {
         this.usuarios = usuarios;

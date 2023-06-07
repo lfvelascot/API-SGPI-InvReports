@@ -116,4 +116,19 @@ public interface IUsuarioRepository  extends JpaRepository<Usuario, String> {
 	 */
 	@Query(value = "SELECT * FROM `usuario`WHERE `semillero_id` = ?1 and visibilidad = '1' ORDER BY nombres ASC;", nativeQuery = true)
 	List<Usuario> getMiembrosSemillero(int cedula);
+	
+	/**
+	 * obtener datos miembros de semillero
+	 * @param cedula
+	 * @return
+	 */
+	@Query(value = "SELECT u.* FROM usuario u INNER JOIN semillero s on u.semillero_id = s.id WHERE s.grupo_investigacion = ?1 and u.visibilidad = '1' ORDER BY nombres ASC;", nativeQuery = true)
+	List<Usuario> getMiembrosGI(int cedula);
+	/**
+	 * obtener datos miembros de semillero
+	 * @param cedula
+	 * @return
+	 */
+	@Query(value = "SELECT u.* FROM proyecto p inner join participantes pp on p.id = pp.proyecto inner join usuario u on pp.usuario = u.cedula WHERE p.id = ?1 order by u.nombres;", nativeQuery = true)
+	List<Usuario> findParticipantesProyecto(Integer id);
 }

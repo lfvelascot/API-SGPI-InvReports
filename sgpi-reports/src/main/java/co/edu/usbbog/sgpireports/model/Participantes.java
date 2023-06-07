@@ -11,6 +11,7 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -34,12 +35,12 @@ import net.minidev.json.JSONObject;
     , @NamedQuery(name = "Participantes.findByFechaInicio", query = "SELECT p FROM Participantes p WHERE p.participantesPK.fechaInicio = :fechaInicio")
     , @NamedQuery(name = "Participantes.findByFechaFin", query = "SELECT p FROM Participantes p WHERE p.fechaFin = :fechaFin")
     , @NamedQuery(name = "Participantes.findByRol", query = "SELECT p FROM Participantes p WHERE p.rol = :rol")})
-public class Participantes implements Serializable {
+public class Participantes implements Serializable, Comparable<Participantes> {
 
     private static final long serialVersionUID = 1L;
     @EmbeddedId
-    protected ParticipantesPK participantesPK;
-    @Column(name = "fecha_fin",columnDefinition = "DATE")
+    private ParticipantesPK participantesPK;
+	@Column(name = "fecha_fin",columnDefinition = "DATE")
     private LocalDate fechaFin;
 	@Basic(optional = false)
     @Column(nullable = false, length = 45)
@@ -60,7 +61,6 @@ public class Participantes implements Serializable {
 
     public Participantes(ParticipantesPK participantesPK, String rol) {
         this.participantesPK = participantesPK;
-
         this.rol = rol;
     }
 
@@ -79,6 +79,7 @@ public class Participantes implements Serializable {
     public LocalDate getFechaFin() {
         return fechaFin;
     }
+    
 
     public void setFechaFin(LocalDate fechaFin) {
         this.fechaFin = fechaFin;
@@ -139,7 +140,7 @@ public class Participantes implements Serializable {
     	}else { 
     		paticipantesJson.put("fecha_fin",this.getFechaFin());
     	}
-    	//paticipantesJson.put("fecha_fin",this.getFechaInicio());
+    	//paticipantesJson.put("fecha_fin",this.getParticipantesPK().getFechaInicio());
     	paticipantesJson.put("rol",this.getRol());
     	paticipantesJson.put("nombre",this.getUsuario().getNombres());
     	if(this.getUsuario().getProgramaId() != null) {
@@ -153,5 +154,8 @@ public class Participantes implements Serializable {
     	return paticipantesJson;
     }
 
-
+	@Override
+	public int compareTo(Participantes o) {
+		return getParticipantesPK().getFechaInicio().compareTo(o.getParticipantesPK().getFechaInicio());
+	}
 }

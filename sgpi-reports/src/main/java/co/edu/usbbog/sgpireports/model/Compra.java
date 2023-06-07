@@ -41,7 +41,7 @@ import net.minidev.json.JSONObject;
     , @NamedQuery(name = "Compra.findByEstado", query = "SELECT c FROM Compra c WHERE c.estado = :estado")
     , @NamedQuery(name = "Compra.findByLink", query = "SELECT c FROM Compra c WHERE c.link = :link")
     , @NamedQuery(name = "Compra.findByDescripcion", query = "SELECT c FROM Compra c WHERE c.descripcion = :descripcion")})
-public class Compra implements Serializable {
+public class Compra implements Serializable, Comparable<Compra> {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -62,13 +62,9 @@ public class Compra implements Serializable {
     private String codigoCompra;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "valor",precision = 22, nullable = true)//-------------------------------------------------------------
-    
     private Double valor;
     @Basic(optional = true)
-
     @Column(nullable = true , name="fecha_compra", columnDefinition = "DATE")//----------------------------------------------
-    
-
     private LocalDate fechaCompra;
     @Basic(optional = false)
     @Column(nullable = false)
@@ -226,6 +222,11 @@ public class Compra implements Serializable {
     	return compraJson;
     	
     }
+
+	@Override
+	public int compareTo(Compra o) {
+		return getFechaSolicitud().compareTo(o.getFechaSolicitud());
+	}
 
 	
     

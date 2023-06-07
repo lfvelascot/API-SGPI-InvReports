@@ -3,8 +3,10 @@ package co.edu.usbbog.sgpireports.service.report;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import co.edu.usbbog.sgpireports.model.Participantes;
@@ -12,10 +14,13 @@ import co.edu.usbbog.sgpireports.model.Proyecto;
 import co.edu.usbbog.sgpireports.model.ProyectosConvocatoria;
 import co.edu.usbbog.sgpireports.model.Semillero;
 import co.edu.usbbog.sgpireports.model.datamodels.ParticipantesR;
+import co.edu.usbbog.sgpireports.repository.IParticipantesRepository;
+import co.edu.usbbog.sgpireports.repository.IProyectoRepository;
 
 
 @Service
 public class ParticipantesRService {
+
 
 
 	public List<ParticipantesR> getIntegrantes(List<Proyecto> lista) {
@@ -162,7 +167,7 @@ public class ParticipantesRService {
 
 	public List<ParticipantesR> getIntegrantesProyecto(List<Participantes> participantes) {
 		List<ParticipantesR> salida = new ArrayList<>();
-		for (Participantes p : participantes) {
+		for (Participantes p : orderParticipantes(participantes)) {
 			salida.add(new ParticipantesR(p.getProyecto().getTitulo(),
 					p.getUsuario().getNombreCompleto(), p.getRol(),
 					getFechaFormateada(p.getParticipantesPK().getFechaInicio()),
@@ -170,6 +175,11 @@ public class ParticipantesRService {
 					p.getProyecto().getSemillero().getNombre()));
 		}
 		return salida;
+	}
+
+	private List<Participantes> orderParticipantes(List<Participantes> participantes) {
+		Collections.sort(participantes, Collections.reverseOrder());
+		return participantes;
 	}
 
 }

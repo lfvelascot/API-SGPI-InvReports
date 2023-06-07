@@ -252,107 +252,136 @@
 	<field name="nombre" class="java.lang.String"/>
 	<field name="codigo" class="java.lang.String"/>
 	<background>
-		<band splitType="Stretch"/>
+		<band height="552" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<image>
+				<reportElement x="0" y="0" width="800" height="545" uuid="a9408ed4-6b7c-4bb7-b1c9-1e17cd1e5185">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA["http://localhost:8081/archivo/files/i/marca.png"]]></imageExpression>
+			</image>
+		</band>
 	</background>
 	<title>
-		<band height="134" splitType="Stretch">
-			<rectangle>
-				<reportElement x="3" y="0" width="797" height="133" backcolor="#F5E8CE" uuid="8eecc353-6874-47e8-85e6-3cda017c23a2"/>
+		<band height="126" splitType="Stretch">
+			<rectangle radius="9">
+				<reportElement x="3" y="1" width="797" height="120" backcolor="#F5E8CE" uuid="4cead007-5b5c-4351-b30b-e1060c53bec3"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="11" y="7" width="777" height="26" uuid="e817648d-9ab1-4f2e-9620-eec96512342a"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
-					<font fontName="Arial" size="16" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Reporte de semillero - Proyectos vs. Convocatorias]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="105" y="41" width="107" height="12" uuid="e7cdf0cb-32f3-42a5-86db-edd13dedea37"/>
+				<reportElement x="108" y="30" width="107" height="28" uuid="43b29098-965b-4f6e-aad8-1419f7bfc6ed">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" isBold="true"/>
+					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Nombre semillero:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="105" y="98" width="117" height="12" uuid="9d2f15dc-0e91-4f19-9d34-0a6e21f2ad0a"/>
+				<reportElement x="445" y="59" width="140" height="28" uuid="a7dfd1cb-93d1-4b2c-9756-45d12c3ffaef">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" isBold="true"/>
+					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Grupo de investigación:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="436" y="115" width="112" height="12" uuid="d049c884-9fba-4cda-a6d8-355760ff092b"/>
+				<reportElement x="445" y="30" width="140" height="28" uuid="e9fb69a2-68e7-4d25-8cd3-aea5fb75bc18">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" isBold="true"/>
+					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Linea de investigación:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="105" y="115" width="114" height="12" uuid="63f9e1c7-90ca-4041-bfd0-6f81290a4f1d"/>
+				<reportElement x="109" y="86" width="114" height="28" uuid="2a466600-2a7d-46f9-9e4a-7cebbe859cbf">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" isBold="true"/>
+					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Fecha fundación:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="222" y="41" width="570" height="12" uuid="accfc068-6ac0-4b19-abe9-284a6218612c"/>
+				<reportElement x="215" y="30" width="230" height="28" uuid="22fd3b64-51b7-4321-a039-3b666114579c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Arial"/>
+					<font fontName="Arial" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{nombreSemillero}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="231" y="98" width="191" height="12" uuid="83fa6e31-fc6b-4fe0-9f9c-866e0b88d482"/>
+				<reportElement x="585" y="58" width="210" height="28" uuid="abd9a3d3-3f0b-443e-ba23-c37ceb64aec4">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Arial"/>
+					<font fontName="Arial" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{grupoInv}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="231" y="115" width="191" height="12" uuid="537d89db-4d07-4599-8513-a92993f282eb"/>
+				<reportElement x="222" y="86" width="128" height="28" uuid="52e73974-0e9f-4ea3-878f-ce296465da14">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Arial"/>
+					<font fontName="Arial" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fechaFun}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="558" y="115" width="195" height="12" uuid="e25549ea-acff-4266-a627-fd36d46d617a"/>
+				<reportElement x="585" y="30" width="208" height="28" uuid="3d414e89-1b19-4064-bc20-4ca1bfa0fe6b">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Arial"/>
+					<font fontName="Arial" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{lineaInv}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="105" y="57" width="107" height="12" uuid="b4736d06-0f72-446d-a96f-0d9ac1ffb2d1"/>
+				<reportElement x="108" y="58" width="107" height="28" uuid="9b48046c-6ee4-48eb-90e2-f996be2ab04a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" isBold="true"/>
+					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Descripción:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="105" y="73" width="687" height="21" uuid="bbcffc36-5d8c-4a89-afb8-b1d45e64dd0b"/>
+				<reportElement x="217" y="59" width="228" height="28" uuid="9f19cd3f-0f56-4e01-866f-25056cdb6947">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Arial"/>
+					<font fontName="Arial" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{descripcion}]]></textFieldExpression>
 			</textField>
-			<textField pattern="M/d/yy h:mm a">
-				<reportElement x="728" y="0" width="72" height="16" uuid="f28a01b2-461d-4df9-9c74-ae5ca4f7b186"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" size="8" isItalic="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
-			</textField>
 			<image scaleImage="FillFrame" hAlign="Center" vAlign="Middle" isLazy="true" evaluationTime="Band">
-				<reportElement style="Table 1_TH" isPrintRepeatedValues="false" mode="Transparent" x="8" y="14" width="90" height="102" uuid="47c266e5-c915-4ade-a72b-e35428bae6b4"/>
+				<reportElement style="Table 1_TH" isPrintRepeatedValues="false" mode="Transparent" x="13" y="10" width="90" height="102" uuid="ae812708-a87e-4596-9f90-4899fcc5b9a3"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<imageExpression><![CDATA["http://localhost:8081/archivo/files/i/logo_usbbog_1.jpg"]]></imageExpression>
+				<imageExpression><![CDATA["http://localhost:8081/archivo/files/i/logo_usbbog_1.png"]]></imageExpression>
 			</image>
+			<textField pattern="M/d/yy h:mm a">
+				<reportElement x="604" y="94" width="190" height="16" uuid="6db20c9c-5dd9-4b34-bc6c-d0287c35c954"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Generado: "+new java.text.SimpleDateFormat("dd/MM/yyyy hh:mm:ss a").format(new java.util.Date())]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="13" y="4" width="777" height="26" uuid="e817648d-9ab1-4f2e-9620-eec96512342a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Arial" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reporte de semillero - Proyectos vs. Convocatorias]]></text>
+			</staticText>
 		</band>
 	</title>
 	<columnHeader>
@@ -360,21 +389,25 @@
 	</columnHeader>
 	<detail>
 		<band height="142">
-			<rectangle>
-				<reportElement x="510" y="9" width="292" height="127" backcolor="#FAEEDE" uuid="168440dd-3e17-490c-9ae7-a97195b3079d"/>
+			<rectangle radius="9">
+				<reportElement x="510" y="9" width="292" height="127" backcolor="#FAEEDE" uuid="2b4a9cb9-9a8d-4971-970b-a24654e746c2"/>
 				<graphicElement>
 					<pen lineColor="#E89F56"/>
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement x="1" y="2" width="449" height="30" uuid="96af4653-589d-431b-a69b-9da7c9b1d1d5"/>
+				<reportElement x="1" y="2" width="449" height="28" uuid="056b7234-5b1f-46ca-a5d4-81de594d3e45">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Datos del lider de semillero]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="27" width="120" height="22" uuid="db291da4-ee7f-4884-9c5f-aa1d0c3e6527"/>
+				<reportElement x="10" y="30" width="120" height="28" uuid="fcb1f6b3-5142-4715-a97e-a72889950552">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -387,14 +420,18 @@
 				<text><![CDATA[Nombre:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="133" y="27" width="356" height="28" uuid="4f92af11-8700-4bea-86db-d10488ba390b"/>
+				<reportElement x="133" y="27" width="356" height="28" uuid="6b73141e-1f89-4112-96c8-03ee79de1a3f">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Arial"/>
+					<font fontName="Arial" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{liderSemillero}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="50" width="120" height="22" uuid="e673b40e-ff33-46af-8bd6-7804c6f90ef4"/>
+				<reportElement x="10" y="56" width="120" height="28" uuid="df32408c-92ed-4e10-abc8-e6fb9efd1cf7">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -406,22 +443,29 @@
 				</textElement>
 				<text><![CDATA[Correo institucional:]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="133" y="50" width="356" height="28" uuid="11c68a1d-054a-4b61-a1ef-ef60a379e6df"/>
+			<textField hyperlinkType="Reference">
+				<reportElement x="133" y="56" width="356" height="28" forecolor="#5D57CF" uuid="56f8503b-2afe-4c05-aa44-e2faab7e8c56">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Arial"/>
+					<font fontName="Arial" size="12" isUnderline="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{correoILider}]]></textFieldExpression>
+				<hyperlinkReferenceExpression><![CDATA["mailto:"+$P{correoILider}]]></hyperlinkReferenceExpression>
 			</textField>
 			<textField>
-				<reportElement x="133" y="72" width="356" height="28" uuid="39710631-c8e2-438c-8619-4647694e0d6f"/>
+				<reportElement x="133" y="84" width="356" height="28" uuid="182745c2-e65a-4aac-98a2-98dcdc0c9e32">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Arial"/>
+					<font fontName="Arial" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{telefonoLider}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="1" y="72" width="120" height="22" uuid="80a681d3-edc5-45f7-a97d-433edae61001"/>
+				<reportElement x="10" y="84" width="120" height="28" uuid="79fb8c9a-c8c9-4bf8-a643-88af09cdabf2">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -434,14 +478,18 @@
 				<text><![CDATA[Telefono]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="133" y="97" width="356" height="28" uuid="ba36f376-e296-4688-8768-ff10a0610b1f"/>
+				<reportElement x="133" y="112" width="356" height="28" uuid="3e7f6623-847f-4cb3-ba0b-062dbd72ab59">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Arial"/>
+					<font fontName="Arial" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{programaLider}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="1" y="97" width="120" height="22" uuid="b56e0a1f-6111-4ca6-ac7c-547e57792b1c"/>
+				<reportElement x="10" y="112" width="120" height="28" uuid="1484fa79-f861-47f2-ae70-91b11a8e5de6">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -454,25 +502,38 @@
 				<text><![CDATA[Programa:]]></text>
 			</staticText>
 			<line>
-				<reportElement x="500" y="10" width="1" height="120" uuid="fd2f777f-71bb-4d33-9f4f-1814a2da1d02"/>
+				<reportElement x="500" y="10" width="1" height="120" uuid="cab55c1b-738b-400a-864c-5cddd17cb110"/>
 			</line>
 			<textField>
-				<reportElement x="527" y="40" width="249" height="30" uuid="d291c9a0-5c08-4c75-ade3-0733787f913a"/>
+				<reportElement x="533" y="50" width="249" height="30" uuid="d83fe6e3-a2a3-4420-a9b2-ce0a95b56b0f"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{totalMiembros}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="527" y="76" width="249" height="30" uuid="4ce502ce-5ad7-455f-b49c-284d0be04807"/>
+				<reportElement x="533" y="79" width="249" height="30" uuid="2e52bb98-7bb7-4bb3-b305-3ca18625e5f2"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{TotalProyectosActivos}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="597" y="28" width="120" height="22" forecolor="#B85C2A" uuid="9b4cec22-ed17-4846-a886-85fb58bff593"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Datos de interes]]></text>
+			</staticText>
 		</band>
-		<band height="137">
-			<printWhenExpression><![CDATA[$P{datasource1}.isEmpty() == false]]></printWhenExpression>
+		<band height="155">
+			<printWhenExpression><![CDATA[!$P{datasource1}.isEmpty()]]></printWhenExpression>
 			<staticText>
 				<reportElement x="1" y="0" width="799" height="30" uuid="9bf74c95-250c-4286-b68b-defe67e9beca"/>
 				<textElement verticalAlignment="Middle">
@@ -481,7 +542,7 @@
 				<text><![CDATA[Datos de proyectos]]></text>
 			</staticText>
 			<componentElement>
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="30" width="802" height="101" isPrintWhenDetailOverflows="true" uuid="bf9ce048-302a-4007-87af-ca77c3443c38">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="30" width="802" height="120" isPrintWhenDetailOverflows="true" uuid="bf9ce048-302a-4007-87af-ca77c3443c38">
 					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.grid.JSSGridBagLayout"/>
 					<property name="com.jaspersoft.studio.table.style.table_header" value="Table 2_TH"/>
 					<property name="com.jaspersoft.studio.table.style.column_header" value="Table 2_CH"/>
@@ -687,10 +748,10 @@
 				</jr:table>
 			</componentElement>
 		</band>
-		<band height="143">
-			<printWhenExpression><![CDATA[$P{datasource7}.isEmpty() == false]]></printWhenExpression>
+		<band height="135">
+			<printWhenExpression><![CDATA[!$P{datasource1}.isEmpty()]]></printWhenExpression>
 			<componentElement>
-				<reportElement x="0" y="30" width="802" height="110" uuid="40605f61-8d00-4780-97df-de89db207020">
+				<reportElement x="0" y="30" width="802" height="100" uuid="40605f61-8d00-4780-97df-de89db207020">
 					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 					<property name="com.jaspersoft.studio.table.style.table_header" value="Table 4_TH"/>
 					<property name="com.jaspersoft.studio.table.style.column_header" value="Table 4_CH"/>
@@ -837,8 +898,8 @@
 				<text><![CDATA[Productos por proyecto]]></text>
 			</staticText>
 		</band>
-		<band height="137">
-			<printWhenExpression><![CDATA[$P{datasource2}.isEmpty() == false]]></printWhenExpression>
+		<band height="126">
+			<printWhenExpression><![CDATA[!$P{datasource1}.isEmpty()]]></printWhenExpression>
 			<staticText>
 				<reportElement x="0" y="3" width="799" height="30" uuid="1aff3099-2e2f-4f37-82bf-7b448918eaf4"/>
 				<textElement verticalAlignment="Middle">
@@ -847,7 +908,7 @@
 				<text><![CDATA[Participantes por proyecto]]></text>
 			</staticText>
 			<componentElement>
-				<reportElement x="3" y="40" width="795" height="90" uuid="6a2dfd40-90bc-4b23-b7e6-32e55da2fd2f">
+				<reportElement x="3" y="40" width="795" height="80" uuid="6a2dfd40-90bc-4b23-b7e6-32e55da2fd2f">
 					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 					<property name="com.jaspersoft.studio.table.style.table_header" value="Table 3_TH"/>
 					<property name="com.jaspersoft.studio.table.style.column_header" value="Table 3_CH"/>
@@ -1010,8 +1071,8 @@
 				</jr:table>
 			</componentElement>
 		</band>
-		<band height="150">
-			<printWhenExpression><![CDATA[$P{datasource3}.isEmpty() == false]]></printWhenExpression>
+		<band height="143">
+			<printWhenExpression><![CDATA[!$P{datasource1}.isEmpty()]]></printWhenExpression>
 			<staticText>
 				<reportElement x="0" y="3" width="799" height="30" uuid="1aa9ed37-cfb6-413f-aa5f-cf09c167f8d0"/>
 				<textElement verticalAlignment="Middle">
@@ -1020,7 +1081,7 @@
 				<text><![CDATA[Proyectos en convocatorias abiertas]]></text>
 			</staticText>
 			<componentElement>
-				<reportElement x="0" y="40" width="802" height="110" uuid="7428729e-5fdb-4106-a1f6-9e3075130a57">
+				<reportElement x="0" y="40" width="802" height="100" uuid="7428729e-5fdb-4106-a1f6-9e3075130a57">
 					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 					<property name="com.jaspersoft.studio.table.style.table_header" value="Table 4_TH"/>
 					<property name="com.jaspersoft.studio.table.style.column_header" value="Table 4_CH"/>
@@ -1208,10 +1269,10 @@
 				</jr:table>
 			</componentElement>
 		</band>
-		<band height="152">
-			<printWhenExpression><![CDATA[$P{datasource5}.isEmpty() == false]]></printWhenExpression>
+		<band height="144">
+			<printWhenExpression><![CDATA[!$P{datasource1}.isEmpty()]]></printWhenExpression>
 			<componentElement>
-				<reportElement x="0" y="40" width="802" height="110" uuid="08a63e51-decb-40aa-a9c2-3108e7f32b7d">
+				<reportElement x="0" y="40" width="802" height="100" uuid="08a63e51-decb-40aa-a9c2-3108e7f32b7d">
 					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 					<property name="com.jaspersoft.studio.table.style.table_header" value="Table 4_TH"/>
 					<property name="com.jaspersoft.studio.table.style.column_header" value="Table 4_CH"/>
@@ -1406,107 +1467,110 @@
 				<text><![CDATA[Proyectos en convocatorias cerradas]]></text>
 			</staticText>
 		</band>
-		<band height="341">
-			<printWhenExpression><![CDATA[$P{datasource1}.isEmpty() == false]]></printWhenExpression>
+		<band height="312">
+			<printWhenExpression><![CDATA[!$P{datasource1}.isEmpty()]]></printWhenExpression>
+			<pieChart>
+				<chart evaluationTime="Report">
+					<reportElement x="410" y="6" width="388" height="300" uuid="c35bc585-e323-4054-8c58-01e2565d4b91"/>
+					<chartTitle>
+						<font fontName="Arial" size="12" isBold="true"/>
+						<titleExpression><![CDATA["Proyectos por estado"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<pieDataset>
+					<dataset>
+						<datasetRun subDataset="Estados" uuid="99589a6a-8c1f-43c9-af4c-2e39e2893d1b">
+							<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{datasource4})]]></dataSourceExpression>
+						</datasetRun>
+					</dataset>
+					<keyExpression><![CDATA[$F{tipo}]]></keyExpression>
+					<valueExpression><![CDATA[$F{numero}]]></valueExpression>
+					<labelExpression><![CDATA[$F{numero}.toString()]]></labelExpression>
+				</pieDataset>
+				<piePlot>
+					<plot/>
+					<itemLabel/>
+				</piePlot>
+			</pieChart>
+			<pieChart>
+				<chart evaluationTime="Report">
+					<reportElement x="4" y="6" width="396" height="300" uuid="56cd78e4-a55b-4269-902b-07dd718cc8fb"/>
+					<chartTitle>
+						<font fontName="Arial" size="12" isBold="true"/>
+						<titleExpression><![CDATA["Proyectos por año"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<pieDataset>
+					<dataset>
+						<datasetRun subDataset="Tipos" uuid="aa8715d1-d595-4d96-a054-6d084ca54a1c">
+							<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{datasource6})]]></dataSourceExpression>
+						</datasetRun>
+					</dataset>
+					<keyExpression><![CDATA[$F{tipo}]]></keyExpression>
+					<valueExpression><![CDATA[$F{numero}]]></valueExpression>
+					<labelExpression><![CDATA[$F{numero}.toString()]]></labelExpression>
+				</pieDataset>
+				<piePlot>
+					<plot/>
+					<itemLabel/>
+				</piePlot>
+			</pieChart>
+		</band>
+		<band height="141">
+			<printWhenExpression><![CDATA[!$P{datasource1}.isEmpty()]]></printWhenExpression>
 			<frame>
-				<reportElement x="0" y="0" width="799" height="330" uuid="bc7d466e-608a-493d-b65a-9282c66485ef"/>
+				<reportElement x="473" y="0" width="323" height="138" uuid="ac8bdefb-e9f5-4bd1-846b-36b4a104813e"/>
 				<staticText>
-					<reportElement x="0" y="0" width="360" height="30" uuid="de07fb9a-f5ae-4355-b5e6-7336b72d13f3"/>
-					<textElement verticalAlignment="Middle">
-						<font fontName="Arial" size="12" isBold="true"/>
-					</textElement>
-					<text><![CDATA[Proyectos por año]]></text>
+					<reportElement x="208" y="0" width="107" height="20" uuid="e0d6168c-cd0b-46b9-ab0a-8fe3695ed4c7"/>
+					<textElement textAlignment="Right"/>
+					<text><![CDATA[Reporte creado por:]]></text>
 				</staticText>
-				<staticText>
-					<reportElement x="430" y="0" width="369" height="30" uuid="ce22f9fe-ded5-454e-a8b1-891120897c63"/>
-					<textElement verticalAlignment="Middle">
-						<font fontName="Arial" size="12" isBold="true"/>
+				<image hAlign="Center" vAlign="Middle" isLazy="true">
+					<reportElement x="1" y="18" width="318" height="61" uuid="9297ca39-5ded-4d24-93ca-db95b32e075a"/>
+					<imageExpression><![CDATA["http://localhost:8081/archivo/files/f/"+$P{firmaU}]]></imageExpression>
+				</image>
+				<textField>
+					<reportElement x="1" y="104" width="320" height="16" uuid="a2a43b48-a8a8-449b-b478-542571e13ffd"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
+						<font fontName="Arial" isBold="true" isItalic="true"/>
 					</textElement>
-					<text><![CDATA[Proyectos por estado]]></text>
-				</staticText>
-				<pieChart>
-					<chart evaluationTime="Report">
-						<reportElement x="428" y="30" width="370" height="300" uuid="c35bc585-e323-4054-8c58-01e2565d4b91"/>
-						<chartTitle/>
-						<chartSubtitle/>
-						<chartLegend/>
-					</chart>
-					<pieDataset>
-						<dataset>
-							<datasetRun subDataset="Estados" uuid="99589a6a-8c1f-43c9-af4c-2e39e2893d1b">
-								<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{datasource4})]]></dataSourceExpression>
-							</datasetRun>
-						</dataset>
-						<keyExpression><![CDATA[$F{tipo}]]></keyExpression>
-						<valueExpression><![CDATA[$F{numero}]]></valueExpression>
-						<labelExpression><![CDATA[$F{numero}.toString()]]></labelExpression>
-					</pieDataset>
-					<piePlot>
-						<plot/>
-						<itemLabel/>
-					</piePlot>
-				</pieChart>
-				<pieChart>
-					<chart evaluationTime="Report">
-						<reportElement x="4" y="30" width="421" height="300" uuid="56cd78e4-a55b-4269-902b-07dd718cc8fb"/>
-						<chartTitle/>
-						<chartSubtitle/>
-						<chartLegend/>
-					</chart>
-					<pieDataset>
-						<dataset>
-							<datasetRun subDataset="Tipos" uuid="aa8715d1-d595-4d96-a054-6d084ca54a1c">
-								<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{datasource6})]]></dataSourceExpression>
-							</datasetRun>
-						</dataset>
-						<keyExpression><![CDATA[$F{tipo}]]></keyExpression>
-						<valueExpression><![CDATA[$F{numero}]]></valueExpression>
-						<labelExpression><![CDATA[$F{numero}.toString()]]></labelExpression>
-					</pieDataset>
-					<piePlot>
-						<plot/>
-						<itemLabel/>
-					</piePlot>
-				</pieChart>
+					<textFieldExpression><![CDATA[$P{tipoU}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="1" y="122" width="320" height="16" uuid="d8b8083d-9f05-4a7a-bcb2-fb6540a071c2"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
+						<font fontName="Arial" isBold="true" isItalic="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{adicionalU}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="3" y="78" width="318" height="1" uuid="a83c70ae-279c-4577-aaa1-d6fb3d9871ec"/>
+					<graphicElement>
+						<pen lineWidth="3.0"/>
+					</graphicElement>
+				</line>
+				<textField>
+					<reportElement x="4" y="85" width="319" height="16" uuid="5f755c10-83d0-4a14-a027-f42aec18eadd"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
+						<font fontName="Arial" isBold="true" isItalic="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{nombreU}]]></textFieldExpression>
+				</textField>
 			</frame>
 		</band>
-		<band height="153">
+		<band height="50">
+			<printWhenExpression><![CDATA[$P{datasource1}.isEmpty()]]></printWhenExpression>
 			<staticText>
-				<reportElement x="0" y="10" width="100" height="20" uuid="b9f5be3e-7845-47b1-bae4-d951a8aa4a65"/>
-				<text><![CDATA[Reporte creado por:]]></text>
+				<reportElement x="0" y="4" width="799" height="30" forecolor="#ED5653" uuid="5d777c45-aeb2-4373-b70b-67e6af84222b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sin datos para mostrar]]></text>
 			</staticText>
-			<line>
-				<reportElement x="0" y="94" width="240" height="1" uuid="be3db481-94e5-4033-b8f3-233775d6f67f"/>
-			</line>
-			<image hAlign="Center" vAlign="Middle" isLazy="true">
-				<reportElement x="0" y="28" width="241" height="61" uuid="6cdf18aa-2e86-4037-9001-5fd74ec5824e"/>
-				<imageExpression><![CDATA["http://localhost:8081/archivo/files/f/"+$P{firmaU}]]></imageExpression>
-			</image>
-			<textField>
-				<reportElement x="1" y="100" width="320" height="16" uuid="db3274d3-eff3-438b-b3fa-8510de6ad7d1"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Arial"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{nombreU}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="0" y="118" width="320" height="16" uuid="2ac34d7a-2893-44cb-9ef8-7a00459d3a9c"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Arial"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{tipoU}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="0" y="136" width="320" height="16" uuid="16c5fd14-93c4-4900-b915-382eedecb71c"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Arial"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{adicionalU}]]></textFieldExpression>
-			</textField>
-			<image>
-				<reportElement x="440" y="40" width="350" height="105" uuid="6d8235aa-36a6-4500-a0ce-023d83c5d921"/>
-				<imageExpression><![CDATA["http://localhost:8081/archivo/files/i/logo_usbbog_2.png"]]></imageExpression>
-			</image>
 		</band>
 	</detail>
 	<pageFooter>
@@ -1514,7 +1578,7 @@
 			<textField>
 				<reportElement x="-2" y="5" width="800" height="20" uuid="64518859-d7d9-4f45-b8ec-ea7ea2d37154"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" size="8"/>
+					<font fontName="Arial" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>

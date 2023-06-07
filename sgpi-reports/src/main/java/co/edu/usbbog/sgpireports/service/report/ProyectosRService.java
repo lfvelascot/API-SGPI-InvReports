@@ -1,6 +1,7 @@
 package co.edu.usbbog.sgpireports.service.report;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,11 @@ public class ProyectosRService {
 		for (Semillero s : semilleros) {
 			salida.addAll(getProyectosSemillero(s.getProyectos()));
 		}
+		return orderSalida(salida);
+	}
+
+	private List<ProyectoR> orderSalida(List<ProyectoR> salida) {
+		Collections.sort(salida, Collections.reverseOrder());
 		return salida;
 	}
 
@@ -32,9 +38,9 @@ public class ProyectosRService {
 		List<ProyectoR> salida = new ArrayList<>();
 		for (Proyecto p : lista) {
 			salida.add(new ProyectoR(p.getTitulo(), p.getEstado(), p.getTipoProyecto().getNombre(), p.getDescripcion(),
-					p.getFechaInicio(), p.getFechaFin(), p.getMetodologia(), "", p.getSemillero().getNombre()));
+					p.getFechaInicio(), p.getFechaFin(), p.getMetodologia(), "", p.getSemillero().getNombre(),String.valueOf(p.getProductos().size())));
 		}
-		return salida;
+		return orderSalida(salida);
 	}
 
 	public List<ProyectoR> getProyectosSemilleroE(List<Proyecto> lista) {
@@ -46,7 +52,7 @@ public class ProyectosRService {
 						p.getSemillero().getNombre()));
 			}
 		}
-		return salida;
+		return orderSalida(salida);
 	}
 
 	public List<ProyectoR> getProyectosSemilleroC(List<Proyecto> lista) {
@@ -58,7 +64,7 @@ public class ProyectosRService {
 						p.getSemillero().getNombre()));
 			}
 		}
-		return salida;
+		return orderSalida(salida);
 	}
 
 	public List<ProyectoR> getProyectosSemilleroCA(List<Proyecto> lista) {
@@ -74,7 +80,7 @@ public class ProyectosRService {
 				}
 			}
 		}
-		return salida;
+		return orderSalida(salida);
 	}
 
 	public List<ProyectoR> getProyectosGIC(List<Semillero> semilleros) {
@@ -82,7 +88,7 @@ public class ProyectosRService {
 		for (Semillero s : semilleros) {
 			salida.addAll(getProyectosSemilleroC(s.getProyectos()));
 		}
-		return salida;
+		return orderSalida(salida);
 	}
 
 	public List<ProyectoR> getProyectosGICA(List<Semillero> semilleros) {
@@ -90,7 +96,7 @@ public class ProyectosRService {
 		for (Semillero s : semilleros) {
 			salida.addAll(getProyectosSemilleroCA(s.getProyectos()));
 		}
-		return salida;
+		return orderSalida(salida);
 	}
 
 	public int numProyectosSinProductoSemillero(List<Proyecto> lista) {
@@ -139,7 +145,7 @@ public class ProyectosRService {
 		for (Semillero s : semilleros) {
 			salida.addAll(getProyectosSemilleroE(s.getProyectos()));
 		}
-		return salida;
+		return orderSalida(salida);
 	}
 
 	public List<ProyectoR> getProyectosActivosSemillero(List<Proyecto> lista) {
@@ -151,7 +157,7 @@ public class ProyectosRService {
 						p.getSemillero().getNombre()));
 			}
 		}
-		return salida;
+		return orderSalida(salida);
 	}
 
 	public List<ProyectoR> getProyectosActivosGI(List<Semillero> semilleros) {
@@ -159,7 +165,7 @@ public class ProyectosRService {
 		for (Semillero s : semilleros) {
 			salida.addAll(getProyectosActivosSemillero(s.getProyectos()));
 		}
-		return salida;
+		return orderSalida(salida);
 	}
 
 	public List<ProyectoR> getProyectosFinGI(List<Semillero> semilleros) {
@@ -167,7 +173,7 @@ public class ProyectosRService {
 		for (Semillero s : semilleros) {
 			salida.addAll(getProyectosFinSemillero(s.getProyectos()));
 		}
-		return salida;
+		return orderSalida(salida);
 	}
 
 	public List<ProyectoR> getProyectosFinSemillero(List<Proyecto> lista) {
@@ -179,7 +185,7 @@ public class ProyectosRService {
 						p.getSemillero().getNombre()));
 			}
 		}
-		return salida;
+		return orderSalida(salida);
 	}
 
 	public int countProyectosFacultadFin(List<Proyecto> lista) {
@@ -206,9 +212,31 @@ public class ProyectosRService {
 		List<ProyectoR> salida = new ArrayList<>();
 		for (Proyecto p : lista) {
 			salida.add(new ProyectoR(p.getTitulo(), p.getEstado(), p.getTipoProyecto().getNombre(), p.getDescripcion(),
-					p.getFechaInicio(), p.getFechaFin(), p.getMetodologia(), "", p.getSemillero().getNombre()));
+					p.getFechaInicio(), p.getFechaFin(), p.getMetodologia(), "", p.getSemillero().getGrupoInvestigacion().getNombre()));
 		}
-		return salida;
+		return orderSalida(salida);
+	}
+
+	public List<ProyectoR> getProyectosPresSem(List<Proyecto> proyectos) {
+		List<ProyectoR> salida = new ArrayList<>();
+		for (Proyecto p : proyectos) {
+			if (!p.getPresupuestos().isEmpty()) {
+				salida.add(new ProyectoR(p.getTitulo(), p.getEstado(), p.getTipoProyecto().getNombre(),
+						p.getDescripcion(), p.getFechaInicio(), p.getFechaFin(), p.getMetodologia(), "",
+						p.getSemillero().getNombre()));
+			}
+		}
+		return orderSalida(salida);
+	}
+
+	public List<ProyectoR> getProyectosPresGI(List<Semillero> semilleros) {
+		List<ProyectoR> salida = new ArrayList<>();
+		for (Semillero p : semilleros) {
+			if (!p.getProyectos().isEmpty()) {
+				salida.addAll(getProyectosPresSem(p.getProyectos()));
+			}
+		}
+		return orderSalida(salida);
 	}
 
 

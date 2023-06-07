@@ -7,6 +7,7 @@ package co.edu.usbbog.sgpireports.model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -24,6 +25,7 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import co.edu.usbbog.sgpireports.model.datamodels.PresupuestoR;
 import net.minidev.json.JSONObject;
 
 /**
@@ -40,7 +42,7 @@ import net.minidev.json.JSONObject;
     , @NamedQuery(name = "Producto.findByTipoProducto", query = "SELECT p FROM Producto p WHERE p.tipoProducto = :tipoProducto")
     , @NamedQuery(name = "Producto.findByUrlRepo", query = "SELECT p FROM Producto p WHERE p.urlRepo = :urlRepo")
 	/*, @NamedQuery(name = "Producto.findByFecha", query = "SELECT p FROM Producto p WHERE p.fecha = :fecha")*/})
-public class Producto implements Serializable {
+public class Producto implements Serializable, Comparable<Producto> {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -80,7 +82,6 @@ public class Producto implements Serializable {
         this.fecha=fecha;
     
     }
-
 
     public Integer getId() {
         return id;
@@ -183,4 +184,10 @@ public class Producto implements Serializable {
     	productoJson.put("proyecto",this.getProyecto().getId());
     	return productoJson;
     }
+
+
+	@Override
+	public int compareTo(Producto o) {
+		return getFecha().compareTo(o.getFecha());
+	}
 }

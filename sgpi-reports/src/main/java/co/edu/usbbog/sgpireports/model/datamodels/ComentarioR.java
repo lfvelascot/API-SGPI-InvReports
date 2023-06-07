@@ -1,12 +1,14 @@
 package co.edu.usbbog.sgpireports.model.datamodels;
 
-public class ComentarioR {
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+public class ComentarioR implements Comparable<ComentarioR>{
 	
 	private String producto, comentario, calificacion, fase, nivel, fecha;
 
 	public ComentarioR(String producto, String comentario, String calificacion, String fase, String nivel,
 			String fecha) {
-		super();
 		this.producto = producto;
 		this.comentario = comentario;
 		this.calificacion = calificacion;
@@ -63,6 +65,17 @@ public class ComentarioR {
 		this.fecha = fecha;
 	}
 	
+	
+	public LocalDate getDate() {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		LocalDate fecha = LocalDate.parse(this.getFecha(), formatter);
+		return fecha;
+	}
+
+	@Override
+	public int compareTo(ComentarioR o) {
+		return getDate().compareTo(o.getDate());
+	}
 	
 
 }

@@ -4,9 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-
 import co.edu.usbbog.sgpireports.model.MacroProyecto;
-import co.edu.usbbog.sgpireports.model.Materia;
 
 public interface IMacroProyectoRepository extends JpaRepository<MacroProyecto, Integer>{
 	/**

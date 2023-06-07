@@ -32,8 +32,11 @@
 				},
 				{
 					"name": "Filtro GIs x Facultad",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
-						"method": "POST",
+						"method": "GET",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -62,8 +65,11 @@
 				},
 				{
 					"name": "Filtro Semilleros x Gi",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
-						"method": "POST",
+						"method": "GET",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -93,8 +99,11 @@
 				},
 				{
 					"name": "Filtro Programas x Facultad",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
-						"method": "POST",
+						"method": "GET",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -123,8 +132,11 @@
 				},
 				{
 					"name": "Filtro Proyectos x Semillers",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
-						"method": "POST",
+						"method": "GET",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -195,8 +207,11 @@
 				},
 				{
 					"name": "Get Firma",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
-						"method": "POST",
+						"method": "GET",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -235,7 +250,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"dato\": \"4018\",\r\n  \"reporte\": \"0\",\r\n  \"usuario\" : \"1000689373\"\r\n}",
+							"raw": "{\r\n    \"dato\": \"4019\",\r\n    \"reporte\": \"8\",\r\n    \"usuario\": \"1000689373\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -264,7 +279,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"dato\": \"2001\",\r\n  \"reporte\": \"18\",\r\n  \"usuario\" : \"1000689373\"\r\n}",
+							"raw": "{\r\n  \"dato\": \"3003\",\r\n  \"reporte\": \"16\",\r\n  \"usuario\" : \"1000689373\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -293,7 +308,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"dato\": \"5005\",\r\n  \"reporte\": \"20\",\r\n  \"usuario\" : \"1000689373\"\r\n}",
+							"raw": "{\r\n  \"dato\": \"2001\",\r\n  \"reporte\": \"18\",\r\n  \"usuario\" : \"1000689373\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -322,7 +337,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"dato\": \"1001\",\r\n  \"reporte\": \"19\",\r\n  \"usuario\" : \"1000689373\"\r\n}",
+							"raw": "{\r\n  \"dato\": \"1002\",\r\n  \"reporte\": \"19\",\r\n  \"usuario\" : \"1000689373\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -375,8 +390,11 @@
 				},
 				{
 					"name": "Get Reporte",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
-						"method": "POST",
+						"method": "GET",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -430,8 +448,11 @@
 				},
 				{
 					"name": "Get Semilleros x Programa",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
-						"method": "POST",
+						"method": "GET",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -460,8 +481,11 @@
 				},
 				{
 					"name": "Get Proyectos x Estado",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
-						"method": "POST",
+						"method": "GET",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -503,6 +527,59 @@
 							"path": [
 								"info",
 								"proyecto"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get GIs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/info/gi",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"info",
+								"gi"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get GIs x Facultad",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"facultad\": 1001\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/info/gi/facultad",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"info",
+								"gi",
+								"facultad"
 							]
 						}
 					},

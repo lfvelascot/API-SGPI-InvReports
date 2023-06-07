@@ -3,6 +3,7 @@ package co.edu.usbbog.sgpireports.service.report;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -70,7 +71,7 @@ public class ProductosRService {
 				}
 			}
 		}
-		return salida;
+		return ordenarSalida(salida);
 	}
 
 	public List<ProductoR> getProductosProyectosActGI(List<Semillero> semilleros) {
@@ -78,7 +79,7 @@ public class ProductosRService {
 		for (Semillero s : semilleros) {
 			salida.addAll(getProductosProyectosActSemillero(s.getProyectos()));
 		}
-		return salida;
+		return ordenarSalida(salida);
 	}
 
 	public List<ProductoR> getProductosProyectosFinGI(List<Semillero> semilleros) {
@@ -86,7 +87,7 @@ public class ProductosRService {
 		for (Semillero s : semilleros) {
 			salida.addAll(getProductosProyectosFin(s.getProyectos()));
 		}
-		return salida;
+		return ordenarSalida(salida);
 	}
 
 	public List<ProductoR> getProductosProyecto(List<Producto> productos) {
@@ -95,7 +96,13 @@ public class ProductosRService {
 			salida.add(new ProductoR(p.getProyecto().getTitulo(), p.getTituloProducto(), p.getTipoProducto(), p.getUrlRepo(),
 					getFechaFormateada(p.getFecha())));
 		}
-		return salida;
+		return ordenarSalida(salida);
+	}
+
+	
+	private List<ProductoR> ordenarSalida(List<ProductoR> productos) {
+		Collections.sort(productos, Collections.reverseOrder());
+		return productos;
 	}
 
 	public List<ProductoR> getProductosProyectosSemConv(List<Proyecto> lista) {
@@ -108,7 +115,7 @@ public class ProductosRService {
 				}
 			}
 		}
-		return salida;
+		return ordenarSalida(salida);
 	}
 	
 	public List<ProductoR> getProductosProyectosSemConvA(List<Proyecto> lista) {
@@ -123,7 +130,7 @@ public class ProductosRService {
 				}
 			}
 		}
-		return salida;
+		return ordenarSalida(salida);
 	}
 
 	public List<ProductoR> getProductosProyectosGIConv(List<Semillero> semilleros) {
@@ -131,7 +138,7 @@ public class ProductosRService {
 		for (Semillero s : semilleros) {
 			salida.addAll(getProductosProyectosSemConv(s.getProyectos()));
 		}
-		return salida;
+		return ordenarSalida(salida);
 	}
 	
 	public List<ProductoR> getProductosProyectosGIConvA(List<Semillero> semilleros) {
@@ -139,7 +146,7 @@ public class ProductosRService {
 		for (Semillero s : semilleros) {
 			salida.addAll(getProductosProyectosSemConvA(s.getProyectos()));
 		}
-		return salida;
+		return ordenarSalida(salida);
 	}
 
 	public List<ProductoR> getProductosProyectosESem(List<Proyecto> proyectos) {
@@ -149,7 +156,7 @@ public class ProductosRService {
 				salida.addAll(getProductosProyecto(p.getProductos()));
 			}
 		}
-		return salida;
+		return ordenarSalida(salida);
 	}
 
 	public List<ProductoR> getProductosProyectosEGI(List<Semillero> semilleros) {
@@ -157,7 +164,7 @@ public class ProductosRService {
 		for (Semillero s : semilleros) {
 			salida.addAll(getProductosProyectosESem(s.getProyectos()));
 		}
-		return salida;
+		return ordenarSalida(salida);
 	}
 
 }

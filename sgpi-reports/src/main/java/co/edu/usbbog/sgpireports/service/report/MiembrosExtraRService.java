@@ -2,6 +2,7 @@ package co.edu.usbbog.sgpireports.service.report;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,11 +30,19 @@ public class MiembrosExtraRService {
 	public List<MiembrosExtra> getMiembrosSemilleroExtra(List<Usuario> aux) {
 		List<MiembrosExtra> salida = new ArrayList<>();
 		for (Usuario u : aux) {
-			salida.add(new MiembrosExtra(u.getNombreCompleto(), u.getTiposUsuario().get(0).getNombre(),
+			var x = new MiembrosExtra(u.getNombreCompleto(), u.getTiposUsuario().get(0).getNombre(),
 					String.valueOf(pa.contProyectosPorUsuario(u.getCedula())),
 					String.valueOf(pe.countParticipacionesPorUsuario(u.getCedula())),
-					String.valueOf(c.CountParticpacionesEnConvocatorias(u.getCedula()))));
+					String.valueOf(c.CountParticpacionesEnConvocatorias(u.getCedula())));
+			x.setSemillero(u.getSemilleroId().getNombre());
+			salida.add(x);
+			
 		}
+		return orderSalida(salida);
+	}
+
+	private List<MiembrosExtra> orderSalida(List<MiembrosExtra> salida) {
+		Collections.sort(salida, Collections.reverseOrder());
 		return salida;
 	}
 
@@ -47,15 +56,15 @@ public class MiembrosExtraRService {
 						String.valueOf(c.CountParticpacionesEnConvocatorias(u.getCedula()))));
 			}
 		}
-		return salida;
+		return orderSalida(salida);
 	}
 
 	public List<MiembrosExtra> getMiembrosGIExtraInv(List<Semillero> semilleros) {
 		List<MiembrosExtra> salida = new ArrayList<>();
 		for (Semillero u : semilleros) {
-			salida.addAll(getMiembrosSemilleroExtraInv(u.getUsuarios()));
+			salida.addAll(getMiembrosSemilleroExtra(u.getUsuarios()));
 		}
-		return salida;
+		return orderSalida(salida);
 	}
 
 }

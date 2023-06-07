@@ -3,10 +3,9 @@ package co.edu.usbbog.sgpireports.service.report;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import co.edu.usbbog.sgpireports.model.Participaciones;
@@ -16,25 +15,34 @@ import co.edu.usbbog.sgpireports.model.datamodels.EventoR;
 
 @Service
 public class EventosRService {
-	
-	public Logger logger = LoggerFactory.getLogger(EventosRService.class);
 
 	public List<EventoR> getProyectosEventos(List<Proyecto> lista) {
 		List<EventoR> salida = new ArrayList<>();
 		for(Proyecto p : lista) {
 			if(!p.getParticipaciones().isEmpty()) {
 				for(Participaciones pp : p.getParticipaciones()) {
-					salida.add(new EventoR(p.getTitulo(),
+					var x = new EventoR(p.getTitulo(),
 							pp.getEvento().getNombre(),
 							getFechaFormateada(pp.getEvento().getFecha()),
 							pp.getEvento().getEntidad(),
-							pp.getEvento().getEstado()));
+							pp.getEvento().getEstado());
+					if(pp.getReconocimientos() != null) {
+						x.setSemillero(pp.getReconocimientos());
+					} else {
+						x.setSemillero("");
+					}
+					salida.add(x);
 				}
 			}
 		}
-		return salida;
+		return orderParticipaciones(salida);
 	}
 	
+	private List<EventoR> orderParticipaciones(List<EventoR> participaciones) {
+		Collections.sort(participaciones, Collections.reverseOrder());
+		return participaciones;
+	}
+
 	public List<EventoR> getProyectosEventosGI(List<Semillero> semilleros) {
 		List<EventoR> salida = new ArrayList<>();
 		for(Semillero s : semilleros) {
@@ -42,7 +50,7 @@ public class EventosRService {
 				salida.addAll(getProyectosEventos(s.getProyectos()));
 			}
 		}
-		return salida;
+		return orderParticipaciones(salida);
 	}
 
 	private String getFechaFormateada(LocalDate fecha) {
@@ -50,7 +58,7 @@ public class EventosRService {
 	}
 
 
-	public Object getParticipacionesProyecto(List<Participaciones> participaciones) {
+	public List<EventoR> getParticipacionesProyecto(List<Participaciones> participaciones) {
 		List<EventoR> salida = new ArrayList<>();
 		for(Participaciones pp : participaciones) {
 			EventoR x = new EventoR("",
@@ -63,7 +71,7 @@ public class EventosRService {
 			}
 			salida.add(x);
 		}
-		return salida;
+		return orderParticipaciones(salida);
 	}
 
 }

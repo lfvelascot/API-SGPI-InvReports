@@ -7,8 +7,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -21,7 +19,6 @@ public class FileStorageService implements IFileStorageService {
 	private final Path rootFirmas = Paths.get("firmas");
 	private final Path rootImagenes = Paths.get("Imagenes");
 
-	public Logger logger = LoggerFactory.getLogger(FileStorageService.class);
 	private Path rootReporte = Paths.get("reportes");
 
 	@Override
@@ -33,6 +30,9 @@ public class FileStorageService implements IFileStorageService {
 			if (!Files.exists(rootFirmas)) {
 				Files.createDirectory(rootFirmas);
 			}
+			if (!Files.exists(rootImagenes)) {
+				Files.createDirectory(rootImagenes);
+			}
 		} catch (IOException e) {
 			throw new RuntimeException("Could not initialize folder for upload!");
 		}
@@ -43,11 +43,9 @@ public class FileStorageService implements IFileStorageService {
 		try {
 			String nombre = file.getOriginalFilename();
 			if (validateFirma(file)) {
-				logger.info("Si entro " + nombre);
 				Files.copy(file.getInputStream(), this.rootFirmas.resolve("Firma-" + usuario + ".png"));
 				return true;
 			} else {
-				logger.info("No entro " + nombre);
 				return false;
 			}
 		} catch (Exception e) {

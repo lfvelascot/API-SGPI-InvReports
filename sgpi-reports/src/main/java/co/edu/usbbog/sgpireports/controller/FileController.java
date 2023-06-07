@@ -1,7 +1,7 @@
 package co.edu.usbbog.sgpireports.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -25,7 +25,7 @@ import co.edu.usbbog.sgpireports.model.Usuario;
 import co.edu.usbbog.sgpireports.service.FileStorageService;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = {"http://localhost:3000"})
 @RequestMapping("/archivo")
 public class FileController {
 
@@ -34,48 +34,97 @@ public class FileController {
 	@Autowired
 	private IGestionUsuariosService iGestionUsuariosService;
 
-	public Logger logger = LoggerFactory.getLogger(FileController.class);
+	@Autowired
+	private HttpServletRequest request;
 
+	/**
+	 * Valida el acceso a las peticiones para hacerlos solo desde el equipo local
+	 * @return boolean validando el permiso de acceso desde la IP remota del cliente
+	 */
+	private boolean isValid() {
+		String ipAddress = request.getHeader("X-Forward-For");
+		if (ipAddress == null) {
+			ipAddress = request.getRemoteAddr();
+		}
+		return ipAddress.equals("0:0:0:0:0:0:0:1") || ipAddress.equals("127.0.0.1");
+	}
+	/**
+	 * Carga de la firma de los usuarios
+	 * @param nombre del archivo
+	 * @return Respuesta HTTP 
+	 */
 	// metodo utilizado para cargar el archivo en el aplicativo
 	@PostMapping("/upload")
 	public ResponseEntity<ResponseMessage> cargarFirma(@RequestParam("file") MultipartFile file,
 			@RequestParam("usuario") String usuario) {
-		String message = "ERROR CARGA : El tamaño o formato del archivo no es valido";
-		Usuario user = iGestionUsuariosService.buscarUsuario(usuario);
-		if (user != null) {
-			try {
-				if (user.getFirma() == null) {
-					if (storageService.save(file, usuario)) {
-						message = "OK 1";
-						iGestionUsuariosService.saveFirma(usuario);
-						return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+		if (isValid()) {
+			String message = "ERROR CARGA : El tamaño o formato del archivo no es valido";
+			Usuario user = iGestionUsuariosService.buscarUsuario(usuario);
+			var salida = ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
+			if (user != null) {
+				try {
+					if (user.getFirma() == null) {
+						if (storageService.save(file, usuario)) {
+							iGestionUsuariosService.saveFirma(usuario);
+							return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+						} else {
+							return salida;
+						}
 					} else {
-						return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseMessage(message));
+						if (storageService.update(file, usuario)) {
+							return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+						} else {
+							return salida;
+						}
 					}
-				} else {
-					if (storageService.update(file, usuario)) {
-						message = "OK 2";
-						return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
-					} else {
-						return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseMessage(message));
-					}
+				} catch (Exception e) {
+					return salida;
 				}
-			} catch (Exception e) {
-				return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
+			} else {
+				return salida;
 			}
 		} else {
-			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ResponseMessage(""));
 		}
-
 	}
 
+	/**
+	 * Extraer las firmas recibidas de los usuarios
+	 * @param nombre del archivo
+	 * @return archivo para su descarga o despliegue
+	 */
 	// metodo que obtendra el nombre del archivo
-	@PostMapping("/get/firma")
+	@GetMapping("/get/firma")
 	@ResponseBody
 	public ResponseEntity<Resource> getFileF(@RequestBody JSONObject entrada) {
-		Usuario user = iGestionUsuariosService.buscarUsuario(entrada.getAsString("cc"));
-		if (user.getFirma() != null) {
-			Resource file = storageService.loadF(user.getFirma().getNombre());
+		if (isValid()) {
+			Usuario user = iGestionUsuariosService.buscarUsuario(entrada.getAsString("cc"));
+			if (user.getFirma() != null) {
+				Resource file = storageService.loadF(user.getFirma().getNombre());
+				if (file != null) {
+					return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
+							"attachment; filename=\"" + file.getFilename() + "\"").body(file);
+				} else {
+					return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+				}
+			} else {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+			}
+		} else {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+		}
+	}
+
+	/**
+	 * Extraer los archivo de los reportes generados
+	 * @param nombre del archivo
+	 * @return archivo para su descarga o despliegue
+	 */
+	@GetMapping("/get/reporte")
+	@ResponseBody
+	public ResponseEntity<Resource> getFileR(@RequestBody JSONObject entrada) {
+		if (isValid()) {
+			Resource file = storageService.loadR(entrada.getAsString("reporte"));
 			if (file != null) {
 				return ResponseEntity.ok()
 						.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
@@ -84,50 +133,61 @@ public class FileController {
 				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 			}
 		} else {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 		}
 	}
 
-	// metodo que obtendra el nombre del archivo
-	@PostMapping("/get/reporte")
+	/**
+	 * Extraer las imagenes alojadas en la aplicación
+	 * @param nombre del archivo
+	 * @return archivo para su descarga o despliegue
+	 */
+	@GetMapping("/files/i/{filename:.+}")
 	@ResponseBody
-	public ResponseEntity<Resource> getFileR(@RequestBody JSONObject entrada) {
-		Resource file = storageService.loadR(entrada.getAsString("reporte"));
-		if (file != null) {
+	public ResponseEntity<Resource> getFileI(@PathVariable String filename) {
+		if (isValid()) {
+			Resource file = storageService.loadI(filename);
 			return ResponseEntity.ok()
 					.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
 					.body(file);
 		} else {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 		}
 	}
 
-	// metodo que obtendra el nombre del archivo
-	@GetMapping("/files/i/{filename:.+}")
-	@ResponseBody
-	public ResponseEntity<Resource> getFileI(@PathVariable String filename) {
-		Resource file = storageService.loadI(filename);
-		return ResponseEntity.ok()
-				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
-				.body(file);
-	}
-	
+	/**
+	 * Extraer las firmas recibidas de los usuarios
+	 * @param nombre del archivo
+	 * @return archivo para su descarga o despliegue
+	 */
 	@GetMapping("/files/f/{filename:.+}")
 	@ResponseBody
 	public ResponseEntity<Resource> getFileFirma(@PathVariable String filename) {
-		Resource file = storageService.loadF(filename);
-		return ResponseEntity.ok()
-				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
-				.body(file);
+		if (isValid()) {
+			Resource file = storageService.loadF(filename);
+			return ResponseEntity.ok()
+					.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
+					.body(file);
+		} else {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+		}
 	}
 
-	// metodo que obtendra el nombre del archivo
+	/**
+	 * Extraer los archivos asociados a los productos de los proyectos
+	 * @param nombre del archivo
+	 * @return archivo para su descarga o despliegue
+	 */
 	@GetMapping("/files/{filename:.+}")
 	@ResponseBody
 	public ResponseEntity<Resource> getFile(@PathVariable String filename) {
-		Resource file = storageService.load(filename);
-		return ResponseEntity.ok()
-				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
-				.body(file);
+		if (isValid()) {
+			Resource file = storageService.load(filename);
+			return ResponseEntity.ok()
+					.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
+					.body(file);
+		} else {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+		}
 	}
 }
