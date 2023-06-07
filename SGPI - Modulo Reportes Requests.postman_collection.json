@@ -164,6 +164,86 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Filtro GIs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/info/gis",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"info",
+								"gis"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Filtro Programas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/info/programas",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"info",
+								"programas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Filtro Semilleros",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/info/semilleros",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"info",
+								"semilleros"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Filtro Proyectos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/info/proyectos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"info",
+								"proyectos"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},

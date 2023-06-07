@@ -78,6 +78,25 @@ public class FiltrosController {
 		} 
 		return salida;
 	}
+	
+	
+	/**
+	 * verificar si existe un tipo de usuario
+	 * 
+	 * @param nombre
+	 * @return
+	 */
+	@GetMapping("/semilleros")
+	public JSONArray buscarSemillerosF() {
+		JSONArray salida = new JSONArray();
+		if(isValid()) {
+			List<Semillero> lista = filtros.buscarSemilleros();
+			for (Semillero p : lista) {
+				salida.add(p.toJsonF());
+			}
+		} 
+		return salida;
+	}
 
 	/**
 	 * Busca las facultades
@@ -105,6 +124,24 @@ public class FiltrosController {
 		JSONArray salida = new JSONArray();
 		if(isValid()) {
 			List<Programa> lista = filtros.buscarProgramasPorFacultad(Integer.valueOf(entrada.getAsString("facultad")));
+			for (Programa p : lista) {
+				salida.add(p.toJsonF());
+			}
+		}
+		return salida;
+	}
+	
+	
+	/**
+	 * Busca los programas de una facultad
+	 * @param entrada JSON con dato del ID de la facultad
+	 * @return JSONArray con los IDs y nombres de los programas
+	 */
+	@GetMapping("/programas")
+	public JSONArray buscarProgramas() {
+		JSONArray salida = new JSONArray();
+		if(isValid()) {
+			List<Programa> lista = filtros.buscarProgramas();
 			for (Programa p : lista) {
 				salida.add(p.toJsonF());
 			}
@@ -181,6 +218,18 @@ public class FiltrosController {
 		return salida;
 	}
 	
+	@GetMapping("/gis")
+	public JSONArray buscarGIsF() {
+		JSONArray salida = new JSONArray();
+		if(isValid()) {
+			List<GrupoInvestigacion> lista = filtros.buscarGruposInv();
+			for (GrupoInvestigacion p : lista) {
+				salida.add(p.toJsonF());
+			}
+		}
+		return salida;
+	}
+	
 	/**
 	 * Busca los semilleros de un grupo de investigación
 	 * @param entrada JSON con dato del ID del grupo de investigación
@@ -202,6 +251,22 @@ public class FiltrosController {
 	 * Busca proyectos publicos
 	 * @return JSONArray con los datos de los proyectos
 	 */
+	@GetMapping("/proyectos")
+	public JSONArray buscarProyectosF() {
+		JSONArray salida = new JSONArray();
+		if(isValid()) {
+			List<Proyecto> lista = filtros.buscarProyectos();
+			for (Proyecto p : lista) {
+				salida.add(p.toJsonF());
+			}
+		}
+		return salida;
+	}
+	
+	/**
+	 * Busca proyectos publicos
+	 * @return JSONArray con los datos de los proyectos
+	 */
 	@GetMapping("/proyecto")
 	public JSONArray buscarProyectos() {
 		JSONArray salida = new JSONArray();
@@ -213,6 +278,8 @@ public class FiltrosController {
 		}
 		return salida;
 	}
+	
+	
 
 	/**
 	 * Busca proyectos publicos por su estado
