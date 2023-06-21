@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -49,7 +50,7 @@ public class FiltrosController {
 	 * @param entrada JSON con dato del ID de un programa
 	 * @return JSONArray con los datos de los semilleros
 	 */
-	@GetMapping("/semillero/programa")
+	@PostMapping("/semillero/programa")
 	public JSONArray buscarSemillerosPorPrograma(@RequestBody JSONObject entrada) {
 		JSONArray salida = new JSONArray();
 		if (isValid()) {
@@ -115,7 +116,7 @@ public class FiltrosController {
 	 * @param entrada JSON con dato del ID de la facultad
 	 * @return JSONArray con los IDs y nombres de los programas
 	 */
-	@GetMapping("/facultad/programa")
+	@PostMapping("/facultad/programa")
 	public JSONArray buscarProgramasPorFacultad(@RequestBody JSONObject entrada) {
 		JSONArray salida = new JSONArray();
 		if (isValid()) {
@@ -149,7 +150,7 @@ public class FiltrosController {
 	 * @param entrada JSON con dato del ID del semillero
 	 * @return JSONArray con los IDs y nombres de los proyectos
 	 */
-	@GetMapping("/facultad/gi/semillero/proyecto")
+	@PostMapping("/facultad/gi/semillero/proyecto")
 	public JSONArray buscarProyectosPorSemillero(@RequestBody JSONObject entrada) {
 		JSONArray salida = new JSONArray();
 		if (isValid()) {
@@ -167,7 +168,7 @@ public class FiltrosController {
 	 * @param entrada JSON con dato del ID de la facultad
 	 * @return JSONArray con los IDs y nombres de los grupos de investigación
 	 */
-	@GetMapping("/facultad/gi")
+	@PostMapping("/facultad/gi")
 	public JSONArray buscarGIPorFacultadFiltro(@RequestBody JSONObject entrada) {
 		JSONArray salida = new JSONArray();
 		if (isValid()) {
@@ -185,7 +186,7 @@ public class FiltrosController {
 	 * @param entrada JSON con dato del ID del grupo de investigación
 	 * @return JSONArray con los IDs y nombres de los semilleros
 	 */
-	@GetMapping("/facultad/gi/semillero")
+	@PostMapping("/facultad/gi/semillero")
 	public JSONArray buscarSemillerosPorGIFiltro(@RequestBody JSONObject entrada) {
 		JSONArray salida = new JSONArray();
 		if (isValid()) {
@@ -234,7 +235,7 @@ public class FiltrosController {
 	 * @param entrada JSON con dato del ID del grupo de investigación
 	 * @return JSONArray con los IDs y nombres de los semilleros
 	 */
-	@GetMapping("/gi/facultad")
+	@PostMapping("/gi/facultad")
 	public JSONArray buscarGIsxFacultad(@RequestBody JSONObject entrada) {
 		JSONArray salida = new JSONArray();
 		if (isValid()) {
@@ -284,7 +285,7 @@ public class FiltrosController {
 	 * @param entrada JSON con dato del estado de los proyectos a buscar
 	 * @return JSONArray con los datos de los proyectos
 	 */
-	@GetMapping("/proyecto/estado")
+	@PostMapping("/proyecto/estado")
 	public JSONArray buscarProyectosPorEstado(@RequestBody JSONObject entrada) {
 		JSONArray salida = new JSONArray();
 		if (isValid()) {
