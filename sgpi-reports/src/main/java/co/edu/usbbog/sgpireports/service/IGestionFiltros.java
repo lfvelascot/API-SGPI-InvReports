@@ -8,7 +8,7 @@ import co.edu.usbbog.sgpireports.model.Programa;
 import co.edu.usbbog.sgpireports.model.Proyecto;
 import co.edu.usbbog.sgpireports.model.Semillero;
 
-public interface IGestionFiltros {
+public interface IGestionFiltros extends IListasJSON {
 
 	// Buscar todas las facultades
 	public List<Facultad> buscarFacultades();
@@ -22,14 +22,8 @@ public interface IGestionFiltros {
 	// Buscar todos los semilleros
 	public List<Semillero> buscarSemilleros();
 
-	// Buscar semilleros por programa
-	public List<Semillero> buscarSemillerosPorPrograma(int programa);
-
 	// Buscar todos los grupos de investigación
 	public List<GrupoInvestigacion> buscarGruposInv();
-
-	// Buscar grupos de investigación por prgrama
-	public List<GrupoInvestigacion> buscarGruposInvPorPrograma(int programa);
 
 	// Buscar Semilleros de un grupo de investigación
 	public List<Semillero> buscarSemillerosPorGrupoInv(int grupo);
@@ -45,14 +39,5 @@ public interface IGestionFiltros {
 
 	// Buscar proyectos
 	public List<Proyecto> buscarProyectos();
-
-	// Obtener listado de estados de proyectos
-	public List<String> buscarEstadoProyectos();
-
-	// Buscar Semilleros por GI
-	public List<Semillero> buscarSemillerosPorGI(int cc);
-
-	// Buscar proyectos por estado
-	public List<Proyecto> buscarProyectosPorEstado(String cc);
 
 }

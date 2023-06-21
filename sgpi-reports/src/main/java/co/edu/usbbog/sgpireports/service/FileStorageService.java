@@ -7,9 +7,6 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.tomcat.util.http.fileupload.FileUtils;
@@ -29,34 +26,6 @@ import net.sf.jasperreports.engine.JasperReport;
 @Service
 public class FileStorageService implements IFileStorageService {
 
-	// Carpetas para la manipulación de archivos
-	private final Path rootFirmas = Paths.get("Firmas");
-	private final Path rootReporte = Paths.get("Reportes");
-	private final Path rootPlantillas = Paths.get("Plantillas");
-	private final Path rootImagenes = Paths.get("Imagenes");
-
-	// Lista de nombres de los archivos de las plantillas para los reportes
-	private final List<String> nombrePlantillas = new ArrayList<>(Arrays.asList("reporteSemillero.jrxml",
-			"reporteSemilleroIntegrantes.jrxml", "reporteSemilleroProduccion.jrxml",
-			"reporteParticipacionesEventosSemillero.jrxml", "reporteParticipacionesConvSemillero.jrxml",
-			"reporteProyectosConvAbiertasSemillero.jrxml", "reporteSemilleroProyectosActivos.jrxml",
-			"reporteSemilleroProyectosFinalizados.jrxml", "reporteSemilleroInvestigadoresF.jrxml",
-			"reportePresupuestoSemillero.jrxml", "reporteGIProduccion.jrxml", "reporteGIIntegrantes.jrxml",
-			"reporteGI.jrxml", "reporteParticipacionesEventosGI.jrxml", "reporteParticipacionesConvGI.jrxml",
-			"reporteProyectosConvAbiertasGI.jrxml", "reporteGIProyectosActivos.jrxml",
-			"reporteGIProyectosFinalizados.jrxml", "reporteGIInvestigadoresF.jrxml", "reportePresupuestoGI.jrxml",
-			"reporteSemillerosxPrograma.jrxml", "reporteGIxFacultad.jrxml", "reporteProyecto.jrxml",
-			"reporteActividadSemillero.jrxml", "reporteActividadGI.jrxml"));
-
-	// Lista de formatos para los nombres de los reportes
-	private final List<String> nombrePDF = new ArrayList<>(Arrays.asList("RepSem-%s-%s.pdf", "RepSemInt-%s-%s.pdf",
-			"RepSemProd-%s-%s.pdf", "RepSemPartEventos-%s-%s.pdf", "RepSemPartConv-%s-%s.pdf",
-			"RepSemPartConvA-%s-%s.pdf", "RepSemProyAct-%s-%s.pdf", "RepSemProyFin-%s-%s.pdf",
-			"RepSemInvForm-%s-%s.pdf", "RepPresSem-%s-%s.pdf", "RepGIProd-%s-%s.pdf", "RepGIInt-%s-%s.pdf",
-			"RepGI-%s-%s.pdf", "RepGIPartEventos-%s-%s.pdf", "RepGIPartConv-%s-%s.pdf", "RepGIPartConvA-%s-%s.pdf",
-			"RepGIProyAct-%s-%s.pdf", "RepGIProyFin-%s-%s.pdf", "RepGIInvForm-%s-%s.pdf", "RepPresGI-%s-%s.pdf",
-			"RepSemsProg-%s-%s.pdf", "RepGIsFac-%s-%s.pdf", "RepProy-%s-%s.pdf", "RepActSem-%s-%s.pdf",
-			"RepActGI-%s-%s.pdf"));
 
 	// Inicializa las carpetas requeridas
 	public void init() {

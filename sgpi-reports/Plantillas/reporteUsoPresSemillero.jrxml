@@ -310,6 +310,7 @@
 	<parameter name="totalProyectosFinalizados" class="java.lang.String"/>
 	<parameter name="TotalProyectosActivos" class="java.lang.String"/>
 	<parameter name="totalMiembros" class="java.lang.String"/>
+	<parameter name="periodo" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -572,21 +573,21 @@
 				<reportElement x="500" y="10" width="1" height="120" uuid="fd2f777f-71bb-4d33-9f4f-1814a2da1d02"/>
 			</line>
 			<textField>
-				<reportElement x="530" y="51" width="249" height="30" uuid="d291c9a0-5c08-4c75-ade3-0733787f913a"/>
+				<reportElement x="530" y="42" width="249" height="30" uuid="d291c9a0-5c08-4c75-ade3-0733787f913a"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{totalMiembros}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="530" y="80" width="249" height="30" uuid="4ce502ce-5ad7-455f-b49c-284d0be04807"/>
+				<reportElement x="530" y="71" width="249" height="30" uuid="4ce502ce-5ad7-455f-b49c-284d0be04807"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{TotalProyectosActivos}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="594" y="29" width="120" height="22" forecolor="#B85C2A" uuid="b63c94c6-4835-4089-851e-0297cfd0488d"/>
+				<reportElement x="594" y="20" width="120" height="22" forecolor="#B85C2A" uuid="b63c94c6-4835-4089-851e-0297cfd0488d"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -598,6 +599,13 @@
 				</textElement>
 				<text><![CDATA[Datos de interes]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="530" y="100" width="249" height="30" uuid="f17be7ac-cab0-419c-94a5-a6cf2de1eb39"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{periodo}]]></textFieldExpression>
+			</textField>
 		</band>
 		<band height="164">
 			<printWhenExpression><![CDATA[!$P{datasource1}.isEmpty()]]></printWhenExpression>

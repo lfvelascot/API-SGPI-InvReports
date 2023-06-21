@@ -82,7 +82,7 @@ public class ReportesController {
 				int rep = Integer.valueOf(entrada.getAsString("reporte")),
 						inicio = Integer.valueOf(entrada.getAsString("inicio")),
 						fin = Integer.valueOf(entrada.getAsString("fin"));
-				if (rep == 23 || rep == 24) {
+				if (rep >= 23 && rep < 27) {
 					if (fin >= inicio) {
 						salida2.put("nombreDocumento",
 								reportes.crearReporteAnios(Integer.valueOf(entrada.getAsString("dato")), rep,

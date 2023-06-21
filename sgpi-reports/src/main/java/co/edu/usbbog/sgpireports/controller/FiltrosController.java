@@ -1,7 +1,5 @@
 package co.edu.usbbog.sgpireports.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,18 +10,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import co.edu.usbbog.sgpireports.model.Facultad;
-import co.edu.usbbog.sgpireports.model.GrupoInvestigacion;
-import co.edu.usbbog.sgpireports.model.Programa;
-import co.edu.usbbog.sgpireports.model.Proyecto;
-import co.edu.usbbog.sgpireports.model.Semillero;
 import co.edu.usbbog.sgpireports.service.IGestionFiltros;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 
 @RestController
 @CrossOrigin(origins = { "http://backend-node:3000" })
-@RequestMapping("/info")
+@RequestMapping("/filtro")
 public class FiltrosController {
 
 	@Autowired
@@ -45,39 +38,6 @@ public class FiltrosController {
 				request.getRemoteHost().contains("backend-node");
 	}
 
-	/**
-	 * Busca los semilleros de un programa
-	 * @param entrada JSON con dato del ID de un programa
-	 * @return JSONArray con los datos de los semilleros
-	 */
-	@PostMapping("/semillero/programa")
-	public JSONArray buscarSemillerosPorPrograma(@RequestBody JSONObject entrada) {
-		JSONArray salida = new JSONArray();
-		if (isValid()) {
-			List<Semillero> lista = filtros
-					.buscarSemillerosPorPrograma(Integer.valueOf(entrada.getAsString("programa")));
-			for (Semillero p : lista) {
-				salida.add(p.toJson());
-			}
-		}
-		return salida;
-	}
-
-	/**
-	 * Busca los semilleros
-	 * @return JSONArray con los datos de los semilleros
-	 */
-	@GetMapping("/semillero")
-	public JSONArray buscarSemilleros() {
-		JSONArray salida = new JSONArray();
-		if (isValid()) {
-			List<Semillero> lista = filtros.buscarSemilleros();
-			for (Semillero p : lista) {
-				salida.add(p.toJson());
-			}
-		}
-		return salida;
-	}
 
 	/**
 	 * Busca los semilleros
@@ -85,14 +45,12 @@ public class FiltrosController {
 	 */
 	@GetMapping("/semilleros")
 	public JSONArray buscarSemillerosF() {
-		JSONArray salida = new JSONArray();
 		if (isValid()) {
-			List<Semillero> lista = filtros.buscarSemilleros();
-			for (Semillero p : lista) {
-				salida.add(p.toJsonF());
-			}
+			return filtros.semillerosToJSONArray(filtros.buscarSemilleros());
+			
+		} else {
+			return null;
 		}
-		return salida;
 	}
 
 	/**
@@ -101,14 +59,11 @@ public class FiltrosController {
 	 */
 	@GetMapping("/facultad")
 	public JSONArray buscarFacultades() {
-		JSONArray salida = new JSONArray();
 		if (isValid()) {
-			List<Facultad> lista = filtros.buscarFacultades();
-			for (Facultad p : lista) {
-				salida.add(p.toJsonF());
-			}
+			return filtros.facultadesToJSONArray(filtros.buscarFacultades());
+		} else {
+			return null;
 		}
-		return salida;
 	}
 
 	/**
@@ -118,14 +73,11 @@ public class FiltrosController {
 	 */
 	@PostMapping("/facultad/programa")
 	public JSONArray buscarProgramasPorFacultad(@RequestBody JSONObject entrada) {
-		JSONArray salida = new JSONArray();
 		if (isValid()) {
-			List<Programa> lista = filtros.buscarProgramasPorFacultad(Integer.valueOf(entrada.getAsString("facultad")));
-			for (Programa p : lista) {
-				salida.add(p.toJsonF());
-			}
+			return filtros.programasToJSONArray(filtros.buscarProgramasPorFacultad(Integer.valueOf(entrada.getAsString("facultad"))));
+		} else {
+			return null;
 		}
-		return salida;
 	}
 
 	/**
@@ -135,14 +87,11 @@ public class FiltrosController {
 	 */
 	@GetMapping("/programas")
 	public JSONArray buscarProgramas() {
-		JSONArray salida = new JSONArray();
 		if (isValid()) {
-			List<Programa> lista = filtros.buscarProgramas();
-			for (Programa p : lista) {
-				salida.add(p.toJsonF());
-			}
+			return filtros.programasToJSONArray(filtros.buscarProgramas());
+		} else {
+			return null;
 		}
-		return salida;
 	}
 
 	/**
@@ -152,15 +101,12 @@ public class FiltrosController {
 	 */
 	@PostMapping("/facultad/gi/semillero/proyecto")
 	public JSONArray buscarProyectosPorSemillero(@RequestBody JSONObject entrada) {
-		JSONArray salida = new JSONArray();
 		if (isValid()) {
-			List<Proyecto> lista = filtros
-					.buscarProyectosPorSemillero(Integer.valueOf(entrada.getAsString("semillero")));
-			for (Proyecto p : lista) {
-				salida.add(p.toJsonF());
-			}
+			return filtros.proyectosToJSONArray(filtros
+					.buscarProyectosPorSemillero(Integer.valueOf(entrada.getAsString("semillero"))));
+		} else {
+			return null;
 		}
-		return salida;
 	}
 
 	/**
@@ -170,15 +116,12 @@ public class FiltrosController {
 	 */
 	@PostMapping("/facultad/gi")
 	public JSONArray buscarGIPorFacultadFiltro(@RequestBody JSONObject entrada) {
-		JSONArray salida = new JSONArray();
 		if (isValid()) {
-			List<GrupoInvestigacion> lista = filtros
-					.buscarGruposInvPorFacultad(Integer.valueOf(entrada.getAsString("facultad")));
-			for (GrupoInvestigacion p : lista) {
-				salida.add(p.toJsonF());
-			}
+			return filtros.gruposToJSONArray(filtros
+					.buscarGruposInvPorFacultad(Integer.valueOf(entrada.getAsString("facultad"))));
+		} else {
+			return null;
 		}
-		return salida;
 	}
 
 	/**
@@ -188,65 +131,26 @@ public class FiltrosController {
 	 */
 	@PostMapping("/facultad/gi/semillero")
 	public JSONArray buscarSemillerosPorGIFiltro(@RequestBody JSONObject entrada) {
-		JSONArray salida = new JSONArray();
 		if (isValid()) {
-			List<Semillero> lista = filtros.buscarSemillerosPorGrupoInv(Integer.valueOf(entrada.getAsString("gi")));
-			for (Semillero p : lista) {
-				salida.add(p.toJsonF());
-			}
+			return filtros.semillerosToJSONArray(filtros.buscarSemillerosPorGrupoInv(Integer.valueOf(entrada.getAsString("gi"))));
+		} else {
+			return null;
 		}
-		return salida;
 	}
 
-	/**
-	 * Busca los semilleros de un grupo de investigación
-	 * @param entrada JSON con dato del ID del grupo de investigación
-	 * @return JSONArray con los IDs y nombres de los semilleros
-	 */
-	@GetMapping("/gi")
-	public JSONArray buscarGIs() {
-		JSONArray salida = new JSONArray();
-		if (isValid()) {
-			List<GrupoInvestigacion> lista = filtros.buscarGruposInv();
-			for (GrupoInvestigacion p : lista) {
-				salida.add(p.toJson());
-			}
-		}
-		return salida;
-	}
 	/**
 	 * Busca los grupos de investigación
 	 * @return JSONArray con los IDs y nombres de los grupos de investigación
 	 */
 	@GetMapping("/gis")
 	public JSONArray buscarGIsF() {
-		JSONArray salida = new JSONArray();
 		if (isValid()) {
-			List<GrupoInvestigacion> lista = filtros.buscarGruposInv();
-			for (GrupoInvestigacion p : lista) {
-				salida.add(p.toJsonF());
-			}
+			return filtros.gruposToJSONArray(filtros.buscarGruposInv());
+		} else {
+			return null;
 		}
-		return salida;
 	}
 
-	/**
-	 * Busca los semilleros de un grupo de investigación
-	 * @param entrada JSON con dato del ID del grupo de investigación
-	 * @return JSONArray con los IDs y nombres de los semilleros
-	 */
-	@PostMapping("/gi/facultad")
-	public JSONArray buscarGIsxFacultad(@RequestBody JSONObject entrada) {
-		JSONArray salida = new JSONArray();
-		if (isValid()) {
-			List<GrupoInvestigacion> lista = filtros
-					.buscarGruposInvPorFacultad(Integer.valueOf(entrada.getAsString("facultad")));
-			for (GrupoInvestigacion p : lista) {
-				salida.add(p.toJson());
-			}
-		}
-		return salida;
-	}
 
 	/**
 	 * Busca todos proyectos
@@ -254,47 +158,12 @@ public class FiltrosController {
 	 */
 	@GetMapping("/proyectos")
 	public JSONArray buscarProyectosF() {
-		JSONArray salida = new JSONArray();
 		if (isValid()) {
-			List<Proyecto> lista = filtros.buscarProyectos();
-			for (Proyecto p : lista) {
-				salida.add(p.toJsonF());
-			}
+			return filtros.proyectosToJSONArray(filtros.buscarProyectos());
+		} else {
+			return null;
 		}
-		return salida;
 	}
 
-	/**
-	 * Busca proyectos publicos
-	 * @return JSONArray con los datos de los proyectos
-	 */
-	@GetMapping("/proyecto")
-	public JSONArray buscarProyectos() {
-		JSONArray salida = new JSONArray();
-		if (isValid()) {
-			List<Proyecto> lista = filtros.buscarProyectos();
-			for (Proyecto p : lista) {
-				salida.add(p.toJson());
-			}
-		}
-		return salida;
-	}
-
-	/**
-	 * Busca proyectos publicos por su estado
-	 * @param entrada JSON con dato del estado de los proyectos a buscar
-	 * @return JSONArray con los datos de los proyectos
-	 */
-	@PostMapping("/proyecto/estado")
-	public JSONArray buscarProyectosPorEstado(@RequestBody JSONObject entrada) {
-		JSONArray salida = new JSONArray();
-		if (isValid()) {
-			List<Proyecto> lista = filtros.buscarProyectosPorEstado(entrada.getAsString("estado"));
-			for (Proyecto p : lista) {
-				salida.add(p.toJson());
-			}
-		}
-		return salida;
-	}
 
 }

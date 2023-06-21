@@ -85,8 +85,6 @@ public class ReportesService implements IReportesService {
 	private CompraRService compras;
 	@Autowired
 	private IFileStorageService archivo;
-	
-	private MiselaneaService extras = new MiselaneaService();
 
 	public String crearReporte(int cc, int rep, String usuario) throws JRException, IOException {
 		if (rep < 23 && rep >= 0 && !usuario.isEmpty()) {
@@ -100,7 +98,7 @@ public class ReportesService implements IReportesService {
 			return "Sin reporte";
 		}
 	}
-	
+
 	private Map<String, Object> getDatos(int cc, int rep, String usuario) {
 		Semillero s = null;
 		GrupoInvestigacion g = null;
@@ -190,8 +188,8 @@ public class ReportesService implements IReportesService {
 		}
 	}
 
-	
-	public String crearReporteAnios(int cc, int rep, String usuario, int anioInicio, int anioFin) throws JRException, IOException {
+	public String crearReporteAnios(int cc, int rep, String usuario, int anioInicio, int anioFin)
+			throws JRException, IOException {
 		if (!usuario.isEmpty()) {
 			Map<String, Object> datos = getDatosAnios(cc, rep, usuario, anioInicio, anioFin);
 			if (datos != null) {
@@ -205,7 +203,7 @@ public class ReportesService implements IReportesService {
 	}
 
 	private Map<String, Object> getDatosAnios(int cc, int rep, String usuario, int anioInicio, int anioFin) {
-		if(anioFin < anioInicio) {
+		if (anioFin < anioInicio) {
 			return null;
 		}
 		Semillero s = null;
@@ -213,35 +211,78 @@ public class ReportesService implements IReportesService {
 		Map<String, Object> map = setDatosCreador(new HashMap<String, Object>(), usuario);
 		if (map == null) {
 			return null;
-		} else if (rep == 23){
+		} else if (rep == 23 || rep == 25) {
 			try {
 				s = semillero.getById(cc);
 				map = setDatosSem(map, s);
 			} catch (EntityNotFoundException e) {
 				return null;
 			}
-			return getDatosProyectosSemAnios(map, s, anioInicio, anioFin);
-		} else if(rep == 24) {
+		} else if (rep == 24 || rep == 26) {
 			try {
 				g = gi.getById(cc);
 				map = setDatosGi(map, g);
 			} catch (EntityNotFoundException e) {
 				return null;
 			}
-			return getDatosProyectosGIAnios(map, g, anioInicio, anioFin);
 		} else {
+			return null;
+		}
+		switch (rep) {
+		case 23:
+			return getDatosProyectosSemAnios(map, s, anioInicio, anioFin);
+		case 24:
+			return getDatosProyectosGIAnios(map, g, anioInicio, anioFin);
+		case 25:
+			return getDatosPresupuestoSemAnios(map, s, anioInicio, anioFin);
+		case 26:
+			return getDatosPresupuestoGIAnios(map, g, anioInicio, anioFin);
+		default:
 			return null;
 		}
 	}
 
-	private Map<String, Object> getDatosProyectosGIAnios(Map<String, Object> map,GrupoInvestigacion g, int anioInicio, int anioFin) {
-		String periodo = "("+String.valueOf(anioInicio)+"-"+String.valueOf(anioFin)+")";
-		List<Proyecto> general = proyecto.getProyectosGIAnios(g.getId(), anioInicio, anioFin+1);
-		List<Proyecto> prod = proyecto.getProyectosGIProdAnios(g.getId(), anioInicio, anioFin+1);
-		List<Proyecto> even = proyecto.getProyectosGIEvenAnios(g.getId(), anioInicio, anioFin+1);
-		List<Proyecto> conv = proyecto.getProyectosGIConvAnios(g.getId(), anioInicio, anioFin+1);
-		List<Proyecto> aux = proyectos.unificar(general, prod,even, conv);
-		map.put("datasource0", semilleros.getSemillerosGIAnio(aux, g.getSemilleros(),anioInicio, anioFin+1));
+	private Map<String, Object> getDatosPresupuestoGIAnios(Map<String, Object> map, GrupoInvestigacion g,
+			int anioInicio, int anioFin) {
+		String periodo = "(" + String.valueOf(anioInicio) + "-" + String.valueOf(anioFin) + ")";
+		List<Proyecto> general = proyecto.getProyectosGIPresAnios(g.getId(), anioInicio, anioFin + 1);
+		double totalPresupuesto = presupuesto.getTotalPresupuestoSem(general);
+		double totalCompras = compras.getTotalComprasSem(general);
+		map.put("datasource1", proyectos.getProyectosPresSem(general));
+		map.put("datasource2", presupuesto.getPresupuestosSem(general));
+		map.put("datasource3", compras.getComprasSem(general));
+		map.put("totalMiembros", "$ " + String.valueOf(totalPresupuesto) + " Total presupuestos");
+		map.put("TotalProyectosActivos", "$ " + String.valueOf(totalCompras) + " Total compras");
+		map.put("n", g.getNombre() + "-" + periodo);
+		map.put("periodo", "Periodo: "+periodo);
+		return map;
+	}
+
+	private Map<String, Object> getDatosPresupuestoSemAnios(Map<String, Object> map, Semillero s, int anioInicio,
+			int anioFin) {
+		String periodo = "(" + String.valueOf(anioInicio) + "-" + String.valueOf(anioFin) + ")";
+		List<Proyecto> general = proyecto.getProyectosSemPresAnios(s.getId(), anioInicio, anioFin + 1);
+		double totalPresupuesto = presupuesto.getTotalPresupuestoSem(general);
+		double totalCompras = compras.getTotalComprasSem(general);
+		map.put("datasource1", proyectos.getProyectosPresSem(general));
+		map.put("datasource2", presupuesto.getPresupuestosSem(general));
+		map.put("datasource3", compras.getComprasSem(general));
+		map.put("totalMiembros", "$ " + String.valueOf(totalPresupuesto) + " Total presupuestos");
+		map.put("TotalProyectosActivos", "$ " + String.valueOf(totalCompras) + " Total compras");
+		map.put("n", s.getNombre() + "-" + periodo);
+		map.put("periodo", "Periodo: "+periodo);
+		return map;
+	}
+
+	private Map<String, Object> getDatosProyectosGIAnios(Map<String, Object> map, GrupoInvestigacion g, int anioInicio,
+			int anioFin) {
+		String periodo = "(" + String.valueOf(anioInicio) + "-" + String.valueOf(anioFin) + ")";
+		List<Proyecto> general = proyecto.getProyectosGIAnios(g.getId(), anioInicio, anioFin + 1);
+		List<Proyecto> prod = proyecto.getProyectosGIProdAnios(g.getId(), anioInicio, anioFin + 1);
+		List<Proyecto> even = proyecto.getProyectosGIEvenAnios(g.getId(), anioInicio, anioFin + 1);
+		List<Proyecto> conv = proyecto.getProyectosGIConvAnios(g.getId(), anioInicio, anioFin + 1);
+		List<Proyecto> aux = proyectos.unificar(general, prod, even, conv);
+		map.put("datasource0", semilleros.getSemillerosGIAnio(aux, g.getSemilleros(), anioInicio, anioFin + 1));
 		map.put("datasource1", proyectos.getProyectosSemillero(aux));
 		map.put("datasource2", participantes.getIntegrantes(aux));
 		map.put("datasource3", productos.getProductosSemillero(prod));
@@ -252,19 +293,20 @@ public class ReportesService implements IReportesService {
 		map.put("datasource8", datosTablas.getProyectosTipoFacultad(aux)); // Circulo
 		map.put("datasource9", datosTablas.getProyectosEstadosFacultad(aux)); // circulo
 		map.put("datasource10", lineas.getLineasInvGI(g));
-		map = grupos.getTotalesActividad(map, aux, anioInicio, anioFin+1);
-		map.put("n", g.getNombre()+"-"+periodo);
+		map = grupos.getTotalesActividad(map, aux, anioInicio, anioFin + 1);
+		map.put("n", g.getNombre() + "-" + periodo);
 		map.put("periodo", periodo);
 		return map;
 	}
 
-	private Map<String, Object> getDatosProyectosSemAnios(Map<String, Object> map,Semillero s, int anioInicio, int anioFin) {
-		String periodo = "("+String.valueOf(anioInicio)+"-"+String.valueOf(anioFin)+")";
-		List<Proyecto> general = proyecto.getProyectosSemAnios(s.getId(), anioInicio, anioFin+1);
-		List<Proyecto> prod = proyecto.getProyectosSemProdAnios(s.getId(), anioInicio, anioFin+1);
-		List<Proyecto> even = proyecto.getProyectosSemEvenAnios(s.getId(), anioInicio, anioFin+1);
-		List<Proyecto> conv = proyecto.getProyectosSemConvAnios(s.getId(), anioInicio, anioFin+1);
-		List<Proyecto> aux = proyectos.unificar(general, prod,even, conv);
+	private Map<String, Object> getDatosProyectosSemAnios(Map<String, Object> map, Semillero s, int anioInicio,
+			int anioFin) {
+		String periodo = "(" + String.valueOf(anioInicio) + "-" + String.valueOf(anioFin) + ")";
+		List<Proyecto> general = proyecto.getProyectosSemAnios(s.getId(), anioInicio, anioFin + 1);
+		List<Proyecto> prod = proyecto.getProyectosSemProdAnios(s.getId(), anioInicio, anioFin + 1);
+		List<Proyecto> even = proyecto.getProyectosSemEvenAnios(s.getId(), anioInicio, anioFin + 1);
+		List<Proyecto> conv = proyecto.getProyectosSemConvAnios(s.getId(), anioInicio, anioFin + 1);
+		List<Proyecto> aux = proyectos.unificar(general, prod, even, conv);
 		map.put("datasource1", proyectos.getProyectosSemillero(aux));
 		map.put("datasource2", participantes.getIntegrantes(aux));
 		map.put("datasource3", productos.getProductosSemillero(prod));
@@ -274,8 +316,8 @@ public class ReportesService implements IReportesService {
 		map.put("datasource7", datosTablas.getDatosporAnio(aux)); // Barras
 		map.put("datasource8", datosTablas.getProyectosTipoFacultad(aux)); // Circulo
 		map.put("datasource9", datosTablas.getProyectosEstadosFacultad(aux)); // circulo
-		map = semilleros.getSemilleroAnio(aux, anioInicio, anioFin+1, map);
-		map.put("n", s.getNombre()+"-"+periodo);
+		map = semilleros.getSemilleroAnio(aux, anioInicio, anioFin + 1, map);
+		map.put("n", s.getNombre() + "-" + periodo);
 		map.put("periodo", periodo);
 		return map;
 	}
@@ -868,7 +910,7 @@ public class ReportesService implements IReportesService {
 			for (Programa p : programas) {
 				fac += p.getNombre() + ", ";
 			}
-			fac = fac.substring(0, fac.length()-2);
+			fac = fac.substring(0, fac.length() - 2);
 			datosSemillero.put("adicionalU", fac);
 			return datosSemillero;
 		}
@@ -884,7 +926,7 @@ public class ReportesService implements IReportesService {
 			datosSemillero.put("adicionalU", fac);
 			return datosSemillero;
 		}
-		if(!u.getTiposUsuario().isEmpty()) {
+		if (!u.getTiposUsuario().isEmpty()) {
 			datosSemillero.put("tipoU", u.getTiposUsuario().get(0).getNombre());
 		} else {
 			datosSemillero.put("tipoU", "Sin dato");

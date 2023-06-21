@@ -142,6 +142,22 @@ public interface IProyectoRepository extends JpaRepository<Proyecto, Integer> {
 	@Query(value= "SELECT DISTINCT p.* FROM proyecto p INNER JOIN semillero s ON p.semillero = s.id INNER JOIN proyectos_convocatoria pc ON p.id = pc.proyectos LEFT JOIN convocatoria c ON pc.convocatoria = c.id WHERE YEAR(c.fecha_inicio) >= :inicio AND YEAR(c.fecha_inicio) < :fin OR YEAR(c.fecha_final) >= :inicio AND YEAR(c.fecha_final) <= :fin and s.grupo_investigacion = :sem ORDER BY p.fecha_inicio desc;",nativeQuery = true)
 	List<Proyecto> getProyectosGIConvAnios(@Param("sem") Integer id,@Param("inicio") Integer anioInicio,@Param("fin") Integer anioFin);
 
+	/**
+	 * busqueda de proyectos por Semilleros con datos en cierto periodo de años
+	 * @param proyectoId
+	 * @return
+	 */
+	@Query(value= "SELECT DISTINCT pro.* FROM presupuesto p INNER JOIN proyecto pro on p.proyecto = pro.id WHERE YEAR(p.fecha) >= :inicio AND YEAR(p.fecha) < :fin  and pro.semillero = :sem ORDER BY pro.fecha_inicio desc;",nativeQuery = true)
+	List<Proyecto> getProyectosSemPresAnios(@Param("sem") Integer id,@Param("inicio") Integer anioInicio,@Param("fin") Integer anioFin);
+	
+	/**
+	 * busqueda de proyectos por Semilleros con datos en cierto periodo de años
+	 * @param proyectoId
+	 * @return
+	 */
+	@Query(value= "SELECT DISTINCT pro.* FROM presupuesto p INNER JOIN proyecto pro on p.proyecto = pro.id INNER JOIN semillero s on pro.semillero = s.id WHERE YEAR(p.fecha) >=:inicio AND YEAR(p.fecha) <:fin and s.grupo_investigacion = :sem ORDER BY pro.fecha_inicio desc;",nativeQuery = true)
+	List<Proyecto> getProyectosGIPresAnios(@Param("sem") Integer id,@Param("inicio") Integer anioInicio,@Param("fin") Integer anioFin);
+	
 	
 	/**
 	 * busqueda de proyectos por Semillero

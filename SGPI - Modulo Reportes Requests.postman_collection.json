@@ -16,14 +16,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8081/info/facultad",
+							"raw": "http://localhost:8081/filtro/facultad",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8081",
 							"path": [
-								"info",
+								"filtro",
 								"facultad"
 							]
 						}
@@ -32,11 +32,8 @@
 				},
 				{
 					"name": "Filtro GIs x Facultad",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -48,14 +45,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8081/info/facultad/gi",
+							"raw": "http://localhost:8081/filtro/facultad/gi",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8081",
 							"path": [
-								"info",
+								"filtro",
 								"facultad",
 								"gi"
 							]
@@ -65,11 +62,8 @@
 				},
 				{
 					"name": "Filtro Semilleros x Gi",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -81,14 +75,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8081/info/facultad/gi/semillero",
+							"raw": "http://localhost:8081/filtro/facultad/gi/semillero",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8081",
 							"path": [
-								"info",
+								"filtro",
 								"facultad",
 								"gi",
 								"semillero"
@@ -99,11 +93,8 @@
 				},
 				{
 					"name": "Filtro Programas x Facultad",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -115,14 +106,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8081/info/facultad/programa",
+							"raw": "http://localhost:8081/filtro/facultad/programa",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8081",
 							"path": [
-								"info",
+								"filtro",
 								"facultad",
 								"programa"
 							]
@@ -132,11 +123,8 @@
 				},
 				{
 					"name": "Filtro Proyectos x Semillers",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -148,14 +136,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8081/info/facultad/gi/semillero/proyecto",
+							"raw": "http://localhost:8081/filtro/facultad/gi/semillero/proyecto",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8081",
 							"path": [
-								"info",
+								"filtro",
 								"facultad",
 								"gi",
 								"semillero",
@@ -171,14 +159,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8081/info/gis",
+							"raw": "http://localhost:8081/filtro/gis",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8081",
 							"path": [
-								"info",
+								"filtro",
 								"gis"
 							]
 						}
@@ -191,14 +179,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8081/info/programas",
+							"raw": "http://localhost:8081/filtro/programas",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8081",
 							"path": [
-								"info",
+								"filtro",
 								"programas"
 							]
 						}
@@ -211,14 +199,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8081/info/semilleros",
+							"raw": "http://localhost:8081/filtro/semilleros",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8081",
 							"path": [
-								"info",
+								"filtro",
 								"semilleros"
 							]
 						}
@@ -231,14 +219,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8081/info/proyectos",
+							"raw": "http://localhost:8081/filtro/proyectos",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8081",
 							"path": [
-								"info",
+								"filtro",
 								"proyectos"
 							]
 						}
@@ -330,7 +318,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"dato\": \"4018\",\r\n    \"reporte\": \"0\",\r\n    \"usuario\": \"1000689373\"\r\n}",
+							"raw": "{\r\n    \"dato\": \"4018\",\r\n    \"reporte\": \"5\",\r\n    \"usuario\": \"1000456123\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -508,7 +496,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"dato\": \"4018\",\r\n    \"reporte\": \"0\",\r\n    \"usuario\": \"1000456123\",\r\n    \"inicio\": \"2022\",\r\n    \"fin\": \"2023\"\r\n}",
+							"raw": "{\r\n    \"dato\": \"3003\",\r\n    \"reporte\": \"26\",\r\n    \"usuario\": \"1000456123\",\r\n    \"inicio\": \"2022\",\r\n    \"fin\": \"2023\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -558,11 +546,8 @@
 				},
 				{
 					"name": "Get Semilleros x Programa",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -591,11 +576,8 @@
 				},
 				{
 					"name": "Get Proyectos x Estado",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -664,11 +646,8 @@
 				},
 				{
 					"name": "Get GIs x Facultad",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
