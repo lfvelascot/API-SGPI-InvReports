@@ -1,7 +1,5 @@
 package co.edu.usbbog.sgpireports.service.report;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -15,15 +13,17 @@ import co.edu.usbbog.sgpireports.model.datamodels.EventoR;
 
 @Service
 public class EventosRService {
+	
+	private MiselaneaService extras = new MiselaneaService();
 
 	public List<EventoR> getProyectosEventos(List<Proyecto> lista) {
 		List<EventoR> salida = new ArrayList<>();
 		for(Proyecto p : lista) {
 			if(!p.getParticipaciones().isEmpty()) {
 				for(Participaciones pp : p.getParticipaciones()) {
-					var x = new EventoR(p.getTitulo(),
+					EventoR x = new EventoR(p.getTitulo(),
 							pp.getEvento().getNombre(),
-							getFechaFormateada(pp.getEvento().getFecha()),
+							extras.getFechaFormateada(pp.getEvento().getFecha()),
 							pp.getEvento().getEntidad(),
 							pp.getEvento().getEstado());
 					if(pp.getReconocimientos() != null) {
@@ -53,17 +53,13 @@ public class EventosRService {
 		return orderParticipaciones(salida);
 	}
 
-	private String getFechaFormateada(LocalDate fecha) {
-		return  fecha.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));  //17-02-2022
-	}
-
 
 	public List<EventoR> getParticipacionesProyecto(List<Participaciones> participaciones) {
 		List<EventoR> salida = new ArrayList<>();
 		for(Participaciones pp : participaciones) {
 			EventoR x = new EventoR("",
 					pp.getEvento().getNombre(),
-					getFechaFormateada(pp.getEvento().getFecha()),
+					extras.getFechaFormateada(pp.getEvento().getFecha()),
 					pp.getEvento().getEntidad(),
 					pp.getEvento().getEstado());
 			if(pp.getReconocimientos() != null) {

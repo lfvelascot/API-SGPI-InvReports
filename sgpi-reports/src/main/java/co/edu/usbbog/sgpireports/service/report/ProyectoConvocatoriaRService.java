@@ -1,7 +1,5 @@
 package co.edu.usbbog.sgpireports.service.report;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -13,36 +11,22 @@ import co.edu.usbbog.sgpireports.model.ProyectosConvocatoria;
 import co.edu.usbbog.sgpireports.model.Semillero;
 import co.edu.usbbog.sgpireports.model.datamodels.ProyectosConvocatoriaR;
 
-
 @Service
 public class ProyectoConvocatoriaRService {
 
+	private MiselaneaService extras = new MiselaneaService();
 
 	public List<ProyectosConvocatoriaR> getProyectosConvAbiertas(List<Proyecto> lista) {
 		List<ProyectosConvocatoriaR> salida = new ArrayList<>();
 		for (Proyecto p : lista) {
 			List<ProyectosConvocatoria> aux2 = p.getProyectosConvocatoria();
-				for (ProyectosConvocatoria pc : aux2) {
-					if (pc.getConvocatoria().getEstado().equals("ABIERTA")) {
-						salida.add(new ProyectosConvocatoriaR(p.getTitulo(),
-								pc.getConvocatoria().getNombreConvocatoria(),
-								getFechaFormateada(pc.getConvocatoria().getFechaInicio()),
-								getFechaFormateada(pc.getConvocatoria().getFechaFinal()),
-								pc.getConvocatoria().getEntidad(), p.getSemillero().getNombre(),
-								pc.getIdProyecto()));
-					}
+			for (ProyectosConvocatoria pc : aux2) {
+				if (pc.getConvocatoria().getEstado().equals("ABIERTA")) {
+					salida.add(createObject(p,pc));
 				}
 			}
+		}
 		return ordenarSalida(salida);
-	}
-
-	private List<ProyectosConvocatoriaR> ordenarSalida(List<ProyectosConvocatoriaR> salida) {
-		Collections.sort(salida, Collections.reverseOrder());
-		return salida;
-	}
-
-	private String getFechaFormateada(LocalDate fecha) {
-		return fecha.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")); // 17-02-2022
 	}
 
 	public List<ProyectosConvocatoriaR> getProyectosConvAbiertasGI(List<Semillero> semilleros) {
@@ -68,11 +52,7 @@ public class ProyectoConvocatoriaRService {
 			if (!aux2.isEmpty()) {
 				for (ProyectosConvocatoria pc : aux2) {
 					if (!pc.getConvocatoria().getEstado().equals("ABIERTA")) {
-						salida.add(new ProyectosConvocatoriaR(p.getTitulo(),
-								pc.getConvocatoria().getNombreConvocatoria(),
-								getFechaFormateada(pc.getConvocatoria().getFechaInicio()),
-								getFechaFormateada(pc.getConvocatoria().getFechaFinal()),
-								pc.getConvocatoria().getEntidad(), p.getSemillero().getNombre(), pc.getIdProyecto()));
+						salida.add(createObject(p,pc));
 					}
 				}
 			}
@@ -80,26 +60,55 @@ public class ProyectoConvocatoriaRService {
 		return ordenarSalida(salida);
 	}
 
+	private ProyectosConvocatoriaR createObject(Proyecto p, ProyectosConvocatoria pc) {
+		return new ProyectosConvocatoriaR(
+				p.getTitulo(),
+				pc.getConvocatoria().getNombreConvocatoria(),
+				extras.getFechaFormateada(pc.getConvocatoria().getFechaInicio()),
+				extras.getFechaFormateada(pc.getConvocatoria().getFechaFinal()),
+				pc.getConvocatoria().getEntidad(),
+				p.getSemillero().getNombre(),
+				pc.getIdProyecto());
+	}
+
 	public List<ProyectosConvocatoriaR> getParticipacionesProyecto(List<ProyectosConvocatoria> proyectosConvocatoria) {
 		List<ProyectosConvocatoriaR> salida = new ArrayList<>();
 		for (ProyectosConvocatoria pc : proyectosConvocatoria) {
-				salida.add(new ProyectosConvocatoriaR(pc.getConvocatoria().getEstado(), pc.getConvocatoria().getNombreConvocatoria(),
-						getFechaFormateada(pc.getConvocatoria().getFechaInicio()),
-						getFechaFormateada(pc.getConvocatoria().getFechaFinal()), pc.getConvocatoria().getEntidad(), "",
-						pc.getIdProyecto()));
+			salida.add(new ProyectosConvocatoriaR(pc.getConvocatoria().getEstado(),
+					pc.getConvocatoria().getNombreConvocatoria(),
+					extras.getFechaFormateada(pc.getConvocatoria().getFechaInicio()),
+					extras.getFechaFormateada(pc.getConvocatoria().getFechaFinal()), pc.getConvocatoria().getEntidad(),
+					"", pc.getIdProyecto()));
 		}
 		return ordenarSalida(salida);
 	}
 
+	public List<ProyectosConvocatoriaR> getParticipacionesConv(List<Proyecto> aux) {
+		List<ProyectosConvocatoriaR> salida = new ArrayList<>();
+		for (Proyecto p : aux) {
+			List<ProyectosConvocatoria> aux2 = p.getProyectosConvocatoria();
+			if (!aux2.isEmpty()) {
+				for (ProyectosConvocatoria pc : aux2) {
+					salida.add(createObject(p,pc));
+				}
+			}
+		}
+		return ordenarSalida(salida);
+	}
+	
 	public int countConvocatorias(List<ProyectosConvocatoriaR> aux3) {
 		List<String> salida = new ArrayList<>();
-		for(var i : aux3) {
-			if(!salida.contains(i.getConvocatoria())) {
+		for (ProyectosConvocatoriaR i : aux3) {
+			if (!salida.contains(i.getConvocatoria())) {
 				salida.add(i.getConvocatoria());
 			}
 		}
 		return salida.size();
 	}
 
+	private List<ProyectosConvocatoriaR> ordenarSalida(List<ProyectosConvocatoriaR> salida) {
+		Collections.sort(salida, Collections.reverseOrder());
+		return salida;
+	}
 
 }

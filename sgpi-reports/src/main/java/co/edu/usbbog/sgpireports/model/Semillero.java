@@ -8,6 +8,7 @@ package co.edu.usbbog.sgpireports.model;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -253,6 +254,10 @@ public class Semillero implements Serializable {
     	semilleroJson.put("id",this.getId());
     	semilleroJson.put("nombre",this.getNombre());
     	return semilleroJson;
+	}
+
+	public int getTotalProyectos() {
+		return this.getProyectos().size();
 	}
 
 	

@@ -4,11 +4,13 @@
 package co.edu.usbbog.sgpireports.repository;
 
 import java.util.List;
-import org.springframework.data.jpa.repository.Query;
+
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+
 import co.edu.usbbog.sgpireports.model.Usuario;
 import net.minidev.json.JSONObject;
 
@@ -118,17 +120,26 @@ public interface IUsuarioRepository  extends JpaRepository<Usuario, String> {
 	List<Usuario> getMiembrosSemillero(int cedula);
 	
 	/**
-	 * obtener datos miembros de semillero
+	 * obtener datos miembros de Gi
 	 * @param cedula
 	 * @return
 	 */
 	@Query(value = "SELECT u.* FROM usuario u INNER JOIN semillero s on u.semillero_id = s.id WHERE s.grupo_investigacion = ?1 and u.visibilidad = '1' ORDER BY nombres ASC;", nativeQuery = true)
 	List<Usuario> getMiembrosGI(int cedula);
+	
 	/**
-	 * obtener datos miembros de semillero
+	 * obtener datos miembros de Gi
+	 * @param cedula
+	 * @return
+	 */
+	@Query(value = "SELECT u.* FROM usuario u INNER JOIN programas_semilleros s on u.semillero_id = s.semillero WHERE s.programa = ?1 and u.visibilidad = '1' ORDER BY nombres ASC;", nativeQuery = true)
+	List<Usuario> getMiembrosSemillerosPrograma(int cedula);
+	/**
+	 * obtener datos miembros de proyecto
 	 * @param cedula
 	 * @return
 	 */
 	@Query(value = "SELECT u.* FROM proyecto p inner join participantes pp on p.id = pp.proyecto inner join usuario u on pp.usuario = u.cedula WHERE p.id = ?1 order by u.nombres;", nativeQuery = true)
 	List<Usuario> findParticipantesProyecto(Integer id);
+	
 }

@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import co.edu.usbbog.sgpireports.model.Participantes;
@@ -14,8 +13,6 @@ import co.edu.usbbog.sgpireports.model.Proyecto;
 import co.edu.usbbog.sgpireports.model.ProyectosConvocatoria;
 import co.edu.usbbog.sgpireports.model.Semillero;
 import co.edu.usbbog.sgpireports.model.datamodels.ParticipantesR;
-import co.edu.usbbog.sgpireports.repository.IParticipantesRepository;
-import co.edu.usbbog.sgpireports.repository.IProyectoRepository;
 
 
 @Service
@@ -111,34 +108,6 @@ public class ParticipantesRService {
 		return salida;
 	}
 
-	public int countParticipantesProyectosActSemillero(List<Proyecto> lista) {
-		List<String> salida = new ArrayList<>();
-		for (Proyecto p : lista) {
-			if (p.getFechaFin() == null && !p.getParticipantes().isEmpty()) {
-				for (Participantes pp : p.getParticipantes()) {
-					if (!salida.contains(pp.getUsuario().getCedula())) {
-						salida.add(pp.getUsuario().getCedula());
-					}
-				}
-			}
-		}
-		return salida.size();
-	}
-
-	public int countParticipantesProyectosFinSemillero(List<Proyecto> lista) {
-		List<String> salida = new ArrayList<>();
-		for (Proyecto p : lista) {
-			if (p.getFechaFin() != null && !p.getParticipantes().isEmpty()) {
-				for (Participantes pp : p.getParticipantes()) {
-					if (!salida.contains(pp.getUsuario().getCedula())) {
-						salida.add(pp.getUsuario().getCedula());
-					}
-				}
-			}
-		}
-		return salida.size();
-	}
-
 	public List<ParticipantesR> getIntegrantesProyActivosGI(List<Semillero> semilleros) {
 		List<ParticipantesR> salida = new ArrayList<>();
 		for (Semillero s : semilleros) {
@@ -180,6 +149,34 @@ public class ParticipantesRService {
 	private List<Participantes> orderParticipantes(List<Participantes> participantes) {
 		Collections.sort(participantes, Collections.reverseOrder());
 		return participantes;
+	}
+	
+	public int countParticipantesProyectosActSemillero(List<Proyecto> lista) {
+		List<String> salida = new ArrayList<>();
+		for (Proyecto p : lista) {
+			if (p.getFechaFin() == null && !p.getParticipantes().isEmpty()) {
+				for (Participantes pp : p.getParticipantes()) {
+					if (!salida.contains(pp.getUsuario().getCedula())) {
+						salida.add(pp.getUsuario().getCedula());
+					}
+				}
+			}
+		}
+		return salida.size();
+	}
+
+	public int countParticipantesProyectosFinSemillero(List<Proyecto> lista) {
+		List<String> salida = new ArrayList<>();
+		for (Proyecto p : lista) {
+			if (p.getFechaFin() != null && !p.getParticipantes().isEmpty()) {
+				for (Participantes pp : p.getParticipantes()) {
+					if (!salida.contains(pp.getUsuario().getCedula())) {
+						salida.add(pp.getUsuario().getCedula());
+					}
+				}
+			}
+		}
+		return salida.size();
 	}
 
 }

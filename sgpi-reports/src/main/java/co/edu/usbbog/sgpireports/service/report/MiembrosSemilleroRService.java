@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import co.edu.usbbog.sgpireports.model.GrupoInvestigacion;
-import co.edu.usbbog.sgpireports.model.datamodels.MiembrosSemillero;
 import co.edu.usbbog.sgpireports.model.Semillero;
 import co.edu.usbbog.sgpireports.model.Usuario;
+import co.edu.usbbog.sgpireports.model.datamodels.MiembrosSemillero;
 import co.edu.usbbog.sgpireports.model.datamodels.ParticipantesR;
 import co.edu.usbbog.sgpireports.repository.IUsuarioRepository;
 
@@ -30,7 +30,7 @@ public class MiembrosSemilleroRService {
 	public List<MiembrosSemillero> getMiembrosSemillero(List<Usuario> aux) {
 		List<MiembrosSemillero> salida = new ArrayList<>();
 		for(Usuario u: aux) {
-			var us = new MiembrosSemillero(u.getCodUniversitario().toString(),
+			MiembrosSemillero us = new MiembrosSemillero(u.getCodUniversitario().toString(),
 					u.getNombreCompleto(),
 					u.getTelefono(),
 					u.getCorreoEst(),
@@ -41,23 +41,8 @@ public class MiembrosSemilleroRService {
 				us.setSemillero("");
 			}
 			salida.add(us);
-			
 		}
 		return salida;
-	}
-	
-	public int countMiembrosSemillero(int cc) {
-		return usuarios.getMiembrosSemillero(cc).size();
-	}
-	
-	public int countParticipantesProyectos(List<ParticipantesR> l) {
-		List<String> codigos = new ArrayList<>();
-		for(ParticipantesR m : l) {
-			if(!codigos.stream().filter(o -> o.equals(m.getParticipante())).findFirst().isPresent()) {
-				codigos.add(m.getParticipante());
-			}
-		}
-		return codigos.size();
 	}
 
 	public List<MiembrosSemillero> getDirectoresGI(List<GrupoInvestigacion> aux) {
@@ -95,9 +80,9 @@ public class MiembrosSemilleroRService {
 		return salida;
 	}
 
-	public List<MiembrosSemillero> getMiembrosSemilleros(List<Semillero> semilleros) {
+	public List<MiembrosSemillero> getMiembrosSemilleros(int programa) {
 		List<MiembrosSemillero> salida = new ArrayList<>();
-		for(Usuario u : getUsuariosSemilleros(semilleros)) {
+		for(Usuario u : usuarios.getMiembrosSemillerosPrograma(programa)) {
 			String program = "N/A";
 			if(u.getProgramaId() != null) {
 				program = u.getProgramaId().getNombre();
@@ -113,19 +98,12 @@ public class MiembrosSemilleroRService {
 		return salida;
 	}
 	
-	private List<Usuario> getUsuariosSemilleros(List<Semillero> semilleros){
-		List<Usuario> salida = new ArrayList<>();
-		for(Semillero s : semilleros) {
-			salida.addAll(usuarios.getMiembrosSemillero(s.getId()));
-		}
-		return salida;
-	}
 
 	public List<MiembrosSemillero> getMiembrosSemilleroInv(List<Usuario> aux) {
 		List<MiembrosSemillero> salida = new ArrayList<>();
 		for(Usuario u: aux) {
 			if(investigadoresF.contains(u.getTiposUsuario().get(0).getNombre().toUpperCase())) {
-				var us = new MiembrosSemillero(u.getCodUniversitario().toString(),
+				MiembrosSemillero us = new MiembrosSemillero(u.getCodUniversitario().toString(),
 						u.getNombreCompleto(),
 						u.getTelefono(),
 						u.getCorreoEst(),
@@ -145,7 +123,7 @@ public class MiembrosSemilleroRService {
 		return salida;
 	}
 
-	public int countParticipantesProyectosA(List<ParticipantesR> aux3) {
+	public int countParticipantesProyectoA(List<ParticipantesR> aux3) {
 		int i = 0;
 		for(ParticipantesR p : aux3) {
 			if(p.getFin() == "") {
@@ -153,5 +131,18 @@ public class MiembrosSemilleroRService {
 			}
 		}
 		return i;
+	}
+	public int countMiembrosSemillero(int cc) {
+		return usuarios.getMiembrosSemillero(cc).size();
+	}
+	
+	public int countParticipantesProyectos(List<ParticipantesR> l) {
+		List<String> codigos = new ArrayList<>();
+		for(ParticipantesR m : l) {
+			if(!codigos.contains(m.getParticipante())) {
+				codigos.add(m.getParticipante());
+			}
+		}
+		return codigos.size();
 	}
 }

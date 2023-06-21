@@ -1,7 +1,5 @@
 package co.edu.usbbog.sgpireports.service.report;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -17,7 +15,7 @@ import co.edu.usbbog.sgpireports.model.datamodels.ProductoR;
 @Service
 public class ProductosRService {
 
-
+	private MiselaneaService extras = new MiselaneaService();
 
 
 	public List<ProductoR> getProductosGI(List<Semillero> semilleros) {
@@ -39,10 +37,6 @@ public class ProductosRService {
 		return salida;
 	}
 
-	private String getFechaFormateada(LocalDate fecha) {
-		return fecha.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")); // 17-02-2022
-	}
-
 	public List<ProductoR> getProductosProyectosActSemillero(List<Proyecto> lista) {
 		List<ProductoR> salida = new ArrayList<>();
 		for (Proyecto p : lista) {
@@ -51,7 +45,7 @@ public class ProductosRService {
 				if (!aux.isEmpty()) {
 					for (Producto pp : aux) {
 						salida.add(new ProductoR(p.getTitulo(), pp.getTituloProducto(), pp.getTipoProducto(),
-								pp.getUrlRepo(), getFechaFormateada(pp.getFecha())));
+								pp.getUrlRepo(), extras.getFechaFormateada(pp.getFecha())));
 					}
 				}
 			}
@@ -66,7 +60,7 @@ public class ProductosRService {
 				if (!p.getProductos().isEmpty()) {
 					for (Producto pp : p.getProductos()) {
 						salida.add(new ProductoR(p.getTitulo(), pp.getTituloProducto(), pp.getTipoProducto(),
-								pp.getUrlRepo(), getFechaFormateada(pp.getFecha())));
+								pp.getUrlRepo(), extras.getFechaFormateada(pp.getFecha())));
 					}
 				}
 			}
@@ -94,15 +88,9 @@ public class ProductosRService {
 		List<ProductoR> salida = new ArrayList<>();
 		for (Producto p : productos) {
 			salida.add(new ProductoR(p.getProyecto().getTitulo(), p.getTituloProducto(), p.getTipoProducto(), p.getUrlRepo(),
-					getFechaFormateada(p.getFecha())));
+					extras.getFechaFormateada(p.getFecha())));
 		}
 		return ordenarSalida(salida);
-	}
-
-	
-	private List<ProductoR> ordenarSalida(List<ProductoR> productos) {
-		Collections.sort(productos, Collections.reverseOrder());
-		return productos;
 	}
 
 	public List<ProductoR> getProductosProyectosSemConv(List<Proyecto> lista) {
@@ -111,7 +99,7 @@ public class ProductosRService {
 			if (!p.getProductos().isEmpty() && !p.getProyectosConvocatoria().isEmpty()) {
 				for (Producto pc : p.getProductos()) {
 					salida.add(new ProductoR(p.getTitulo(), pc.getTituloProducto(), pc.getTipoProducto(),
-							pc.getUrlRepo(), getFechaFormateada(pc.getFecha())));
+							pc.getUrlRepo(), extras.getFechaFormateada(pc.getFecha())));
 				}
 			}
 		}
@@ -165,6 +153,11 @@ public class ProductosRService {
 			salida.addAll(getProductosProyectosESem(s.getProyectos()));
 		}
 		return ordenarSalida(salida);
+	}
+	
+	private List<ProductoR> ordenarSalida(List<ProductoR> productos) {
+		Collections.sort(productos, Collections.reverseOrder());
+		return productos;
 	}
 
 }

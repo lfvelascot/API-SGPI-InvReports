@@ -18,14 +18,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import co.edu.usbbog.sgpireports.service.IGestionUsuariosService;
-import net.minidev.json.JSONObject;
-import co.edu.usbbog.sgpireports.message.ResponseMessage;
+import co.edu.usbbog.sgpireports.message.*;
 import co.edu.usbbog.sgpireports.model.Usuario;
 import co.edu.usbbog.sgpireports.service.FileStorageService;
+import co.edu.usbbog.sgpireports.service.IGestionUsuariosService;
+import net.minidev.json.JSONObject;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:3000"})
+@CrossOrigin(origins = { "http://backend-node:3000" })
 @RequestMapping("/archivo")
 public class FileController {
 
@@ -46,7 +46,9 @@ public class FileController {
 		if (ipAddress == null) {
 			ipAddress = request.getRemoteAddr();
 		}
-		return ipAddress.equals("0:0:0:0:0:0:0:1") || ipAddress.equals("127.0.0.1");
+		return ipAddress.equals("0:0:0:0:0:0:0:1") ||
+				ipAddress.equals("127.0.0.1") ||
+				request.getRemoteHost().contains("backend-sgpi");
 	}
 	/**
 	 * Carga de la firma de los usuarios
@@ -60,19 +62,19 @@ public class FileController {
 		if (isValid()) {
 			String message = "ERROR CARGA : El tamaño o formato del archivo no es valido";
 			Usuario user = iGestionUsuariosService.buscarUsuario(usuario);
-			var salida = ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
+			ResponseEntity<ResponseMessage> salida = ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
 			if (user != null) {
 				try {
 					if (user.getFirma() == null) {
 						if (storageService.save(file, usuario)) {
 							iGestionUsuariosService.saveFirma(usuario);
-							return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+							return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage("Firma cargada"));
 						} else {
 							return salida;
 						}
 					} else {
 						if (storageService.update(file, usuario)) {
-							return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+							return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage("Firma actualizada"));
 						} else {
 							return salida;
 						}
@@ -100,11 +102,15 @@ public class FileController {
 		if (isValid()) {
 			Usuario user = iGestionUsuariosService.buscarUsuario(entrada.getAsString("cc"));
 			if (user.getFirma() != null) {
-				Resource file = storageService.loadF(user.getFirma().getNombre());
-				if (file != null) {
-					return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
-							"attachment; filename=\"" + file.getFilename() + "\"").body(file);
-				} else {
+				try {
+					Resource file = storageService.loadF(user.getFirma().getNombre());
+					if (file != null) {
+						return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
+								"attachment; filename=\"" + file.getFilename() + "\"").body(file);
+					} else {
+						return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+					}
+				} catch (Exception e) {
 					return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 				}
 			} else {
@@ -173,21 +179,4 @@ public class FileController {
 		}
 	}
 
-	/**
-	 * Extraer los archivos asociados a los productos de los proyectos
-	 * @param nombre del archivo
-	 * @return archivo para su descarga o despliegue
-	 */
-	@GetMapping("/files/{filename:.+}")
-	@ResponseBody
-	public ResponseEntity<Resource> getFile(@PathVariable String filename) {
-		if (isValid()) {
-			Resource file = storageService.load(filename);
-			return ResponseEntity.ok()
-					.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
-					.body(file);
-		} else {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-		}
-	}
 }

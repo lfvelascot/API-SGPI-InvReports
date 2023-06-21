@@ -1,7 +1,5 @@
 package co.edu.usbbog.sgpireports.service.report;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -15,6 +13,8 @@ import co.edu.usbbog.sgpireports.model.Semillero;
 import co.edu.usbbog.sgpireports.model.datamodels.ComentarioR;
 @Service
 public class ComentarioRService {
+	
+	private MiselaneaService extras = new MiselaneaService();
 
 
 	public List<ComentarioR> getComentariosProyecto(List<Producto> productos) {
@@ -27,7 +27,7 @@ public class ComentarioRService {
 						calificacion = String.valueOf(c.getCalificacion());
 					}
 					salida.add(new ComentarioR(p.getTituloProducto(), c.getComentario(), calificacion, c.getFase(),
-							c.getNivel(), getFechaFormateada(c.getFecha())));
+							c.getNivel(), extras.getFechaFormateada(c.getFecha())));
 				}
 			}
 		}
@@ -39,9 +39,6 @@ public class ComentarioRService {
 		return comentarios;
 	}
 
-	private String getFechaFormateada(LocalDate fecha) {
-		return fecha.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")); // 17-02-2022
-	}
 
 	public List<ComentarioR> getComentariosProyectos(List<Proyecto> proyectos) {
 		List<ComentarioR> salida = new ArrayList<>();
