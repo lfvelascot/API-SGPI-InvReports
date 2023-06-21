@@ -265,7 +265,7 @@
 								},
 								{
 									"key": "usuario",
-									"value": "1000689373",
+									"value": "12345",
 									"type": "text"
 								}
 							]
@@ -330,7 +330,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"dato\": \"4019\",\r\n    \"reporte\": \"8\",\r\n    \"usuario\": \"1000689373\"\r\n}",
+							"raw": "{\r\n    \"dato\": \"4018\",\r\n    \"reporte\": \"0\",\r\n    \"usuario\": \"1000689373\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -359,7 +359,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"dato\": \"3003\",\r\n  \"reporte\": \"16\",\r\n  \"usuario\" : \"1000689373\"\r\n}",
+							"raw": "{\r\n  \"dato\": \"3003\",\r\n  \"reporte\": \"19\",\r\n  \"usuario\" : \"1000689373\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -388,7 +388,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"dato\": \"2001\",\r\n  \"reporte\": \"18\",\r\n  \"usuario\" : \"1000689373\"\r\n}",
+							"raw": "{\r\n  \"dato\": \"2001\",\r\n  \"reporte\": \"20\",\r\n  \"usuario\" : \"1000689373\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -417,7 +417,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"dato\": \"1002\",\r\n  \"reporte\": \"19\",\r\n  \"usuario\" : \"1000689373\"\r\n}",
+							"raw": "{\r\n  \"dato\": \"1001\",\r\n  \"reporte\": \"21\",\r\n  \"usuario\" : \"1000689373\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -446,7 +446,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"dato\": \"5005\",\r\n  \"reporte\": \"20\",\r\n  \"usuario\" : \"1000689373\"\r\n}",
+							"raw": "{\r\n  \"dato\": \"5004\",\r\n  \"reporte\": \"22\",\r\n  \"usuario\" : \"1000689373\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -496,6 +496,36 @@
 								"archivo",
 								"get",
 								"reporte"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Generar reporte años",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"dato\": \"4018\",\r\n    \"reporte\": \"0\",\r\n    \"usuario\": \"1000456123\",\r\n    \"inicio\": \"2022\",\r\n    \"fin\": \"2023\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/report/generar/anios",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"report",
+								"generar",
+								"anios"
 							]
 						}
 					},
