@@ -2,8 +2,6 @@ package co.edu.usbbog.sgpireports.controller;
 
 import java.io.IOException;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,57 +10,46 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.edu.usbbog.sgpireports.service.IReportesService;
+import co.edu.usbbog.sgpireports.service.ISeguridadService;
 import net.minidev.json.JSONObject;
 import net.sf.jasperreports.engine.JRException;
 
 @RestController
-@CrossOrigin(origins = { "http://backend-node:3000" })
+@CrossOrigin(origins = { "http://backend-node:3000","http://localhost:3000" })
 @RequestMapping("/report")
 public class ReportesController {
 
 	@Autowired
 	private IReportesService reportes;
 	@Autowired
-	private HttpServletRequest request;
-
-	/**
-	 * @return booleano validando que la peticion sea hecha exclusivamente del mismo
-	 *         servidor
-	 */
-	private boolean isValid() {
-		String ipAddress = request.getHeader("X-Forward-For");
-		if (ipAddress == null) {
-			ipAddress = request.getRemoteAddr();
-		}
-		return ipAddress.equals("0:0:0:0:0:0:0:1") || ipAddress.equals("127.0.0.1")
-				|| request.getRemoteHost().contains("backend-sgpi");
-	}
+	private ISeguridadService seguridad;
 
 	/**
 	 * Genera los reportes (23 en total)
-	 * 
-	 * @param entrada JSON con tres datos: usuario, numero de reporte y dato para el
-	 *                reporte
+	 * @param entrada JSON con tres datos: usuario, numero de reporte y dato para elreporte
 	 * @return salida2 JSON con nombre del archivo generado
 	 * @throws IOException Lectura y escritura del archivo generado para el reporte
 	 * @throws JRException errores de Jasper Report
 	 */
 	@PostMapping("/generar")
 	public JSONObject generarReporte(@RequestBody JSONObject entrada) throws JRException, IOException {
-		JSONObject salida2 = new JSONObject();
-		if (isValid()) {
+		if (seguridad.isValid()) {
 			try {
 				int rep = Integer.valueOf(entrada.getAsString("reporte"));
 				if (rep < 23) {
-					salida2.put("nombreDocumento", reportes.crearReporte(Integer.valueOf(entrada.getAsString("dato")),
+					JSONObject salida = new JSONObject();
+					salida.put( "nombreDocumento", reportes.crearReporte(Integer.valueOf(entrada.getAsString("dato")),
 							rep, entrada.getAsString("usuario")));
+					return salida;
+				} else {
+					return null;
 				}
-			} catch (NumberFormatException e) {
+			} catch (Exception e) {
 				return null;
 			}
-
+		} else {
+			return null;
 		}
-		return salida2;
 	}
 
 	/**
@@ -76,28 +63,26 @@ public class ReportesController {
 	 */
 	@PostMapping("/generar/anios")
 	public JSONObject generarReporteAnios(@RequestBody JSONObject entrada) throws JRException, IOException {
-		JSONObject salida2 = new JSONObject();
-		if (isValid()) {
+		if (seguridad.isValid()) {
 			try {
 				int rep = Integer.valueOf(entrada.getAsString("reporte")),
 						inicio = Integer.valueOf(entrada.getAsString("inicio")),
 						fin = Integer.valueOf(entrada.getAsString("fin"));
-				if (rep >= 23 && rep < 27) {
-					if (fin >= inicio) {
+				JSONObject salida2 = new JSONObject();
+				if (rep >= 23 && rep < 27 && fin >= inicio) {
 						salida2.put("nombreDocumento",
 								reportes.crearReporteAnios(Integer.valueOf(entrada.getAsString("dato")), rep,
 										entrada.getAsString("usuario"), inicio, fin));
 					} else {
 						salida2.put("nombreDocumento", "Año de fin menor al año de inicio");
 					}
-
-				}
-			} catch (NumberFormatException e) {
+				return salida2;
+			} catch (Exception e) {
 				return null;
 			}
-
+		} else {
+			return null;
 		}
-		return salida2;
 	}
 
 }

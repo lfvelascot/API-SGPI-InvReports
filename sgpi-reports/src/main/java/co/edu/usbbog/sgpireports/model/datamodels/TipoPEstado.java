@@ -12,6 +12,10 @@ public class TipoPEstado {
 		this.numero = numero;
 	}
 
+	public TipoPEstado(String tipo) {
+		this.tipo = tipo;
+	}
+
 	public int getNumero3() {
 		return numero3;
 	}

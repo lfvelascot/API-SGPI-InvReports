@@ -26,12 +26,7 @@ public class EventosRService {
 							extras.getFechaFormateada(pp.getEvento().getFecha()),
 							pp.getEvento().getEntidad(),
 							pp.getEvento().getEstado());
-					if(pp.getReconocimientos() != null) {
-						x.setSemillero(pp.getReconocimientos());
-					} else {
-						x.setSemillero("");
-					}
-					salida.add(x);
+					x.setSemillero((pp.getReconocimientos() != null) ? pp.getReconocimientos() : "");
 				}
 			}
 		}
@@ -62,9 +57,7 @@ public class EventosRService {
 					extras.getFechaFormateada(pp.getEvento().getFecha()),
 					pp.getEvento().getEntidad(),
 					pp.getEvento().getEstado());
-			if(pp.getReconocimientos() != null) {
-				x.setSemillero(pp.getReconocimientos());
-			}
+			x.setSemillero((pp.getReconocimientos() != null) ? pp.getReconocimientos() : "");
 			salida.add(x);
 		}
 		return orderParticipaciones(salida);

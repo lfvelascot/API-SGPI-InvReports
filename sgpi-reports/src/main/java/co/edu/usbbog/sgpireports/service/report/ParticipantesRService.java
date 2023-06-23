@@ -18,8 +18,6 @@ import co.edu.usbbog.sgpireports.model.datamodels.ParticipantesR;
 @Service
 public class ParticipantesRService {
 
-
-
 	public List<ParticipantesR> getIntegrantes(List<Proyecto> lista) {
 		List<ParticipantesR> salida = new ArrayList<>();
 		for (Proyecto p : lista) {

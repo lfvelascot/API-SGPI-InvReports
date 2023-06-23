@@ -24,10 +24,7 @@ public class CompraRService {
 			for (Presupuesto pr : p.getPresupuestos()) {
 				if (!pr.getCompras().isEmpty()) {
 					for (Compra c : pr.getCompras()) {
-						double valor = 0.0;
-						if (c.getValor() != null) {
-							valor = c.getValor();
-						}
+						double valor = (c.getValor() != null) ? valor = c.getValor() : 0.0;
 						salida.add(new CompraR(extras.getFechaFormateada(c.getFechaSolicitud()), c.getNombre(), c.getTipo(),
 								c.getCodigoCompra(), valor, extras.getFechaFormateada(c.getFechaCompra()),
 								estadoCompra.get(c.getEstado()), c.getLink(), c.getDescripcion(),
@@ -75,9 +72,7 @@ public class CompraRService {
 				for (Presupuesto pr : p.getPresupuestos()) {
 					if (!pr.getCompras().isEmpty()) {
 						for (Compra c : pr.getCompras()) {
-							if (c.getValor() != null && c.getEstado() == 1) {
-								salida += c.getValor();
-							}
+							salida = (c.getValor() != null && c.getEstado() == 1) ? salida += c.getValor() : salida;
 						}
 					}
 				}

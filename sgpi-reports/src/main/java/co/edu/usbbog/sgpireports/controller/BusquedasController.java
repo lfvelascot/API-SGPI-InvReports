@@ -1,7 +1,5 @@
 package co.edu.usbbog.sgpireports.controller;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,32 +9,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.edu.usbbog.sgpireports.service.IGestionBusquedas;
+import co.edu.usbbog.sgpireports.service.ISeguridadService;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 
 @RestController
-@CrossOrigin(origins = { "http://backend-node:3000" })
+@CrossOrigin(origins = { "http://backend-node:3000","http://localhost:3000" })
 @RequestMapping("/info")
 public class BusquedasController {
 
 	@Autowired
 	private IGestionBusquedas busqueda;
 	@Autowired
-	private HttpServletRequest request;
-
-	/**
-	 * Valida el acceso a las peticiones para hacerlos solo desde el equipo local
-	 * 
-	 * @return boolean validando el permiso de acceso desde la IP remota del cliente
-	 */
-	private boolean isValid() {
-		String ipAddress = request.getHeader("X-Forward-For");
-		if (ipAddress == null) {
-			ipAddress = request.getRemoteAddr();
-		}
-		return ipAddress.equals("0:0:0:0:0:0:0:1") || ipAddress.equals("127.0.0.1")
-				|| request.getRemoteHost().contains("backend-node");
-	}
+	private ISeguridadService seguridad;
 
 	/**
 	 * Busca los semilleros de un programa
@@ -46,7 +31,7 @@ public class BusquedasController {
 	 */
 	@PostMapping("/semillero/programa")
 	public JSONArray buscarSemillerosPorPrograma(@RequestBody JSONObject entrada) {
-		if (isValid()) {
+		if (seguridad.isValid()) {
 			return busqueda.semillerosToJSONArray(
 					busqueda.buscarSemillerosPorPrograma(Integer.valueOf(entrada.getAsString("programa"))));
 		} else {
@@ -61,7 +46,7 @@ public class BusquedasController {
 	 */
 	@GetMapping("/semillero")
 	public JSONArray buscarSemilleros() {
-		if (isValid()) {
+		if (seguridad.isValid()) {
 			return busqueda.semillerosToJSONArray(busqueda.buscarSemilleros());
 		} else {
 			return null;
@@ -76,7 +61,7 @@ public class BusquedasController {
 	 */
 	@GetMapping("/gi")
 	public JSONArray buscarGIs() {
-		if (isValid()) {
+		if (seguridad.isValid()) {
 			return busqueda.gruposToJSONArray(busqueda.buscarGruposInv());
 		} else {
 			return null;
@@ -91,7 +76,7 @@ public class BusquedasController {
 	 */
 	@PostMapping("/gi/facultad")
 	public JSONArray buscarGIsxFacultad(@RequestBody JSONObject entrada) {
-		if (isValid()) {
+		if (seguridad.isValid()) {
 			return busqueda.gruposToJSONArray(
 					busqueda.buscarGruposInvPorFacultad(Integer.valueOf(entrada.getAsString("facultad"))));
 		} else {
@@ -106,7 +91,7 @@ public class BusquedasController {
 	 */
 	@GetMapping("/proyecto")
 	public JSONArray buscarProyectos() {
-		if (isValid()) {
+		if (seguridad.isValid()) {
 			return busqueda.proyectosToJSONArray(busqueda.buscarProyectos());
 		} else {
 			return null;
@@ -121,7 +106,7 @@ public class BusquedasController {
 	 */
 	@PostMapping("/proyecto/estado")
 	public JSONArray buscarProyectosPorEstado(@RequestBody JSONObject entrada) {
-		if (isValid()) {
+		if (seguridad.isValid()) {
 			return busqueda.proyectosToJSONArray(busqueda.buscarProyectosPorEstado(entrada.getAsString("estado")));
 		} else {
 			return null;
