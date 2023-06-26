@@ -2,8 +2,6 @@ package co.edu.usbbog.sgpireports.service;
 
 import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -40,15 +38,11 @@ public interface IFileStorageService {
 			"RepSemsProg-%s-%s.pdf", "RepGIsFac-%s-%s.pdf", "RepProy-%s-%s.pdf", "RepActSem-%s-%s.pdf",
 			"RepActGI-%s-%s.pdf", "RepUPresSem-%s-%s.pdf", "RepUPresGI-%s-%s.pdf"));
 
-	// Carpetas para la manipulación de archivos
-	public final Path rootFirmas = Paths.get("Firmas");
-	public final Path rootReporte = Paths.get("Reportes");
-	public final Path rootPlantillas = Paths.get("Plantillas");
-	public final Path rootImagenes = Paths.get("Imagenes");
+	// Carpetas para la manipulación de archivo
 
 	public void init();
 
-	public boolean save(MultipartFile file, String usuario);
+	public String save(MultipartFile file, String usuario);
 
 	public Resource loadF(String filename);
 
@@ -56,4 +50,6 @@ public interface IFileStorageService {
 
 	public String saveReporte(int cc, int rep, String usuario, Map<String, Object> datos)
 			throws FileNotFoundException, JRException, MalformedURLException;
+	
+	public Resource loadR(String filename);
 }

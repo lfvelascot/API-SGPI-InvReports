@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import co.edu.usbbog.sgpireports.model.GrupoInvestigacion;
 import co.edu.usbbog.sgpireports.model.Proyecto;
-import co.edu.usbbog.sgpireports.model.Semillero;
 import co.edu.usbbog.sgpireports.model.datamodels.GrupoInvR;
 
 @Service

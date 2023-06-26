@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import co.edu.usbbog.sgpireports.model.GrupoInvestigacion;
-import co.edu.usbbog.sgpireports.model.Producto;
 import co.edu.usbbog.sgpireports.model.Proyecto;
 import co.edu.usbbog.sgpireports.model.ProyectosConvocatoria;
 import co.edu.usbbog.sgpireports.model.Semillero;
@@ -179,9 +178,7 @@ public class ProyectosRService {
 	public int countProyectosFin(List<Proyecto> lista) {
 		int salida = 0;
 		for (Proyecto p : lista) {
-			if (p.getFechaFin() != null) {
-				salida += 1;
-			}
+			salida = (p.getFechaFin() != null) ? salida+1 : salida;
 		}
 		return salida;
 	}
@@ -189,9 +186,7 @@ public class ProyectosRService {
 	public int countProyectosConProductoFacultad(List<Proyecto> lista) {
 		int salida = 0;
 		for (Proyecto p : lista) {
-			if (!p.getProductos().isEmpty()) {
-				salida += 1;
-			}
+			salida = (!p.getProductos().isEmpty()) ? salida+1 : salida;
 		}
 		return salida;
 	}
@@ -199,10 +194,7 @@ public class ProyectosRService {
 	public int numProyectosSinProductoSemillero(List<Proyecto> lista) {
 		int salida = 0;
 		for (Proyecto p : lista) {
-			List<Producto> aux = p.getProductos();
-			if (aux.isEmpty()) {
-				salida += 1;
-			}
+			salida = (p.getProductos().isEmpty()) ? salida+1 : salida;
 		}
 		return salida;
 	}
@@ -213,7 +205,7 @@ public class ProyectosRService {
 			if (!s.getProyectos().isEmpty()) {
 				for (Proyecto p : s.getProyectos()) {
 					if (!p.getProductos().isEmpty()) {
-						salida += 1;
+						salida = (!p.getProductos().isEmpty()) ? salida+1 : salida;
 					}
 				}
 			}

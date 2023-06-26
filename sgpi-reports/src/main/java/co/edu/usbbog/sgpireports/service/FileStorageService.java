@@ -10,12 +10,14 @@ import java.nio.file.Paths;
 import java.util.Map;
 
 import org.apache.tomcat.util.http.fileupload.FileUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import co.edu.usbbog.sgpireports.model.Usuario;
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -26,57 +28,86 @@ import net.sf.jasperreports.engine.JasperReport;
 @Service
 public class FileStorageService implements IFileStorageService {
 
+	@Autowired
+	private IGestionUsuariosService usuarios;
+
+	private final Path rootFirmas = Paths.get("Firmas");
+	private final Path rootReporte = Paths.get("Reportes");
+	private final Path rootPlantillas = Paths.get("Plantillas");
+	private final Path rootImagenes = Paths.get("Imagenes");
 
 	// Inicializa las carpetas requeridas
 	public void init() {
 		try {
-			if (!Files.exists(rootFirmas)) {
-				Files.createDirectory(rootFirmas);
-			}
-			if (!Files.exists(rootReporte)) {
-				Files.createDirectory(rootReporte);
-			}
-			if (Files.exists(Paths.get("target", "Plantillas"))) {
-				FileUtils.deleteDirectory(Paths.get("target", "Plantillas").toFile());
-			}
-			Files.createDirectory(Paths.get("target", "Plantillas"));
-			FileSystemUtils.copyRecursively(rootPlantillas, Paths.get("target", "Plantillas"));
-			if (Files.exists(Paths.get("target", "Imagenes"))) {
-				FileUtils.deleteDirectory(Paths.get("target", "Imagenes").toFile());
-			}
-			Files.createDirectory(Paths.get("target", "Imagenes"));
-			FileSystemUtils.copyRecursively(rootImagenes, Paths.get("target", "Imagenes"));
+			createDirectorys(rootFirmas);
+			createDirectorys(rootReporte);
+			validateDirectory(rootImagenes);
+			validateDirectory(rootPlantillas);
+			copyFiles(Paths.get("target", "Plantillas"), rootPlantillas);
+			copyFiles(Paths.get("target", "Imagenes"), rootImagenes);
 		} catch (IOException e) {
 			try {
-				if (!Files.exists(rootFirmas)) {
-					Files.createDirectory(rootFirmas);
-				}
-				if (!Files.exists(rootReporte)) {
-					Files.createDirectory(rootReporte);
-				}
-				if (!Files.exists(rootImagenes)) {
-					throw new RuntimeException("Could not initialize folder for images!");
-				}
-				if (!Files.exists(rootPlantillas)) {
-					throw new RuntimeException("Could not initialize folder for templates!");
-				}
-			} catch (IOException e2) {
-				throw new RuntimeException("Could not initialize folders for use!");
+				createDirectorys(rootFirmas);
+				createDirectorys(rootReporte);
+				validateDirectory(rootImagenes);
+				validateDirectory(rootPlantillas);
+			} catch (IOException e1) {
+				e1.printStackTrace();
 			}
 		}
 	}
 
-	// Permite guardar las firmas de los usuarios
-	public boolean save(MultipartFile file, String usuario) {
-		try {
-			if (validateFirma(file)) {
-				Files.copy(file.getInputStream(), this.rootFirmas.resolve("Firma-" + usuario + ".png"));
-				return true;
-			} else {
-				return false;
+	private void createDirectorys(Path ruta) throws IOException {
+		if (!Files.exists(ruta)) {
+			Files.createDirectory(ruta);
+		}
+	}
+
+	private void validateDirectory(Path ruta) throws IOException {
+		if (!Files.exists(ruta)) {
+			throw new RuntimeException("No existe la carpeta de imagenes!");
+		} else {
+			if (Files.list(ruta).toList().isEmpty()) {
+				throw new RuntimeException("No existen los recursos de imagenes!");
 			}
-		} catch (Exception e) {
-			throw new RuntimeException("Could not store the file. Error: " + e.getMessage());
+		}
+	}
+
+	private void copyFiles(Path ruta, Path ruta2) throws IOException {
+		if (Files.exists(ruta)) {
+			FileUtils.deleteDirectory(ruta.toFile());
+		}
+		Files.createDirectory(ruta);
+		FileSystemUtils.copyRecursively(ruta2, ruta);
+	}
+
+	// Permite guardar las firmas de los usuarios
+	public String save(MultipartFile file, String usuario) {
+		Usuario user = usuarios.buscarUsuario(usuario);
+		if (user != null) {
+			try {
+				if (validateFirma(file)) {
+					String nombre = "Firma-" + usuario + ".png";
+					String respuesta = "";
+					if (user.getFirma() == null) {
+						if (!usuarios.saveFirma(usuario)) {
+							return "Error carga de datos";
+						}
+						respuesta = "Firma cargada correctamente";
+					} else {
+						Files.deleteIfExists(this.rootFirmas.resolve(nombre));
+						respuesta = "Firma actualizada correctamente";
+					}
+					Files.copy(file.getInputStream(), this.rootFirmas.resolve(nombre));
+					return respuesta;
+				} else {
+					return "ERROR CARGA : El tamaño o formato del archivo no es valido";
+				}
+			} catch (Exception e) {
+				throw new RuntimeException("Could not store the file. Error: " + e.getMessage());
+			}
+		} else {
+			return "Error usuario";
 		}
 	}
 
@@ -102,8 +133,7 @@ public class FileStorageService implements IFileStorageService {
 	// Permite obtener las imagenes alojadas en la API
 	public Resource loadI(String filename) {
 		try {
-			Path file = rootImagenes.resolve(filename);
-			Resource resource = new UrlResource(file.toUri());
+			Resource resource = new UrlResource(rootImagenes.resolve(filename).toUri());
 			if (resource.exists() || resource.isReadable()) {
 				return resource;
 			} else {
@@ -114,27 +144,10 @@ public class FileStorageService implements IFileStorageService {
 		}
 	}
 
-	// Actualiza las firmas de los usuarios
-	public boolean update(MultipartFile file, String usuario) {
-		try {
-			if (validateFirma(file)) {
-				Files.deleteIfExists(this.rootFirmas.resolve("Firma-" + usuario + ".png"));
-				return save(file, usuario);
-			} else {
-				return false;
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return false;
-	}
-
 	// Permite obtener el archivo pdf de un reporte
 	public Resource loadR(String filename) {
 		try {
-			Path file = rootReporte.resolve(filename);
-			Resource resource = new UrlResource(file.toUri());
+			Resource resource = new UrlResource(rootReporte.resolve(filename).toUri());
 			if (resource.exists() || resource.isReadable()) {
 				return resource;
 			} else {

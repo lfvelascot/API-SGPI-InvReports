@@ -23,9 +23,14 @@ public class GesionUsuariosService implements IGestionUsuariosService {
 	 */
 	@Override
 	public boolean saveFirma(String cedula) {
-		String nombre = "Firma-" + cedula + ".png";
-		iFirmaRepository.AddFirma(cedula, nombre);
-		return iFirmaRepository.existsById(cedula);
+		Usuario user = usuario.getById(cedula);
+		if(user != null) {
+			if(user.getFirma() == null) {
+				iFirmaRepository.addFirma(cedula, "Firma-" + cedula + ".png");
+			}
+			return iFirmaRepository.findByUsuario(cedula) != null;
+		}
+		return false;
 	}
 
 	/**
