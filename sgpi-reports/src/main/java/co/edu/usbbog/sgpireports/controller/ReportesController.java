@@ -16,7 +16,7 @@ import net.minidev.json.JSONObject;
 import net.sf.jasperreports.engine.JRException;
 
 @RestController
-@CrossOrigin(origins = { "http://backend-node:3000" })
+@CrossOrigin(origins = { "http://backend-node:3000","http://localhost:3000" })
 @RequestMapping("/report")
 public class ReportesController {
 

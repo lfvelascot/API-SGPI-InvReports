@@ -25,7 +25,7 @@ import co.edu.usbbog.sgpireports.service.IGestionUsuariosService;
 import net.minidev.json.JSONObject;
 
 @RestController
-@CrossOrigin(origins = { "http://backend-node:3000" })
+@CrossOrigin(origins = { "http://backend-node:3000","http://localhost:3000" })
 @RequestMapping("/archivo")
 public class FileController {
 
