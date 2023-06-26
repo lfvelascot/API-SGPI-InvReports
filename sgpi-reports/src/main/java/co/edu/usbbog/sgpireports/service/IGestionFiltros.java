@@ -39,5 +39,5 @@ public interface IGestionFiltros extends IListasJSON {
 
 	// Buscar proyectos
 	public List<Proyecto> buscarProyectos();
-
+	
 }

@@ -1,7 +1,6 @@
 package co.edu.usbbog.sgpireports.service;
 
-import java.io.FileNotFoundException;
-import java.net.MalformedURLException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -49,7 +48,8 @@ public interface IFileStorageService {
 	public Resource loadI(String filename);
 
 	public String saveReporte(int cc, int rep, String usuario, Map<String, Object> datos)
-			throws FileNotFoundException, JRException, MalformedURLException;
+			throws JRException, IOException;
 	
 	public Resource loadR(String filename);
+
 }

@@ -1,0 +1,1083 @@
+{
+	"info": {
+		"_postman_id": "be40c9ad-6bcb-471f-b62e-4ea3e46d960d",
+		"name": "Proyecto de grado",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12891913",
+		"_collection_link": "https://martian-meteor-926932.postman.co/workspace/My-Workspace~b3d72f76-c14b-4357-82c6-855961aef794/collection/12891913-be40c9ad-6bcb-471f-b62e-4ea3e46d960d?action=share&creator=12891913&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "All Users",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1IiwiaWF0IjoxNjg0MDk4NzA4LCJleHAiOjE2ODQxMDU5MDh9.K-x_VVKZPlJYih0WnqDi-DXj1i5oE4GMqpbj0suWOkY",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3000/api/user/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"user",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find User",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQiLCJpYXQiOjE2ODM4NTc5NTIsImV4cCI6MTY4Mzg2NTE1Mn0.sApj7d7Dy4GxqWli1z6oy06D-_KnT_pP6PBAtcAZo7g",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3000/api/user/1234123",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"user",
+								"1234123"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQiLCJpYXQiOjE2ODM4Njg2OTQsImV4cCI6MTY4Mzg3NTg5NH0.jjW2PEKlIEY6PD9HL1FWpNc3zcZg-0nQi-_EGAGD0FI",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cedula\": \"1010111657\",\r\n    \"cod_universitario\": 30000048740,\r\n    \"correo_est\": \"jadazac@academia.usbbog.edu.co\",\r\n    \"contrasena\": \"Password1234\",\r\n    \"nombres\": \"Jefferson\",\r\n    \"apellidos\": \"Daza\",\r\n    \"telefono\": \"3134562523\",\r\n    \"correo_personal\": \"jefferson@gmail.com\",\r\n    \"semillero_id\": null,\r\n    \"programa_id\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3000/api/user/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"user",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQiLCJpYXQiOjE2ODQ0NTY5NTMsImV4cCI6MTY4NDQ2NDE1M30.aer_7dMqxCIqxN1h3rMDuIMhUMCFf63-Ndt_Cr8IJCU",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombres\": \"Jeffersons\",\r\n    \"apellidos\": \"Daza\",\r\n    \"telefono\":  3134562523,\r\n    \"correo_personal\": \"Jeff@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3000/api/user/1234",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"user",
+								"1234"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update My Accout",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1IiwiaWF0IjoxNjg0MjE0NTIzLCJleHAiOjE2ODQyMjE3MjN9.qiNWLQTIfF3L_ez7vsk8dmNPvj6LxeW5WNYYDgOdf-c",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombres\": \"Jeffersons\",\r\n    \"apellidos\": \"Daza\",\r\n    \"telefono\":  3134562523,\r\n    \"correo_personal\": \"Jeff@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3000/api/user/my-account/12345",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"user",
+								"my-account",
+								"12345"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3000/api/user/123456",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"user",
+								"123456"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Activate User",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQiLCJpYXQiOjE2ODQ0NTY5NTMsImV4cCI6MTY4NDQ2NDE1M30.aer_7dMqxCIqxN1h3rMDuIMhUMCFf63-Ndt_Cr8IJCU",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3000/api/user/activate/1234123",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"user",
+								"activate",
+								"1234123"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"institutionalEmail\": \"jadazac@academia.usbbog.edu.co\",\r\n    \"password\": \"Password1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3000/api/login",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Rol",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1IiwiaWF0IjoxNjg0MjE0NTIzLCJleHAiOjE2ODQyMjE3MjN9.qiNWLQTIfF3L_ez7vsk8dmNPvj6LxeW5WNYYDgOdf-c",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3000/api/role/12345",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"role",
+								"12345"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Roles",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1IiwiaWF0IjoxNjg0MjE0NTIzLCJleHAiOjE2ODQyMjE3MjN9.qiNWLQTIfF3L_ez7vsk8dmNPvj6LxeW5WNYYDgOdf-c",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3000/api/role",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"role"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User Rol",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQiLCJpYXQiOjE2ODQ0NTY5NTMsImV4cCI6MTY4NDQ2NDE1M30.aer_7dMqxCIqxN1h3rMDuIMhUMCFf63-Ndt_Cr8IJCU",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"tipo_usuario\": \"PROFESOR\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3000/api/role/1234123",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"role",
+								"1234123"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change User Password",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQiLCJpYXQiOjE2ODMzODk4ODMsImV4cCI6MTY4MzQ3NjI4M30.iTRAlxN9EJ5R299hGaKSjgi87he5D_5KFxE2pu2sNqo",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"contrasena\": \"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3000/api/user/change-password/1234",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"user",
+								"change-password",
+								"1234"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify token",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQiLCJpYXQiOjE2ODMzODk4ODMsImV4cCI6MTY4MzQ3NjI4M30.iTRAlxN9EJ5R299hGaKSjgi87he5D_5KFxE2pu2sNqo",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3000/api/user/rol/all",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"user",
+								"rol",
+								"all"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Project",
+			"item": [
+				{
+					"name": "All Projects",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQiLCJpYXQiOjE2ODQ0NjcyMjQsImV4cCI6MTY4NDQ3NDQyNH0.vpdMpqy2Uv_rVCf2hl6LAes4E7U3qUgJJOlqXkvtjFo",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3000/api/project/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"project",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find Project",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQiLCJpYXQiOjE2ODQ0NjcyMjQsImV4cCI6MTY4NDQ3NDQyNH0.vpdMpqy2Uv_rVCf2hl6LAes4E7U3qUgJJOlqXkvtjFo",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3000/api/project/3",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"project",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get My Projects",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQiLCJpYXQiOjE2ODQ0NzUyNjQsImV4cCI6MTY4NDQ4MjQ2NH0.9WZLOZL8sqVEjejamIVBvzbWCWffZ_G-vGycf65OGFA",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3000/api/project/my-projects/1234",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"project",
+								"my-projects",
+								"1234"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Project types",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQiLCJpYXQiOjE2ODQ0NjcyMjQsImV4cCI6MTY4NDQ3NDQyNH0.vpdMpqy2Uv_rVCf2hl6LAes4E7U3qUgJJOlqXkvtjFo",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3000/api/project/types/all",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"project",
+								"types",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Project",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQiLCJpYXQiOjE2ODQ0NjcyMjQsImV4cCI6MTY4NDQ3NDQyNH0.vpdMpqy2Uv_rVCf2hl6LAes4E7U3qUgJJOlqXkvtjFo",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"titulo\": \"Proyecto de prueba\",\r\n    \"descripcion\": \"Proyecto para la contrucción de una plataforma del gestión del conocimineto enfocado en los proyectos de grado\",\r\n    \"fecha_inicio\": \"2022-02-08\",\r\n    \"ciudad\": \"Bogotá\",\r\n    \"metodologia\": \"xp\",\r\n    \"justificacion\": \"true\",\r\n    \"tipo_proyecto\": \"PROYECTO DE INVESTIGACION\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3000/api/project",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"project"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Project",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwMTAxMTE2NTciLCJpYXQiOjE2ODY3MTc2MTcsImV4cCI6MTY4NjcyNDgxN30.ynxIafuOFccnYR-eLnQkGyk_GeHgZTxOJJ0prn8sbzI",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"titulo\": \"Proyecto de prueba\",\r\n    \"estado\": \"Active\",\r\n    \"descripcion\": \"Proyecto para la contrucción de una plataforma del gestión del conocimineto enfocado en los proyectos de grados\",\r\n    \"visibilidad\": 1,\r\n    \"ciudad\": \"Bogotá\",\r\n    \"metodologia\": \"xp\",\r\n    \"justificacion\": \"true\",\r\n    \"tipo_proyecto\": \"Proyecto de investigación\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3000/api/project/5015",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"project",
+								"5015"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Project",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQiLCJpYXQiOjE2ODM0Nzc3MzYsImV4cCI6MTY4MzU2NDEzNn0.YX7jkskIyI6ukMieAV78GIKD2H9ulIN4RIa4MHZuo2A",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3000/api/project/3",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"project",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Approve Project",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwMTAxMTE2NTciLCJpYXQiOjE2ODY1ODQyMjAsImV4cCI6MTY4NjU5MTQyMH0.HX1Lp8RmNC-1BVrniucXoZOBpw1IxloAHRDxLk6eL9o",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"retroalimentacion_final\": \"Excelente proyecto, se nota la calidad de ingenieros que ha construido el profe Andres\",\r\n    \"conclusiones\": \"El proyecto fue entregado con todos los requerimientos establecidos\",\r\n    \"nota\": 2.9\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3000/api/project/approve/5001",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"project",
+								"approve",
+								"5001"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload Product",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwMTAxMTE2NTciLCJpYXQiOjE2ODczMjQwNTEsImV4cCI6MTY4NzMzMTI1MX0.-ODhefBrrw6wOvHVxPpzvPjf51oubT35LbM29z58iZA",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "titulo_producto",
+									"value": "Producto de prueba44",
+									"type": "text"
+								},
+								{
+									"key": "tipo_producto",
+									"value": "Prueba",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/Jeff/Documents/Universidad/Proyecto de grado/Anexo III - db-dll.sql"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3000/api/project/product/5016",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"project",
+								"product",
+								"5016"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "All Products",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwMTAxMTE2NTciLCJpYXQiOjE2ODczMjQwNTEsImV4cCI6MTY4NzMzMTI1MX0.-ODhefBrrw6wOvHVxPpzvPjf51oubT35LbM29z58iZA",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3000/api/project/product/all",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"project",
+								"product",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Product",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwMTAxMTE2NTciLCJpYXQiOjE2ODY3MTc2MTcsImV4cCI6MTY4NjcyNDgxN30.ynxIafuOFccnYR-eLnQkGyk_GeHgZTxOJJ0prn8sbzI",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "titulo_producto",
+									"value": "Producto de prueba",
+									"type": "text"
+								},
+								{
+									"key": "tipo_producto",
+									"value": "Prueba",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/Jeff/Documents/Universidad/Proyecto de grado/Anexo III - db-dll.sql"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3000/api/project/product/8011",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"project",
+								"product",
+								"8011"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Participant",
+			"item": [
+				{
+					"name": "Assign Rol in Project",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQiLCJpYXQiOjE2ODQ0NjcyMjQsImV4cCI6MTY4NDQ3NDQyNH0.vpdMpqy2Uv_rVCf2hl6LAes4E7U3qUgJJOlqXkvtjFo",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"usuario\": \"1234123\",\r\n    \"proyecto\": \"3\",\r\n    \"rol\": \"ADMINISTRADOR\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3000/api/participant/assign-rol",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"participant",
+								"assign-rol"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "api java",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"correoEstudiantil\": \"jeff@usbbog.edu.co\",\r\n    \"contrasena\": \"password\",\r\n    \"tipoUsuario\": \"Admin\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:3000/gestionusuario/login",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3000",
+					"path": [
+						"gestionusuario",
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

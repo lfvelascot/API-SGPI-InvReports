@@ -8,8 +8,11 @@ import co.edu.usbbog.sgpireports.model.Programa;
 import co.edu.usbbog.sgpireports.model.Proyecto;
 import co.edu.usbbog.sgpireports.model.Semillero;
 import net.minidev.json.JSONArray;
+import net.minidev.json.JSONObject;
 
 public interface IListasJSON {
+	
+	public JSONArray salida = new JSONArray();
 	
 	public JSONArray proyectosToJSONArray(List<Proyecto> lista);
 	
@@ -20,5 +23,7 @@ public interface IListasJSON {
 	public JSONArray facultadesToJSONArray(List<Facultad> lista);
 
 	public JSONArray programasToJSONArray(List<Programa> lista);
+	
+	public JSONArray getSalida(List<JSONObject> data);
 
 }

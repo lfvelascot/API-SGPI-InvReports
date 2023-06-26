@@ -1,7 +1,6 @@
 package co.edu.usbbog.sgpireports.service;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
@@ -9,8 +8,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 
+
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,8 @@ public class FileStorageService implements IFileStorageService {
 
 	@Autowired
 	private IGestionUsuariosService usuarios;
+	@Autowired
+	private ISeguridadService seguridad;
 
 	private final Path rootFirmas = Paths.get("Firmas");
 	private final Path rootReporte = Paths.get("Reportes");
@@ -99,6 +102,7 @@ public class FileStorageService implements IFileStorageService {
 						respuesta = "Firma actualizada correctamente";
 					}
 					Files.copy(file.getInputStream(), this.rootFirmas.resolve(nombre));
+					seguridad.encriptar(this.rootFirmas.resolve(nombre).toFile());
 					return respuesta;
 				} else {
 					return "ERROR CARGA : El tamaño o formato del archivo no es valido";
@@ -118,14 +122,9 @@ public class FileStorageService implements IFileStorageService {
 	// metodo que indicara si no fue posible leer el archivo
 	public Resource loadF(String filename) {
 		try {
-			Path file = rootFirmas.resolve(filename);
-			Resource resource = new UrlResource(file.toUri());
-			if (resource.exists() || resource.isReadable()) {
-				return resource;
-			} else {
-				return loadI("sin-firma.png");
-			}
-		} catch (MalformedURLException e) {
+			ByteArrayResource salida = new ByteArrayResource(seguridad.descrifrar2(rootFirmas.resolve(filename).toFile()));
+			return (salida.exists() || salida.isReadable()) ? salida : loadI("sin-firma.png");
+		} catch (IOException e) {
 			return null;
 		}
 	}
@@ -151,7 +150,7 @@ public class FileStorageService implements IFileStorageService {
 			if (resource.exists() || resource.isReadable()) {
 				return resource;
 			} else {
-				return null;
+				throw new RuntimeException("Could not read the file!");
 			}
 		} catch (MalformedURLException e) {
 			return null;
@@ -160,17 +159,14 @@ public class FileStorageService implements IFileStorageService {
 
 	// Genera y guarda los reportes
 	public String saveReporte(int cc, int rep, String usuario, Map<String, Object> datos)
-			throws FileNotFoundException, JRException, MalformedURLException {
+			throws JRException, IOException {
 		JasperReport reporte = JasperCompileManager
 				.compileReport(new FileInputStream(rootPlantillas.resolve(nombrePlantillas.get(rep)).toFile()));
 		String nombre = String.format(nombrePDF.get(rep), datos.get("n").toString(), usuario.toString());
 		JasperExportManager.exportReportToPdfFile(JasperFillManager.fillReport(reporte, datos, new JREmptyDataSource()),
-				this.rootReporte.resolve(nombre).toString());
-		if (new UrlResource(rootReporte.resolve(nombre).toUri()).exists()) {
-			return nombre;
-		} else {
-			return "Error al generar reporte";
-		}
+				rootReporte.resolve(nombre).toString());
+		return (new UrlResource(rootReporte.resolve(nombre).toUri()).exists()) ? nombre : "Error al generar reporte";
 	}
+
 
 }

@@ -248,7 +248,7 @@ public class GrupoInvestigacion implements Serializable {
     	return this.getSemilleros().size();
     }
 
-	public Object toJsonF() {
+	public JSONObject toJsonF() {
     	JSONObject grupoInvestigacionJson=new JSONObject();
     	grupoInvestigacionJson.put("id",this.getId());
     	grupoInvestigacionJson.put("nombre",this.getNombre());

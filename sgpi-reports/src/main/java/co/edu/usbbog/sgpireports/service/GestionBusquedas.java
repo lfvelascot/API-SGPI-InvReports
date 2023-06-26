@@ -1,6 +1,7 @@
 package co.edu.usbbog.sgpireports.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import co.edu.usbbog.sgpireports.repository.IGrupoInvestigacionRepository;
 import co.edu.usbbog.sgpireports.repository.IProyectoRepository;
 import co.edu.usbbog.sgpireports.repository.ISemilleroRepository;
 import net.minidev.json.JSONArray;
+import net.minidev.json.JSONObject;
 
 @Service
 public class GestionBusquedas implements IGestionBusquedas {
@@ -92,46 +94,33 @@ public class GestionBusquedas implements IGestionBusquedas {
 
 	@Override
 	public JSONArray proyectosToJSONArray(List<Proyecto> lista) {
-		JSONArray salida = new JSONArray();
-		for(Proyecto i : lista) {
-			salida.add(i.toJson());
-		}
-		return salida;
+		return getSalida(lista.stream().map(Proyecto::toJson).collect(Collectors.toList()));
 	}
 
 	@Override
 	public JSONArray gruposToJSONArray(List<GrupoInvestigacion> lista) {
-		JSONArray salida = new JSONArray();
-		for(GrupoInvestigacion i : lista) {
-			salida.add(i.toJson());
-		}
-		return salida;
+		return getSalida(lista.stream().map(GrupoInvestigacion::toJson).collect(Collectors.toList()));
 	}
 
 	@Override
 	public JSONArray semillerosToJSONArray(List<Semillero> lista) {
-		JSONArray salida = new JSONArray();
-		for(Semillero i : lista) {
-			salida.add(i.toJson());
-		}
-		return salida;
+		return getSalida(lista.stream().map(Semillero::toJson).collect(Collectors.toList()));
 	}
 
 	@Override
 	public JSONArray facultadesToJSONArray(List<Facultad> lista) {
-		JSONArray salida = new JSONArray();
-		for(Facultad i : lista) {
-			salida.add(i.toJson());
-		}
-		return salida;
+		return getSalida(lista.stream().map(Facultad::toJson).collect(Collectors.toList()));
 	}
 
 	@Override
 	public JSONArray programasToJSONArray(List<Programa> lista) {
-		JSONArray salida = new JSONArray();
-		for(Programa i : lista) {
-			salida.add(i.toJson());
-		}
+		return getSalida(lista.stream().map(Programa::toJson).collect(Collectors.toList()));
+	}
+
+	@Override
+	public JSONArray getSalida(List<JSONObject> data) {
+		salida.clear();
+		salida.addAll(data);
 		return salida;
 	}
 

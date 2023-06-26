@@ -4,12 +4,10 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import co.edu.usbbog.sgpireports.message.ResponseMessage;
+import org.springframework.stereotype.Service;
 
+@Service
 public class Response {
-
-	public Response() {
-	}
 
 
 	public ResponseEntity<ResponseMessage> getRespuestaMensaje(String mensaje, int opc) {
@@ -26,13 +24,15 @@ public class Response {
 	}
 
 	public ResponseEntity<Resource> sentRespuestaRecurso(Resource file, int opc) {
-		
 		switch (opc) {
 		case 0:
-			if(file != null) {
-				return ResponseEntity.ok()
-						.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
-						.body(file);
+			if (file != null) {
+				return (file.getFilename() == null)
+						? ResponseEntity.ok()
+								.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + "firma.png" + "\"")
+								.body(file)
+						: ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
+								"attachment; filename=\"" + file.getFilename() + "\"").body(file);
 			} else {
 				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 			}

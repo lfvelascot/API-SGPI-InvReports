@@ -41,11 +41,7 @@ public class GesionUsuariosService implements IGestionUsuariosService {
 	@Override
 	public String getFirmaUsuario(String cedula) {
 		Firma user = iFirmaRepository.getById(cedula);
-		if (user != null) {
-			return user.getNombre();
-		} else {
-			return null;
-		}
+		return (user != null)  ? user.getNombre() : null;
 	}
 
 	/**

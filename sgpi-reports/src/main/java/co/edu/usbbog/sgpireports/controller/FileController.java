@@ -1,5 +1,8 @@
 package co.edu.usbbog.sgpireports.controller;
 
+
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
@@ -32,8 +35,8 @@ public class FileController {
 	private IGestionUsuariosService iGestionUsuariosService;
 	@Autowired
 	private ISeguridadService seguridad;
-	private Response respuestas = new Response();
-
+	@Autowired
+	private Response respuestas;
 	/**
 	 * Carga de la firma de los usuarios
 	 * 
@@ -46,11 +49,9 @@ public class FileController {
 			@RequestParam("usuario") String usuario) {
 		if (seguridad.isValid()) {
 			String respuesta = storageService.save(file, usuario);
-			if (respuesta == "Firma cargada correctamente" || respuesta == "Firma actualizada correctamente") {
-				return respuestas.getRespuestaMensaje(respuesta, 0);
-			} else {
-				return respuestas.getRespuestaMensaje(respuesta, 1);
-			}
+			return (respuesta == "Firma cargada correctamente" || respuesta == "Firma actualizada correctamente")
+					? respuestas.getRespuestaMensaje(respuesta, 0)
+					: respuestas.getRespuestaMensaje(respuesta, 1);
 		} else {
 			return respuestas.getRespuestaMensaje("", 3);
 		}
@@ -61,20 +62,18 @@ public class FileController {
 	 * 
 	 * @param nombre del archivo
 	 * @return archivo para su descarga o despliegue
+	 * @throws IOException
 	 */
-	// metodo que obtendra el nombre del archivo
 	@PostMapping("/get/firma")
 	@ResponseBody
-	public ResponseEntity<Resource> getFileF(@RequestBody JSONObject entrada) {
+	public ResponseEntity<Resource> getFileF(@RequestBody JSONObject entrada) throws IOException {
 		if (seguridad.isValid()) {
 			Usuario user = iGestionUsuariosService.buscarUsuario(entrada.getAsString("cc"));
-			if (user.getFirma() != null) {
-				return respuestas.sentRespuestaRecurso(storageService.loadF(user.getFirma().getNombre()), 0);
-			} else {
-				return respuestas.sentRespuestaRecurso(null,2);
-			}
+			return (user.getFirma() != null)
+					? respuestas.sentRespuestaRecurso(storageService.loadF(user.getFirma().getNombre()), 0)
+					: respuestas.sentRespuestaRecurso(null, 2);
 		} else {
-			return respuestas.sentRespuestaRecurso(null,1);
+			return respuestas.sentRespuestaRecurso(null, 1);
 		}
 	}
 
@@ -84,14 +83,12 @@ public class FileController {
 	 * @param nombre del archivo
 	 * @return archivo para su descarga o despliegue
 	 */
-	@PostMapping("/get/reporte")
+	@GetMapping("/get/reporte/{filename:.+}")
 	@ResponseBody
-	public ResponseEntity<Resource> getFileR(@RequestBody JSONObject entrada) {
-		if (seguridad.isValid()) {
-			return respuestas.sentRespuestaRecurso(storageService.loadR(entrada.getAsString("reporte")), 0);
-		} else {
-			return respuestas.sentRespuestaRecurso(null,1);
-		}
+	public ResponseEntity<Resource> getFileR(@PathVariable String filename) {
+		return (seguridad.isValid())
+				? respuestas.sentRespuestaRecurso(storageService.loadR(filename), 0)
+				: respuestas.sentRespuestaRecurso(null, 1);
 	}
 
 	/**
@@ -103,13 +100,9 @@ public class FileController {
 	@GetMapping("/files/i/{filename:.+}")
 	@ResponseBody
 	public ResponseEntity<Resource> getFileI(@PathVariable String filename) {
-		if (seguridad.isValid()) {
-			return respuestas.sentRespuestaRecurso(storageService.loadI(filename), 0);
-		} else {
-			return respuestas.sentRespuestaRecurso(null,1);
-		}
+		return (seguridad.isValid()) ? respuestas.sentRespuestaRecurso(storageService.loadI(filename), 0)
+				: respuestas.sentRespuestaRecurso(null, 1);
 	}
-
 
 	/**
 	 * Extraer las firmas recibidas de los usuarios
@@ -120,11 +113,8 @@ public class FileController {
 	@GetMapping("/files/f/{filename:.+}")
 	@ResponseBody
 	public ResponseEntity<Resource> getFileFirma(@PathVariable String filename) {
-		if (seguridad.isValid()) {
-			return respuestas.sentRespuestaRecurso(storageService.loadF(filename), 0);
-		} else {
-			return respuestas.sentRespuestaRecurso(null,1);
-		}
+		return (seguridad.isValid()) ? respuestas.sentRespuestaRecurso(storageService.loadF(filename), 0)
+				: respuestas.sentRespuestaRecurso(null, 1);
 	}
 
 }
