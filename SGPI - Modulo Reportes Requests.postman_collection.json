@@ -37,7 +37,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"facultad\": 1001\r\n}",
+							"raw": "{\r\n  \"facultad\": 1002\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -253,7 +253,7 @@
 								},
 								{
 									"key": "usuario",
-									"value": "12345",
+									"value": "1000689373",
 									"type": "text"
 								}
 							]
@@ -275,11 +275,8 @@
 				},
 				{
 					"name": "Get Firma",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -458,23 +455,11 @@
 				},
 				{
 					"name": "Get Reporte",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"reporte\": \"RepProy-Proyecto 5-1000689373.pdf\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
-							"raw": "http://localhost:8081/archivo/get/reporte",
+							"raw": "http://localhost:8081/archivo/get/reporte/RepSem-Cábalas de Software-1000689373.pdf",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -483,7 +468,8 @@
 							"path": [
 								"archivo",
 								"get",
-								"reporte"
+								"reporte",
+								"RepSem-Cábalas de Software-1000689373.pdf"
 							]
 						}
 					},
@@ -496,7 +482,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"dato\": \"3003\",\r\n    \"reporte\": \"26\",\r\n    \"usuario\": \"1000456123\",\r\n    \"inicio\": \"2022\",\r\n    \"fin\": \"2023\"\r\n}",
+							"raw": "{\r\n    \"dato\": \"4018\",\r\n    \"reporte\": \"25\",\r\n    \"usuario\": \"1000456123\",\r\n    \"inicio\": \"2022\",\r\n    \"fin\": \"2023\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
