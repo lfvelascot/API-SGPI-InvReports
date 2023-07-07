@@ -26,7 +26,7 @@ public class TiposRService {
 			if (!s.getProyectos().isEmpty()) {
 				for (Proyecto p : s.getProyectos()) {
 					if (!p.getProductos().isEmpty()) {
-						salida = sumar(salida, s.getNombre(),1);
+						salida = sumar(salida, s.getNombre(),1,0);
 					}
 				}
 			} else {
@@ -59,7 +59,7 @@ public class TiposRService {
 			if (!s.getProyectos().isEmpty()) {
 				for (Proyecto p : s.getProyectos()) {
 					if (p.getFechaFin() != null) {
-						salida = sumar(salida, s.getNombre(),1);
+						salida = sumar(salida, s.getNombre(),1,0);
 					}
 				}
 			} else {
@@ -73,7 +73,7 @@ public class TiposRService {
 		List<TipoPEstado> salida = new ArrayList<>();
 		for (Proyecto p : proyecto.findByGI(gi)) {
 			if (p.getFechaFin() != null) {
-				salida = sumar(salida, String.valueOf(p.getFechaFin().getYear()),1);
+				salida = sumar(salida, String.valueOf(p.getFechaFin().getYear()),1,0);
 			}
 		}
 		return salida;
@@ -82,7 +82,7 @@ public class TiposRService {
 	public List<TipoPEstado> getProyectosEstadoGI(int gi) {
 		List<TipoPEstado> salida = new ArrayList<>();
 		for (Proyecto p : proyecto.findByGI(gi)) {
-			salida = sumar(salida, p.getEstado(),1);
+			salida = sumar(salida, p.getEstado(),1,0);
 		}
 		return salida;
 	}
@@ -90,7 +90,7 @@ public class TiposRService {
 	public List<TipoPEstado> getTiposProyectosGI(int gi) {
 		List<TipoPEstado> salida = new ArrayList<>();
 		for (Proyecto p : proyecto.findByGI(gi)) {
-			salida = sumar(salida, p.getTipoProyecto().getNombre(),1);
+			salida = sumar(salida, p.getTipoProyecto().getNombre(),1,0);
 		}
 		return salida;
 	}
@@ -118,7 +118,7 @@ public class TiposRService {
 		for (Proyecto p : proyectos) {
 			if (!p.getProyectosConvocatoria().isEmpty()) {
 				for (ProyectosConvocatoria pc : p.getProyectosConvocatoria()) {
-					salida = sumar(salida, pc.getIdProyecto(),1);
+					salida = sumar(salida, pc.getIdProyecto(),1,0);
 				}
 			}
 		}
@@ -131,7 +131,7 @@ public class TiposRService {
 			if (!p.getProyectosConvocatoria().isEmpty()) {
 				for (ProyectosConvocatoria pc : p.getProyectosConvocatoria()) {
 					if (pc.getConvocatoria().getEstado().equals("ABIERTA")) {
-						salida = sumar(salida, pc.getIdProyecto(),1);
+						salida = sumar(salida, pc.getIdProyecto(),1,0);
 					}
 				}
 			}
@@ -144,7 +144,7 @@ public class TiposRService {
 		for (Proyecto p : lista) {
 			if (!p.getParticipaciones().isEmpty()) {
 				for (Participaciones pp : p.getParticipaciones()) {
-					salida = sumar(salida, String.valueOf(pp.getFechaPart().getYear()),1);
+					salida = sumar(salida, String.valueOf(pp.getFechaPart().getYear()),1,0);
 				}
 			}
 		}
@@ -156,32 +156,44 @@ public class TiposRService {
 		for (Proyecto p : aux) {
 			if (!p.getParticipaciones().isEmpty()) {
 				for (Participaciones pe : p.getParticipaciones()) {
-					salida = sumar(salida, String.valueOf(pe.getFechaPart().getYear()), 2);
+					salida = sumar(salida, String.valueOf(pe.getFechaPart().getYear()), 2,0);
 				}
 			}
 			if (!p.getProyectosConvocatoria().isEmpty()) {
 				for (ProyectosConvocatoria pc : p.getProyectosConvocatoria()) {
-					salida = sumar(salida, String.valueOf(pc.getConvocatoria().getFechaFinal().getYear()), 3);
+					salida = sumar(salida, String.valueOf(pc.getConvocatoria().getFechaFinal().getYear()), 3,0);
 				}
 			}
 		}
 		return salida;
 	}
 
-	private List<TipoPEstado> sumar(List<TipoPEstado> salida, String clave, int dato) {
+	private List<TipoPEstado> sumar(List<TipoPEstado> salida, String clave, int dato, int adicional) {
 		TipoPEstado t = new TipoPEstado(clave);
 		if (salida.isEmpty()) {
-			salida.add(setDatos(t, dato, 1));
+			if(adicional != 0) {
+				salida.add(setDatos(t, dato, adicional));
+			} else {
+				salida.add(setDatos(t, dato, 1));
+			}
 			return salida;
 		} else {
 			TipoPEstado x = null;
 			try {
 				x = salida.stream().filter(o -> o.getTipo().equals(clave)).findFirst().get();
 				int pos = salida.indexOf(x);
-				salida.set(pos, setDatos(x, dato, 1));
+				if(adicional != 0) {
+					salida.set(pos, setDatos(x, dato, adicional));
+				} else {
+					salida.set(pos, setDatos(x, dato, 1));
+				}
 				return salida;
 			} catch (NoSuchElementException e) {
-				salida.add(setDatos(t, dato, 1));
+				if(adicional != 0) {
+					salida.add(setDatos(t, dato, adicional));
+				} else {
+					salida.add(setDatos(t, dato, 1));
+				}
 				return salida;
 			}
 		}
@@ -209,7 +221,7 @@ public class TiposRService {
 		for (Proyecto p : proyecto.findByGI(gi)) {
 			if (!p.getProyectosConvocatoria().isEmpty()) {
 				for (ProyectosConvocatoria pc : p.getProyectosConvocatoria()) {
-					salida = sumar(salida, String.valueOf(pc.getConvocatoria().getFechaInicio().getYear()),1);
+					salida = sumar(salida, String.valueOf(pc.getConvocatoria().getFechaInicio().getYear()),1,0);
 				}
 			}
 		}
@@ -221,7 +233,7 @@ public class TiposRService {
 		for (Proyecto p : proyecto.findByGI(gi)) {
 			if (!p.getProyectosConvocatoria().isEmpty()) {
 				for (ProyectosConvocatoria pc : p.getProyectosConvocatoria()) {
-					salida = sumar(salida, pc.getIdProyecto(),1);
+					salida = sumar(salida, pc.getIdProyecto(),1,0);
 				}
 			}
 		}
@@ -234,7 +246,7 @@ public class TiposRService {
 			if (!p.getProyectosConvocatoria().isEmpty()) {
 				for (ProyectosConvocatoria pc : p.getProyectosConvocatoria()) {
 					if (pc.getConvocatoria().getEstado().equals("ABIERTA")) {
-						salida = sumar(salida, pc.getIdProyecto(),1);
+						salida = sumar(salida, pc.getIdProyecto(),1,0);
 					}
 				}
 			}
@@ -246,7 +258,20 @@ public class TiposRService {
 		List<TipoPEstado> salida = new ArrayList<>();
 		for (Proyecto p : lista) {
 			if (p.getFechaFin() != null) {
-				salida = sumar(salida, String.valueOf(p.getFechaFin().getYear()),1);
+				salida = sumar(salida, String.valueOf(p.getFechaFin().getYear()),1,0);
+			}
+		}
+		return salida;
+	}
+	
+	public List<TipoPEstado> getProducciónPorAnio2(List<Proyecto> lista){
+		List<TipoPEstado> salida = new ArrayList<>();
+		for (Proyecto p : lista) {
+			if (p.getFechaFin() != null) {
+				salida = sumar(salida, String.valueOf(p.getFechaFin().getYear()),1,0);
+			}
+			if (!p.getProductos().isEmpty()) {
+				salida = sumar(salida, String.valueOf(p.getFechaInicio().getYear()),2, p.getProductos().size());
 			}
 		}
 		return salida;
@@ -257,7 +282,7 @@ public class TiposRService {
 		for (Proyecto p : lista) {
 			if (!p.getProyectosConvocatoria().isEmpty()) {
 				for (ProyectosConvocatoria pc : p.getProyectosConvocatoria()) {
-					salida = sumar(salida, String.valueOf(pc.getConvocatoria().getFechaInicio().getYear()),1);
+					salida = sumar(salida, String.valueOf(pc.getConvocatoria().getFechaInicio().getYear()),1,0);
 				}
 			}
 		}
@@ -269,7 +294,7 @@ public class TiposRService {
 		for (Proyecto p : proyecto.findByGI(gi)) {
 			if (!p.getParticipaciones().isEmpty()) {
 				for (Participaciones pc : p.getParticipaciones()) {
-					salida = sumar(salida, String.valueOf(pc.getFechaPart().getYear()),1);
+					salida = sumar(salida, String.valueOf(pc.getFechaPart().getYear()),1,0);
 				}
 			}
 		}
@@ -279,7 +304,7 @@ public class TiposRService {
 	public List<TipoPEstado> getProyectosEstadosFacultad(List<Proyecto> ps) {
 		List<TipoPEstado> salida = new ArrayList<>();
 		for (Proyecto p : ps) {
-			salida = sumar(salida, p.getEstado(),1);
+			salida = sumar(salida, p.getEstado(),1,0);
 		}
 		return salida;
 	}
@@ -287,7 +312,7 @@ public class TiposRService {
 	public List<TipoPEstado> getProyectosGIFacultad(List<Proyecto> ps) {
 		List<TipoPEstado> salida = new ArrayList<>();
 		for (Proyecto p : ps) {
-			salida = sumar(salida, p.getSemillero().getGrupoInvestigacion().getNombre(),1);
+			salida = sumar(salida, p.getSemillero().getGrupoInvestigacion().getNombre(),1,0);
 		}
 		return salida;
 	}
@@ -295,7 +320,7 @@ public class TiposRService {
 	public List<TipoPEstado> getProyectosTipoFacultad(List<Proyecto> ps) {
 		List<TipoPEstado> salida = new ArrayList<>();
 		for (Proyecto p : ps) {
-			salida = sumar(salida, p.getTipoProyecto().getNombre(),1);
+			salida = sumar(salida, p.getTipoProyecto().getNombre(),1,0);
 		}
 		return salida;
 	}
@@ -304,7 +329,7 @@ public class TiposRService {
 		List<TipoPEstado> salida = new ArrayList<>();
 		for (Proyecto p : ps) {
 			if (p.getFechaFin() != null) {
-				salida = sumar(salida, String.valueOf(p.getFechaFin().getYear()),1);
+				salida = sumar(salida, String.valueOf(p.getFechaFin().getYear()),1,0);
 			}
 		}
 		return salida;
@@ -314,7 +339,7 @@ public class TiposRService {
 		List<TipoPEstado> salida = new ArrayList<>();
 		for (Proyecto p : proyectos) {
 			if (p.getFechaFin() == null) {
-				salida = (!p.getProductos().isEmpty()) ? sumar(salida, "Sin productos",1) : sumar(salida, "Con productos",1);
+				salida = (!p.getProductos().isEmpty()) ? sumar(salida, "Sin productos",1,0) : sumar(salida, "Con productos",1,0);
 			}
 		}
 		return salida;
@@ -324,7 +349,7 @@ public class TiposRService {
 		List<TipoPEstado> salida = new ArrayList<>();
 		for (Proyecto p : proyectos) {
 			if (p.getFechaFin() == null) {
-				salida = sumar(salida, p.getTipoProyecto().getNombre(),1);
+				salida = sumar(salida, p.getTipoProyecto().getNombre(),1,0);
 			}
 		}
 		return salida;
@@ -334,7 +359,7 @@ public class TiposRService {
 		List<TipoPEstado> salida = new ArrayList<>();
 		for (Proyecto p : proyectos) {
 			if (p.getFechaFin() != null) {
-				salida = (p.getProductos().isEmpty()) ? sumar(salida, "Sin productos",1) : sumar(salida, "Con productos",1);
+				salida = (p.getProductos().isEmpty()) ? sumar(salida, "Sin productos",1,0) : sumar(salida, "Con productos",1,0);
 			}
 		}
 		return salida;
@@ -344,7 +369,7 @@ public class TiposRService {
 		List<TipoPEstado> salida = new ArrayList<>();
 		for (Proyecto p : proyectos) {
 			if (p.getFechaFin() != null) {
-				salida = sumar(salida, p.getTipoProyecto().getNombre(),1);
+				salida = sumar(salida, p.getTipoProyecto().getNombre(),1,0);
 			}
 		}
 		return salida;

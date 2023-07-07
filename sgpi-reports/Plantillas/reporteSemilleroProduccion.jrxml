@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.20.3.final using JasperReports Library version 6.20.3-415f9428cffdb6805c6f85bbb29ebaf18813a2ab  -->
+<!-- Created with Jaspersoft Studio version 6.20.5.final using JasperReports Library version 6.20.5-3efcf2e67f959db3888d79f73dde2dbd7acb4f8e  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporteSemillero" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="fcfce729-7ae1-4b57-af87-d1bdf413a13c">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<property name="net.sf.jasperreports.text.truncate.at.char" value="false"/>
@@ -1246,47 +1246,10 @@
 				</piePlot>
 			</pieChart>
 		</band>
-		<band height="352">
-			<printWhenExpression><![CDATA[!$P{datasource1}.isEmpty()]]></printWhenExpression>
-			<lineChart>
-				<chart evaluationTime="Report">
-					<reportElement x="20" y="0" width="756" height="351" uuid="f3fff895-eb91-4952-abd0-48be882d24a0"/>
-					<chartTitle>
-						<font isBold="true"/>
-						<titleExpression><![CDATA["Producción por año"]]></titleExpression>
-					</chartTitle>
-					<chartSubtitle/>
-					<chartLegend/>
-				</chart>
-				<categoryDataset>
-					<dataset>
-						<datasetRun subDataset="Produccion" uuid="1e3affe9-8c2f-4766-a0ae-c78bca1bd2df">
-							<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{datasource5})]]></dataSourceExpression>
-						</datasetRun>
-					</dataset>
-					<categorySeries>
-						<seriesExpression><![CDATA["Año"]]></seriesExpression>
-						<categoryExpression><![CDATA[$F{tipo}]]></categoryExpression>
-						<valueExpression><![CDATA[$F{numero}]]></valueExpression>
-					</categorySeries>
-				</categoryDataset>
-				<linePlot>
-					<plot>
-						<seriesColor seriesOrder="0" color="#A4A41E"/>
-					</plot>
-					<categoryAxisFormat>
-						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
-					</categoryAxisFormat>
-					<valueAxisFormat>
-						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
-					</valueAxisFormat>
-				</linePlot>
-			</lineChart>
-		</band>
 		<band height="337">
 			<barChart>
 				<chart evaluationTime="Report">
-					<reportElement x="19" y="0" width="754" height="330" uuid="7d8b7c34-63d7-4c7c-ab1b-b5b99b72ed5d"/>
+					<reportElement x="19" y="0" width="754" height="330" uuid="8cb4175e-d7ef-4e77-95cf-3939f1f9b4e9"/>
 					<chartTitle>
 						<font fontName="Arial" size="12" isBold="true"/>
 						<titleExpression><![CDATA["Datos de produccion en proyectos"]]></titleExpression>
@@ -1296,12 +1259,12 @@
 				</chart>
 				<categoryDataset>
 					<dataset>
-						<datasetRun subDataset="ProduccionSemilleros" uuid="8d4d5a86-984a-465a-b5e0-66aa4cf985c4">
+						<datasetRun subDataset="ProduccionSemilleros" uuid="cce86ab7-ddba-4fe5-85d6-190e12ddc8bb">
 							<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{datasource7})]]></dataSourceExpression>
 						</datasetRun>
 					</dataset>
 					<categorySeries>
-						<seriesExpression><![CDATA["Proyectos con productos"]]></seriesExpression>
+						<seriesExpression><![CDATA["Productos"]]></seriesExpression>
 						<categoryExpression><![CDATA[$F{tipo}]]></categoryExpression>
 						<valueExpression><![CDATA[$F{numero2}]]></valueExpression>
 					</categorySeries>

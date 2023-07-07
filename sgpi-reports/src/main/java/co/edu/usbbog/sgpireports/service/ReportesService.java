@@ -600,8 +600,8 @@ public class ReportesService implements IReportesService {
 		map.put("datasource2", datosTablas.getProyectosSemilleroPorEstado(s.getId()));
 		map.put("datasource3", datosTablas.getProyectosSemilleroPorTipo(s.getId()));
 		map.put("datasource4", productos.getProductosSemillero(s.getProyectos()));
-		map.put("datasource5", datosTablas.getProducciónPorAnio(s.getProyectos()));
 		map.put("datasource6", comentario.getComentariosProyectos(s.getProyectos()));
+		map.put("datasource7", datosTablas.getProducciónPorAnio2(s.getProyectos()));
 		map = (totalProyectos == 0) ? totalesVacios(map, s.getNombre(), true) : setTotalesProd(map, null, s, null);
 		return map;
 	}

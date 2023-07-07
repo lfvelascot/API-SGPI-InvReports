@@ -68,10 +68,10 @@ public class FileStorageService implements IFileStorageService {
 
 	private void validateDirectory(Path ruta) throws IOException {
 		if (!Files.exists(ruta)) {
-			throw new RuntimeException("No existe la carpeta de imagenes!");
+			throw new RuntimeException("No existe la carpeta "+ruta.getFileName()+"!");
 		} else {
 			if (Files.list(ruta).toList().isEmpty()) {
-				throw new RuntimeException("No existen los recursos de imagenes!");
+				throw new RuntimeException("No existen los recursos de la carpeta "+ruta.getFileName()+"!");
 			}
 		}
 	}
@@ -162,7 +162,7 @@ public class FileStorageService implements IFileStorageService {
 			throws JRException, IOException {
 		JasperReport reporte = JasperCompileManager
 				.compileReport(new FileInputStream(rootPlantillas.resolve(nombrePlantillas.get(rep)).toFile()));
-		String nombre = String.format(nombrePDF.get(rep), datos.get("n").toString(), usuario.toString());
+		String nombre = String.format(nombrePDF.get(rep), datos.get("n").toString(), usuario.toString()).replaceAll(" ", "");
 		JasperExportManager.exportReportToPdfFile(JasperFillManager.fillReport(reporte, datos, new JREmptyDataSource()),
 				rootReporte.resolve(nombre).toString());
 		return (new UrlResource(rootReporte.resolve(nombre).toUri()).exists()) ? nombre : "Error al generar reporte";

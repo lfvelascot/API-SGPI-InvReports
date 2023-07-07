@@ -30,13 +30,14 @@ public class MiembrosExtraRService {
 	public List<MiembrosExtra> getMiembrosSemilleroExtra(List<Usuario> aux) {
 		List<MiembrosExtra> salida = new ArrayList<>();
 		for (Usuario u : aux) {
-			MiembrosExtra x = new MiembrosExtra(u.getNombreCompleto(), u.getTiposUsuario().get(0).getNombre(),
-					String.valueOf(pa.contProyectosPorUsuario(u.getCedula())),
-					String.valueOf(pe.countParticipacionesPorUsuario(u.getCedula())),
-					String.valueOf(c.CountParticpacionesEnConvocatorias(u.getCedula())));
-			x.setSemillero(u.getSemilleroId().getNombre());
-			salida.add(x);
-			
+			if (u.getVisibilidad() == 1) {
+				MiembrosExtra x = new MiembrosExtra(u.getNombreCompleto(), u.getTiposUsuario().get(0).getNombre(),
+						String.valueOf(pa.contProyectosPorUsuario(u.getCedula())),
+						String.valueOf(pe.countParticipacionesPorUsuario(u.getCedula())),
+						String.valueOf(c.CountParticpacionesEnConvocatorias(u.getCedula())));
+				x.setSemillero(u.getSemilleroId().getNombre());
+				salida.add(x);
+			}
 		}
 		return orderSalida(salida);
 	}
@@ -49,7 +50,8 @@ public class MiembrosExtraRService {
 	public List<MiembrosExtra> getMiembrosSemilleroExtraInv(List<Usuario> aux) {
 		List<MiembrosExtra> salida = new ArrayList<>();
 		for (Usuario u : aux) {
-			if (investigadoresF.contains(u.getTiposUsuario().get(0).getNombre().toUpperCase())) {
+			if (investigadoresF.contains(u.getTiposUsuario().get(0).getNombre().toUpperCase())
+					&& u.getVisibilidad() == 1) {
 				salida.add(new MiembrosExtra(u.getNombreCompleto(), u.getTiposUsuario().get(0).getNombre(),
 						String.valueOf(pa.contProyectosPorUsuario(u.getCedula())),
 						String.valueOf(pe.countParticipacionesPorUsuario(u.getCedula())),

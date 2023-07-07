@@ -7,9 +7,6 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 
-import java.io.OutputStream;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.pdf.PdfWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

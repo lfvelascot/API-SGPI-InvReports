@@ -33,23 +33,24 @@ public class ReportesController {
 	 */
 	@PostMapping("/generar")
 	public JSONObject generarReporte(@RequestBody JSONObject entrada) throws JRException, IOException {
+		JSONObject salida = new JSONObject();
 		if (seguridad.isValid()) {
 			try {
 				int rep = Integer.valueOf(entrada.getAsString("reporte"));
 				if (rep < 23) {
-					JSONObject salida = new JSONObject();
 					salida.put( "nombreDocumento", reportes.crearReporte(Integer.valueOf(entrada.getAsString("dato")),
 							rep, entrada.getAsString("usuario")));
-					return salida;
 				} else {
-					return null;
+					salida.put( "nombreDocumento", "ID reporte fuera de rango"+String.valueOf(rep));
 				}
+				return salida;
 			} catch (Exception e) {
-				return null;
+				salida.put( "nombreDocumento", e.getMessage());
 			}
 		} else {
-			return null;
+			salida.put( "nombreDocumento", "N/A");;
 		}
+		return salida;
 	}
 
 	/**
@@ -63,26 +64,26 @@ public class ReportesController {
 	 */
 	@PostMapping("/generar/anios")
 	public JSONObject generarReporteAnios(@RequestBody JSONObject entrada) throws JRException, IOException {
+		JSONObject salida2 = new JSONObject();
 		if (seguridad.isValid()) {
 			try {
 				int rep = Integer.valueOf(entrada.getAsString("reporte")),
 						inicio = Integer.valueOf(entrada.getAsString("inicio")),
 						fin = Integer.valueOf(entrada.getAsString("fin"));
-				JSONObject salida2 = new JSONObject();
 				if (rep >= 23 && rep < 27 && fin >= inicio) {
 						salida2.put("nombreDocumento",
 								reportes.crearReporteAnios(Integer.valueOf(entrada.getAsString("dato")), rep,
 										entrada.getAsString("usuario"), inicio, fin));
 					} else {
-						salida2.put("nombreDocumento", "Año de fin menor al año de inicio");
+						salida2.put("nombreDocumento", "Año de fin menor al año de inicio/ID reporte fuera de rango");
 					}
-				return salida2;
 			} catch (Exception e) {
-				return null;
+				salida2.put("nombreDocumento", e.getMessage());
 			}
 		} else {
-			return null;
+			salida2.put("nombreDocumento", "N/A");
 		}
+		return salida2;
 	}
 
 }

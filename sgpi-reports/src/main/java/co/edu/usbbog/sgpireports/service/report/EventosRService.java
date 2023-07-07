@@ -27,6 +27,7 @@ public class EventosRService {
 							pp.getEvento().getEntidad(),
 							pp.getEvento().getEstado());
 					x.setSemillero((pp.getReconocimientos() != null) ? pp.getReconocimientos() : "");
+					salida.add(x);
 				}
 			}
 		}

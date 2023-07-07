@@ -1,6 +1,5 @@
 package co.edu.usbbog.sgpireports.controller;
 
-
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +36,7 @@ public class FileController {
 	private ISeguridadService seguridad;
 	@Autowired
 	private Response respuestas;
+
 	/**
 	 * Carga de la firma de los usuarios
 	 * 
@@ -86,8 +86,7 @@ public class FileController {
 	@GetMapping("/get/reporte/{filename:.+}")
 	@ResponseBody
 	public ResponseEntity<Resource> getFileR(@PathVariable String filename) {
-		return (seguridad.isValid())
-				? respuestas.sentRespuestaRecurso(storageService.loadR(filename), 0)
+		return (seguridad.isValid()) ? respuestas.sentRespuestaRecurso(storageService.loadR(filename), 0)
 				: respuestas.sentRespuestaRecurso(null, 1);
 	}
 
@@ -113,7 +112,9 @@ public class FileController {
 	@GetMapping("/files/f/{filename:.+}")
 	@ResponseBody
 	public ResponseEntity<Resource> getFileFirma(@PathVariable String filename) {
-		return (seguridad.isValid()) ? respuestas.sentRespuestaRecurso(storageService.loadF(filename), 0)
+		return (seguridad.isValid())
+				? ((filename.equals("sin-firma.png")) ? respuestas.sentRespuestaRecurso(storageService.loadI(filename), 0)
+						: respuestas.sentRespuestaRecurso(storageService.loadF(filename), 0))
 				: respuestas.sentRespuestaRecurso(null, 1);
 	}
 
