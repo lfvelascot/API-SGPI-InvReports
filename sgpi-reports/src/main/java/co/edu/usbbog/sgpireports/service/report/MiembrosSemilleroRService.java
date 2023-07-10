@@ -83,12 +83,14 @@ public class MiembrosSemilleroRService {
 	public List<MiembrosSemillero> getMiembrosSemilleroInv(List<Usuario> aux) {
 		List<MiembrosSemillero> salida = new ArrayList<>();
 		for (Usuario u : aux) {
-			if (investigadoresF.contains(u.getTiposUsuario().get(0).getNombre().toUpperCase())
+			if(!u.getTiposUsuario().isEmpty()) {
+				if (investigadoresF.contains(u.getTiposUsuario().get(0).getNombre().toUpperCase())
 					&& u.getVisibilidad() == 1) {
 				MiembrosSemillero us = new MiembrosSemillero(u.getCodUniversitario().toString(), u.getNombreCompleto(),
 						u.getTelefono(), u.getCorreoEst(), u.getProgramaId().getNombre());
 				us.setSemillero(u.getSemilleroId().getNombre());
 				salida.add(us);
+			}
 			}
 		}
 		return salida;

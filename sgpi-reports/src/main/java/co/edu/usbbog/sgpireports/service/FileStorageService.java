@@ -70,7 +70,7 @@ public class FileStorageService implements IFileStorageService {
 		if (!Files.exists(ruta)) {
 			throw new RuntimeException("No existe la carpeta "+ruta.getFileName()+"!");
 		} else {
-			if (Files.list(ruta).toList().isEmpty()) {
+			if (Files.list(ruta).count() == 0) {
 				throw new RuntimeException("No existen los recursos de la carpeta "+ruta.getFileName()+"!");
 			}
 		}

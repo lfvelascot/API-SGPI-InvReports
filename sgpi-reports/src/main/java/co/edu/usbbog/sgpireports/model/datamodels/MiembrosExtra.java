@@ -1,5 +1,9 @@
 package co.edu.usbbog.sgpireports.model.datamodels;
 
+import java.util.List;
+
+import co.edu.usbbog.sgpireports.model.TipoUsuario;
+
 public class MiembrosExtra  implements Comparable<MiembrosExtra>{
 	
 	private String miembro;
@@ -9,17 +13,20 @@ public class MiembrosExtra  implements Comparable<MiembrosExtra>{
 	private String totalConvocatorias;
 	private String semillero;
 	
-	public MiembrosExtra(String miembro, String rol, String totalProyectos, String totalEventos,
+
+	public MiembrosExtra(String miembro, List<TipoUsuario> tiposUsuario,String totalProyectos, String totalEventos,
 			String totalConvocatorias) {
 		this.miembro = miembro;
-		this.rol = rol;
+		if(tiposUsuario.isEmpty()) {
+			this.rol = "Sin dato";
+		} else {
+			this.rol = tiposUsuario.get(0).getNombre();
+		}
 		this.totalProyectos = totalProyectos;
 		this.totalEventos = totalEventos;
 		this.totalConvocatorias = totalConvocatorias;
 	}
 
-	
-	
 	public String getSemillero() {
 		return semillero;
 	}

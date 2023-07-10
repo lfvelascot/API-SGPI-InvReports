@@ -31,7 +31,7 @@ public class MiembrosExtraRService {
 		List<MiembrosExtra> salida = new ArrayList<>();
 		for (Usuario u : aux) {
 			if (u.getVisibilidad() == 1) {
-				MiembrosExtra x = new MiembrosExtra(u.getNombreCompleto(), u.getTiposUsuario().get(0).getNombre(),
+				MiembrosExtra x = new MiembrosExtra(u.getNombreCompleto(), u.getTiposUsuario(),
 						String.valueOf(pa.contProyectosPorUsuario(u.getCedula())),
 						String.valueOf(pe.countParticipacionesPorUsuario(u.getCedula())),
 						String.valueOf(c.CountParticpacionesEnConvocatorias(u.getCedula())));
@@ -52,7 +52,7 @@ public class MiembrosExtraRService {
 		for (Usuario u : aux) {
 			if (investigadoresF.contains(u.getTiposUsuario().get(0).getNombre().toUpperCase())
 					&& u.getVisibilidad() == 1) {
-				salida.add(new MiembrosExtra(u.getNombreCompleto(), u.getTiposUsuario().get(0).getNombre(),
+				salida.add(new MiembrosExtra(u.getNombreCompleto(), u.getTiposUsuario(),
 						String.valueOf(pa.contProyectosPorUsuario(u.getCedula())),
 						String.valueOf(pe.countParticipacionesPorUsuario(u.getCedula())),
 						String.valueOf(c.CountParticpacionesEnConvocatorias(u.getCedula()))));

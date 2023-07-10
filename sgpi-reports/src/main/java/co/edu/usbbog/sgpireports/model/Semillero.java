@@ -182,16 +182,7 @@ public class Semillero implements Serializable {
     public void setUsuarios(List<Usuario> usuarios) {
         this.usuarios = usuarios;
     }
-    public Usuario addUsuario(Usuario usuario) {
-    	getUsuarios().add(usuario);
-    	usuario.addsemillero(this);
-    	return usuario;
-    }
-    public Usuario removeUsuario(Usuario usuario) {
-    	getUsuarios().remove(usuario);
-    	usuario.addsemillero(null);
-    	return usuario;
-    }
+
     @Override
     public int hashCode() {
         int hash = 0;
