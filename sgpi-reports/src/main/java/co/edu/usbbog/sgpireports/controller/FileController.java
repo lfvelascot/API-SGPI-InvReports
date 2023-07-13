@@ -64,11 +64,11 @@ public class FileController {
 	 * @return archivo para su descarga o despliegue
 	 * @throws IOException
 	 */
-	@PostMapping("/get/firma")
+	@GetMapping("/get/firma/{cc:.+}")
 	@ResponseBody
-	public ResponseEntity<Resource> getFileF(@RequestBody JSONObject entrada) throws IOException {
+	public ResponseEntity<Resource> getFileF(@PathVariable String cc) throws IOException {
 		if (seguridad.isValid()) {
-			Usuario user = iGestionUsuariosService.buscarUsuario(entrada.getAsString("cc"));
+			Usuario user = iGestionUsuariosService.buscarUsuario(cc);
 			return (user.getFirma() != null)
 					? respuestas.sentRespuestaRecurso(storageService.loadF(user.getFirma().getNombre()), 0)
 					: respuestas.sentRespuestaRecurso(null, 2);
