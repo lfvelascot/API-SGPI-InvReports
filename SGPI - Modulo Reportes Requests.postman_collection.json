@@ -275,12 +275,15 @@
 				},
 				{
 					"name": "Get Firma",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
-						"method": "POST",
+						"method": "GET",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"cc\": \"1000689373\"\r\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -288,7 +291,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8081/archivo/get/firma",
+							"raw": "http://localhost:8081/archivo/get/firma/1000689373",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -297,7 +300,8 @@
 							"path": [
 								"archivo",
 								"get",
-								"firma"
+								"firma",
+								"1000689373"
 							]
 						}
 					},
