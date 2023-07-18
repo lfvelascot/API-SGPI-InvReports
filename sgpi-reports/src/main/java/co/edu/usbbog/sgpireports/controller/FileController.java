@@ -2,6 +2,8 @@ package co.edu.usbbog.sgpireports.controller;
 
 import java.io.IOException;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
@@ -9,7 +11,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -21,7 +22,6 @@ import co.edu.usbbog.sgpireports.model.Usuario;
 import co.edu.usbbog.sgpireports.service.IFileStorageService;
 import co.edu.usbbog.sgpireports.service.IGestionUsuariosService;
 import co.edu.usbbog.sgpireports.service.ISeguridadService;
-import net.minidev.json.JSONObject;
 
 @RestController
 @CrossOrigin(origins = { "http://backend-node:3000", "http://localhost:3000" })
@@ -68,10 +68,14 @@ public class FileController {
 	@ResponseBody
 	public ResponseEntity<Resource> getFileF(@PathVariable String cc) throws IOException {
 		if (seguridad.isValid()) {
-			Usuario user = iGestionUsuariosService.buscarUsuario(cc);
-			return (user.getFirma() != null)
-					? respuestas.sentRespuestaRecurso(storageService.loadF(user.getFirma().getNombre()), 0)
-					: respuestas.sentRespuestaRecurso(null, 2);
+			try {
+				Usuario user = iGestionUsuariosService.buscarUsuario(cc);
+				return (user.getFirma() != null)
+						? respuestas.sentRespuestaRecurso(storageService.loadF(user.getFirma().getNombre()), 0)
+						: respuestas.sentRespuestaRecurso(null, 2);
+			} catch (EntityNotFoundException e) {
+				return respuestas.sentRespuestaRecurso(null, 1);
+			}
 		} else {
 			return respuestas.sentRespuestaRecurso(null, 1);
 		}
@@ -113,7 +117,8 @@ public class FileController {
 	@ResponseBody
 	public ResponseEntity<Resource> getFileFirma(@PathVariable String filename) {
 		return (seguridad.isValid())
-				? ((filename.equals("sin-firma.png")) ? respuestas.sentRespuestaRecurso(storageService.loadI(filename), 0)
+				? ((filename.equals("sin-firma.png"))
+						? respuestas.sentRespuestaRecurso(storageService.loadI(filename), 0)
 						: respuestas.sentRespuestaRecurso(storageService.loadF(filename), 0))
 				: respuestas.sentRespuestaRecurso(null, 1);
 	}
