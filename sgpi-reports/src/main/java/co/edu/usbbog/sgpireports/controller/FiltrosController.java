@@ -15,7 +15,7 @@ import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 
 @RestController
-@CrossOrigin(origins = { "http://backend-node:3000","http://localhost:3000" })
+@CrossOrigin(origins = { "http://backend-node:3000","http://localhost:3000", "http://localhost:5173" })
 @RequestMapping("/filtro")
 public class FiltrosController {
 
