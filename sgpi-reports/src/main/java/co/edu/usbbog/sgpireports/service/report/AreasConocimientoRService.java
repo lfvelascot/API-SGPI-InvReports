@@ -1,7 +1,7 @@
 package co.edu.usbbog.sgpireports.service.report;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -12,11 +12,9 @@ import co.edu.usbbog.sgpireports.model.datamodels.AreasConocimientoR;
 public class AreasConocimientoRService {
 
 	public List<AreasConocimientoR> getAreasProyecto(List<AreaConocimiento> areasConocimiento) {
-		List<AreasConocimientoR> salida = new ArrayList<>();
-		for (AreaConocimiento a : areasConocimiento) {
-			salida.add(new AreasConocimientoR(a.getNombre(), a.getGranArea(), a.getDescripcion()));
-		}
-		return salida;
+		return areasConocimiento.stream()
+			    .map(a -> new AreasConocimientoR(a.getNombre(), a.getGranArea(), a.getDescripcion()))
+			    .collect(Collectors.toList());
 	}
 
 }

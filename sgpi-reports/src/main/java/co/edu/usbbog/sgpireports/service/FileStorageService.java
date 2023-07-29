@@ -162,10 +162,14 @@ public class FileStorageService implements IFileStorageService {
 			throws JRException, IOException {
 		JasperReport reporte = JasperCompileManager
 				.compileReport(new FileInputStream(rootPlantillas.resolve(nombrePlantillas.get(rep)).toFile()));
-		String nombre = String.format(nombrePDF.get(rep), datos.get("n").toString(), usuario.toString()).replaceAll(" ", "");
+		String nombre = String.format(nombrePDF.get(rep), recortarN(datos.get("n").toString().trim()), usuario.toString()).replaceAll(" ", "");
 		JasperExportManager.exportReportToPdfFile(JasperFillManager.fillReport(reporte, datos, new JREmptyDataSource()),
 				rootReporte.resolve(nombre).toString());
 		return (new UrlResource(rootReporte.resolve(nombre).toUri()).exists()) ? nombre : "Error al generar reporte";
+	}
+
+	private String recortarN(String salida) {
+		return (salida.length() > 20) ? salida.substring(0,20) : salida;
 	}
 
 
