@@ -94,16 +94,6 @@ public class Facultad implements Serializable {
     public void setProgramas(List<Programa> programaList) {
         this.programas = programaList;
     }
-    public Programa addProgramas(Programa programa) {
-    	getProgramas().add(programa);
-    	programa.setFacultadId(this);
-    	return programa;
-    }
-    public Programa removeProgramas(Programa programa) {
-    	getProgramas().add(programa);
-    	programa.setFacultadId(null);
-    	return programa;
-    }
 
     public Usuario getCoorInv() {
         return coorInv;

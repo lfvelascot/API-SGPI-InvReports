@@ -128,18 +128,6 @@ public class Semillero implements Serializable {
     public void setProgramas(List<Programa> programas) {
         this.programas = programas;
     }
-    public Programa addPrograma(Programa programa) {
-		getProgramas().add(programa);
-		programa.addSemillero(this);	
-		return programa;
-	}
-
-	public Programa removePrograma(Programa programa) {
-		getProgramas().remove(programa);
-		programa.removeSemillero(this);
-		return programa;
-		
-	}
     @XmlTransient
     public List<Proyecto> getProyectos() {
         return proyectos;

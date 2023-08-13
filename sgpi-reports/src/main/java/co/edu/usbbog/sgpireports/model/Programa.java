@@ -66,6 +66,8 @@ public class Programa implements Serializable {
     private Usuario director;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "programaId")
     private List<Usuario> usuarios;
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "programaId")
+//    private List<Proyecto> proyectoList;
 
     public Programa() {
     }
@@ -90,6 +92,15 @@ public class Programa implements Serializable {
     public String getNombre() {
         return nombre;
     }
+    
+//    @XmlTransient
+//    public List<Proyecto> getProyectoList() {
+//        return proyectoList;
+//    }
+//
+//    public void setProyectoList(List<Proyecto> proyectoList) {
+//        this.proyectoList = proyectoList;
+//    }
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
@@ -103,17 +114,6 @@ public class Programa implements Serializable {
     public void setGrupoInvestigacionList(List<GrupoInvestigacion> gruposInvestigacion) {
         this.gruposInvestigacion = gruposInvestigacion;
     }
-    public GrupoInvestigacion addGrupoInvestigacion(GrupoInvestigacion grupoInvestigacion) {
-		getGruposInvestigacion().add(grupoInvestigacion);
-		grupoInvestigacion.addPrograma(this);
-		return grupoInvestigacion;
-	}
-
-	public GrupoInvestigacion removeGrupoInvestigacion(GrupoInvestigacion grupoInvestigacion) {
-		getGruposInvestigacion().remove(grupoInvestigacion);
-		grupoInvestigacion.removePrograma(null);
-		return grupoInvestigacion;
-	}
 
     @XmlTransient
     public List<Semillero> getSemilleros() {
@@ -123,16 +123,7 @@ public class Programa implements Serializable {
     public void setSemilleros(List<Semillero> semilleros) {
         this.semilleros = semilleros;
     }
-    public Semillero addSemillero(Semillero semillero) {
-    	getSemilleros().add(semillero);
-    	semillero.addPrograma(this);
-    	return semillero;
-    }
-    public Semillero removeSemillero(Semillero semillero) {
-    	getSemilleros().remove(semillero);
-    	semillero.removePrograma(null);
-    	return semillero;
-    }
+
     public Facultad getFacultadId() {
         return facultadId;
     }
@@ -157,18 +148,6 @@ public class Programa implements Serializable {
     public void setUsuarios(List<Usuario> usuarios) {
         this.usuarios = usuarios;
     }
-    public Usuario addUsuario(Usuario usuario) {
-
-		getUsuarios().add(usuario);
-		usuario.setProgramaId(this);
-		return usuario;
-	}
-    public Usuario removeUsuario(Usuario usuario) {
-
-		getUsuarios().remove(usuario);
-		usuario.setProgramaId(null);
-		return usuario;
-	}
 
 
     @Override
@@ -221,10 +200,5 @@ public class Programa implements Serializable {
     public String toString() {
         return toJson().toString();
     }
-
-	
-	
-
-	
-    
+ 
 }

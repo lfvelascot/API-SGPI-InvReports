@@ -145,16 +145,6 @@ public class Evento implements Serializable {
     public void setParticipaciones(List<Participaciones> participaciones) {
         this.participaciones = participaciones;
     }
-    public Participaciones addParticipaciones(Participaciones participaciones) {
-    	getParticipaciones().add(participaciones);
-    	participaciones.setEvento(this);
-    	return participaciones;
-    }
-    public Participaciones removeParticipaciones(Participaciones participaciones) {
-    	getParticipaciones().remove(participaciones);
-    	participaciones.setEvento(null);
-    	return participaciones;
-    }
 
     @Override
     public int hashCode() {

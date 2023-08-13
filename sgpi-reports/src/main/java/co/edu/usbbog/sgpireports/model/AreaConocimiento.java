@@ -113,16 +113,7 @@ public class AreaConocimiento implements Serializable {
     public void setProyectos(List<Proyecto> proyectos) {
         this.proyectos = proyectos;
     }
-    public Proyecto addProyecto(Proyecto proyecto) {
-    	getProyectos().add(proyecto);    	
-    	proyecto.addAreaConocimiento(this);    	
-    	return proyecto;
-    }
-    public Proyecto removeProyecto(Proyecto proyecto) {
-    	getProyectos().remove(proyecto);    	  	
-    	proyecto.removeAreaConocimiento(this);    	
-    	return proyecto;
-    }
+
     @Override
     public int hashCode() {
         int hash = 0;

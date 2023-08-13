@@ -1,6 +1,7 @@
 package co.edu.usbbog.sgpireports.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 
 import co.edu.usbbog.sgpireports.service.IReportesService;
 import co.edu.usbbog.sgpireports.service.ISeguridadService;
@@ -34,7 +36,7 @@ public class ReportesController {
 	@PostMapping("/generar")
 	public JSONObject generarReporte(@RequestBody JSONObject entrada) throws JRException, IOException {
 		JSONObject salida = new JSONObject();
-		if (seguridad.isValid()) {
+		if (seguridad.isValid() && seguridad.validateJSON(0,entrada)) {
 			try {
 				int rep = Integer.valueOf(entrada.getAsString("reporte"));
 				if (rep < 23) {
@@ -65,7 +67,8 @@ public class ReportesController {
 	@PostMapping("/generar/anios")
 	public JSONObject generarReporteAnios(@RequestBody JSONObject entrada) throws JRException, IOException {
 		JSONObject salida2 = new JSONObject();
-		if (seguridad.isValid()) {
+		
+		if (seguridad.isValid() && seguridad.validateJSON(1,entrada)) {
 			try {
 				int rep = Integer.valueOf(entrada.getAsString("reporte")),
 						inicio = Integer.valueOf(entrada.getAsString("inicio")),
@@ -85,5 +88,7 @@ public class ReportesController {
 		}
 		return salida2;
 	}
+
+	
 
 }

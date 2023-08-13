@@ -139,16 +139,6 @@ public class Producto implements Serializable, Comparable<Producto> {
         this.comentarios = comentarios;
     }
    
-    public Comentario addComentario(Comentario comentario) {
-    	getComentarios().add(comentario);
-    	comentario.setProductoId(this);
-    	return comentario;
-    }
-    public Comentario removeComentario(Comentario comentario) {
-    	getComentarios().remove(comentario);
-    	comentario.setProductoId(null);
-    	return comentario;
-    }
     @Override
     public int hashCode() {
         int hash = 0;

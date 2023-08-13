@@ -147,17 +147,6 @@ public class GrupoInvestigacion implements Serializable {
     public void setLineasInvestigacion(List<LineaInvestigacion> lineasInvestigacion) {
         this.lineasInvestigacion = lineasInvestigacion;
     }
-    public LineaInvestigacion addLineaInvestigacion(LineaInvestigacion lineaInvestigacion) {
-    	getLineasInvestigacion().add(lineaInvestigacion);
-    	lineaInvestigacion.addGrupoInvestigacion(this);
-    	return lineaInvestigacion;
-    }
-    public LineaInvestigacion removeLineaInvestigacion(LineaInvestigacion lineaInvestigacion) {
-		getLineasInvestigacion().remove(lineaInvestigacion);
-		lineaInvestigacion.removeGrupoInvestigacion(null);
-		return lineaInvestigacion;
-	}
-    
 
     @XmlTransient
     public List<Programa> getProgramas() {
@@ -166,16 +155,6 @@ public class GrupoInvestigacion implements Serializable {
 
     public void setProgramas(List<Programa> programas) {
         this.programas = programas;
-    }
-    public Programa addPrograma(Programa programa) {
-    	getProgramas().add(programa);
-    	programa.addGrupoInvestigacion(this);
-    	return programa;
-    }
-    public Programa removePrograma(Programa programa) {
-    	getProgramas().add(programa);
-    	programa.removeGrupoInvestigacion(null);
-    	return programa;
     }
     public Usuario getDirectorGrupo() {
         return directorGrupo;
@@ -192,16 +171,6 @@ public class GrupoInvestigacion implements Serializable {
 
     public void setSemilleros(List<Semillero> semilleros) {
         this.semilleros = semilleros;
-    }
-    public Semillero addSemillero(Semillero semillero) {
-    	getSemilleros().add(semillero);
-    	semillero.setGrupoInvestigacion(this);
-    	return semillero;
-    }
-    public Semillero removeSemillero(Semillero semillero) {
-    	getSemilleros().remove(semillero);
-    	semillero.setGrupoInvestigacion(null);
-    	return semillero;
     }
 
     @Override

@@ -6,7 +6,6 @@
 package co.edu.usbbog.sgpireports.model;
 
 import java.io.Serializable;
-import java.math.BigInteger;
 import java.util.List;
 
 import javax.persistence.Basic;
@@ -34,19 +33,21 @@ import net.minidev.json.JSONObject;
  * @author 57310
  */
 @Entity
-@Table(catalog = "sgpi_db", schema = "", uniqueConstraints = { @UniqueConstraint(columnNames = { "cod_universitario" }),
-		@UniqueConstraint(columnNames = { "correo_est" }) })
+@Table(catalog = "sgpi_db", schema = "", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"cod_universitario"}),
+    @UniqueConstraint(columnNames = {"correo_est"})})
 @XmlRootElement
-@NamedQueries({ @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u"),
-		@NamedQuery(name = "Usuario.findByCedula", query = "SELECT u FROM Usuario u WHERE u.cedula = :cedula"),
-		@NamedQuery(name = "Usuario.findByCodUniversitario", query = "SELECT u FROM Usuario u WHERE u.codUniversitario = :codUniversitario"),
-		@NamedQuery(name = "Usuario.findByCorreoEst", query = "SELECT u FROM Usuario u WHERE u.correoEst = :correoEst"),
-		@NamedQuery(name = "Usuario.findByContrasena", query = "SELECT u FROM Usuario u WHERE u.contrasena = :contrasena"),
-		@NamedQuery(name = "Usuario.findByNombres", query = "SELECT u FROM Usuario u WHERE u.nombres = :nombres"),
-		@NamedQuery(name = "Usuario.findByApellidos", query = "SELECT u FROM Usuario u WHERE u.apellidos = :apellidos"),
-		@NamedQuery(name = "Usuario.findByTelefono", query = "SELECT u FROM Usuario u WHERE u.telefono = :telefono"),
-		@NamedQuery(name = "Usuario.findByVisiblidad", query = "SELECT u FROM Usuario u WHERE u.visibilidad = :visibilidad"),
-		@NamedQuery(name = "Usuario.findByCorreoPersonal", query = "SELECT u FROM Usuario u WHERE u.correoPersonal = :correoPersonal") })
+@NamedQueries({
+    @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u"),
+    @NamedQuery(name = "Usuario.findByCedula", query = "SELECT u FROM Usuario u WHERE u.cedula = :cedula"),
+    @NamedQuery(name = "Usuario.findByCodUniversitario", query = "SELECT u FROM Usuario u WHERE u.codUniversitario = :codUniversitario"),
+    @NamedQuery(name = "Usuario.findByCorreoEst", query = "SELECT u FROM Usuario u WHERE u.correoEst = :correoEst"),
+    @NamedQuery(name = "Usuario.findByContrasena", query = "SELECT u FROM Usuario u WHERE u.contrasena = :contrasena"),
+    @NamedQuery(name = "Usuario.findByNombres", query = "SELECT u FROM Usuario u WHERE u.nombres = :nombres"),
+    @NamedQuery(name = "Usuario.findByApellidos", query = "SELECT u FROM Usuario u WHERE u.apellidos = :apellidos"),
+    @NamedQuery(name = "Usuario.findByTelefono", query = "SELECT u FROM Usuario u WHERE u.telefono = :telefono"),
+    @NamedQuery(name = "Usuario.findByVisibilidad", query = "SELECT u FROM Usuario u WHERE u.visibilidad = :visibilidad"),
+    @NamedQuery(name = "Usuario.findByCorreoPersonal", query = "SELECT u FROM Usuario u WHERE u.correoPersonal = :correoPersonal")})
 public class Usuario implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -55,8 +56,8 @@ public class Usuario implements Serializable {
 	@Column(nullable = false, length = 20)
 	private String cedula;
 	@Basic(optional = false)
-	@Column(name = "cod_universitario", nullable = false, length = 100)
-	private BigInteger codUniversitario;
+    @Column(name = "cod_universitario", nullable = false)
+    private long codUniversitario;
 	@Basic(optional = false, fetch = FetchType.LAZY)
 	@Column(name = "correo_est", nullable = true, length = 45)
 	private String correoEst;
@@ -106,7 +107,7 @@ public class Usuario implements Serializable {
 		this.cedula = cedula;
 	}
 
-	public Usuario(String cedula, BigInteger codUniversitario, String correoEst, String contrasena, String nombres,
+	public Usuario(String cedula, Long codUniversitario, String correoEst, String contrasena, String nombres,
 			String apellidos, short visiblidad) {
 		this.cedula = cedula;
 		this.codUniversitario = codUniversitario;
@@ -125,13 +126,13 @@ public class Usuario implements Serializable {
 		this.cedula = cedula;
 	}
 
-	public BigInteger getCodUniversitario() {
-		return codUniversitario;
-	}
+    public long getCodUniversitario() {
+        return codUniversitario;
+    }
 
-	public void setCodUniversitario(BigInteger codUniversitario) {
-		this.codUniversitario = codUniversitario;
-	}
+    public void setCodUniversitario(long codUniversitario) {
+        this.codUniversitario = codUniversitario;
+    }
 
 	public String getCorreoEst() {
 		return correoEst;
@@ -211,17 +212,6 @@ public class Usuario implements Serializable {
 		this.gruposInvestigacion = grupoInvestigacion;
 	}
 
-	public GrupoInvestigacion addGrupoInvestigacion(GrupoInvestigacion grupoInvestigacion) {
-		getGruposInvestigacion().add(grupoInvestigacion);
-		grupoInvestigacion.setDirectorGrupo(this);
-		return grupoInvestigacion;
-	}
-
-	public GrupoInvestigacion removeGrupoInvestigacion(GrupoInvestigacion grupoInvestigacion) {
-		getGruposInvestigacion().remove(grupoInvestigacion);
-		grupoInvestigacion.setDirectorGrupo(null);
-		return grupoInvestigacion;
-	}
 
 	@XmlTransient
 	public List<Programa> getProgramas() {

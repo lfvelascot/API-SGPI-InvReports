@@ -138,16 +138,6 @@ public class MacroProyecto implements Serializable {
     public void setProyectos(List<Proyecto> proyectos) {
         this.proyectos = proyectos;
     }
-    public Proyecto addProyecto(Proyecto proyecto) {
-    	getProyectos().add(proyecto);
-    	proyecto.setMacroProyecto(this);
-    	return proyecto;
-    }
-    public Proyecto removeProyecto(Proyecto proyecto) {
-    	getProyectos().remove(proyecto);
-    	proyecto.setMacroProyecto(null);
-    	return proyecto;
-    }
     
     @Override
     public int hashCode() {

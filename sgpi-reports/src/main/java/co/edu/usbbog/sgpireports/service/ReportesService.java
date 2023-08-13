@@ -818,19 +818,15 @@ public class ReportesService implements IReportesService {
 	}
 
 	private Map<String, Object> setDatosCreador(Map<String, Object> datosSemillero, String usuario) {
-		Usuario u = null;
 		try {
-			u = usuarios.getById(usuario);
-			if (u.equals(null)) {
-				return null;
-			}
-		} catch (javax.persistence.EntityNotFoundException e) {
+			Usuario u = usuarios.getById(usuario);
+			datosSemillero.put("nombreU", u.getNombreCompleto());
+			datosSemillero = getDatosRol(datosSemillero, u);
+			datosSemillero.put("firmaU", (u.getFirma() == null) ? "sin-firma.png" : u.getFirma().getNombre());
+			datosSemillero.put("logo1", "logo_usbbog_1.jpg");
+		} catch (EntityNotFoundException e) {
 			return null;
 		}
-		datosSemillero.put("nombreU", u.getNombreCompleto());
-		datosSemillero = getDatosRol(datosSemillero, u);
-		datosSemillero.put("firmaU", (u.getFirma() == null) ? "sin-firma.png" : u.getFirma().getNombre());
-		datosSemillero.put("logo1", "logo_usbbog_1.jpg");
 		return datosSemillero;
 	}
 
