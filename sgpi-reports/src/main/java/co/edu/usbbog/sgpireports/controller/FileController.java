@@ -24,7 +24,7 @@ import co.edu.usbbog.sgpireports.service.IGestionUsuariosService;
 import co.edu.usbbog.sgpireports.service.ISeguridadService;
 
 @RestController
-@CrossOrigin(origins = { "http://backend-node:3000", "http://localhost:3000" })
+@CrossOrigin(origins = { "http://backend-node:3000", "http://localhost:3000", "http://localhost:5173" })
 @RequestMapping("/archivo")
 public class FileController {
 
