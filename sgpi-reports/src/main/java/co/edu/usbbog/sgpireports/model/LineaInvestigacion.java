@@ -97,18 +97,6 @@ public class LineaInvestigacion implements Serializable {
     public void setGrupoInvestigacionList(List<GrupoInvestigacion> gruposInvestigacion) {
         this.gruposInvestigacion = gruposInvestigacion;
     }
-    public GrupoInvestigacion addGrupoInvestigacion(GrupoInvestigacion grupoInvestigacion) {
-		getGruposInvestigacion().add(grupoInvestigacion);
-		grupoInvestigacion.addLineaInvestigacion(this);
-		return grupoInvestigacion;
-		
-	}
-	public GrupoInvestigacion removeGrupoInvestigacion(GrupoInvestigacion grupoInvestigacion) {
-		getGruposInvestigacion().remove(grupoInvestigacion);
-		grupoInvestigacion.removeLineaInvestigacion(this);
-		return grupoInvestigacion;
-		
-	}
 
     @XmlTransient
     public List<Semillero> getSemilleros() {

@@ -82,16 +82,7 @@ public class TipoProyecto implements Serializable {
     public void setProyectos(List<Proyecto> proyectos) {
         this.proyectos = proyectos;
     }
-    public Proyecto addProyecto(Proyecto proyecto) {
-    	getProyectos().add(proyecto);
-    	proyecto.setTipoProyecto(this);
-    	return proyecto;
-    }
-    public Proyecto removeProyecto(Proyecto proyecto) {
-    	getProyectos().remove(proyecto);
-    	proyecto.setTipoProyecto(null);
-    	return proyecto;
-    }
+
     @Override
     public int hashCode() {
         int hash = 0;

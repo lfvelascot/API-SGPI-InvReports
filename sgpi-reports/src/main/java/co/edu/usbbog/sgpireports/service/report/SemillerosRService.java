@@ -81,13 +81,8 @@ public class SemillerosRService {
 	}
 
 	public int numProyectosFinalizados(List<Proyecto> aux2) {
-		int i = 0;
-		for (Proyecto t : aux2) {
-			if (t.getFechaFin() != null) {
-				i += 1;
-			}
-		}
-		return i;
+		Long salida = aux2.stream().filter(c -> c.getFechaFin() != null).count();
+		return salida.intValue();
 	}
 
 	public List<SemillerosR> getSemillerosEGI(List<Semillero> semilleros) {
@@ -132,13 +127,8 @@ public class SemillerosRService {
 	}
 
 	public int numProyectosActivos(List<Proyecto> list) {
-		int salida = 0;
-		for (Proyecto p : list) {
-			if (p.getFechaFin() == null) {
-				salida += 1;
-			}
-		}
-		return salida;
+		Long salida = list.stream().filter(c -> c.getFechaFin() != null).count();
+		return salida.intValue();
 	}
 
 	public List<SemillerosR> getSemillerosGIProyectosAct(List<Semillero> semilleros) {

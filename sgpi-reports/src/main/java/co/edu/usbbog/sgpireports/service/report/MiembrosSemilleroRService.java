@@ -32,7 +32,7 @@ public class MiembrosSemilleroRService {
 		List<MiembrosSemillero> salida = new ArrayList<>();
 		for (Usuario u : aux) {
 			if (u.getVisibilidad() == 1) {
-				MiembrosSemillero us = new MiembrosSemillero(u.getCodUniversitario().toString(), u.getNombreCompleto(),
+				MiembrosSemillero us = new MiembrosSemillero(String.valueOf(u.getCodUniversitario()), u.getNombreCompleto(),
 						u.getTelefono(), u.getCorreoEst(), u.getProgramaId());
 				us.setSemillero((u.getSemilleroId() != null) ? u.getSemilleroId().getNombre() : "");
 				salida.add(us);
@@ -58,7 +58,7 @@ public class MiembrosSemilleroRService {
 		for (Semillero p : semilleros) {
 			Usuario u = p.getLiderSemillero();
 			if (u != null) {
-				MiembrosSemillero m = new MiembrosSemillero(u.getCodUniversitario().toString(), u.getNombreCompleto(),
+				MiembrosSemillero m = new MiembrosSemillero(String.valueOf(u.getCodUniversitario()), u.getNombreCompleto(),
 						u.getTelefono(), u.getCorreoEst(),
 						(u.getProgramaId() != null) ? u.getProgramaId().getNombre() : "N/A");
 				m.setSemillero(p.getNombre());
@@ -71,7 +71,7 @@ public class MiembrosSemilleroRService {
 	public List<MiembrosSemillero> getMiembrosSemilleros(int programa) {
 		List<MiembrosSemillero> salida = new ArrayList<>();
 		for (Usuario u : usuarios.getMiembrosSemillerosPrograma(programa)) {
-			MiembrosSemillero m = new MiembrosSemillero(u.getCodUniversitario().toString(), u.getNombreCompleto(),
+			MiembrosSemillero m = new MiembrosSemillero(String.valueOf(u.getCodUniversitario()), u.getNombreCompleto(),
 					u.getTelefono(), u.getCorreoEst(),
 					(u.getProgramaId() != null) ? u.getProgramaId().getNombre() : "N/A");
 			m.setSemillero(u.getSemilleroId().getNombre());
@@ -86,7 +86,7 @@ public class MiembrosSemilleroRService {
 			if(!u.getTiposUsuario().isEmpty()) {
 				if (investigadoresF.contains(u.getTiposUsuario().get(0).getNombre().toUpperCase())
 					&& u.getVisibilidad() == 1) {
-				MiembrosSemillero us = new MiembrosSemillero(u.getCodUniversitario().toString(), u.getNombreCompleto(),
+				MiembrosSemillero us = new MiembrosSemillero(String.valueOf(u.getCodUniversitario()), u.getNombreCompleto(),
 						u.getTelefono(), u.getCorreoEst(), u.getProgramaId().getNombre());
 				us.setSemillero(u.getSemilleroId().getNombre());
 				salida.add(us);

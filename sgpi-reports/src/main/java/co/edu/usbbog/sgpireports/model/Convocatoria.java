@@ -175,16 +175,6 @@ public class Convocatoria implements Serializable {
     public void setProyectosConvocatorias(List<ProyectosConvocatoria> proyectosConvocatorias) {
         this.proyectosConvocatorias = proyectosConvocatorias;
     }
-    public ProyectosConvocatoria addProyectosConvocatoria(ProyectosConvocatoria proyectosConvocatoria) {
-    	getProyectosConvocatorias().add(proyectosConvocatoria);
-    	proyectosConvocatoria.setConvocatoria(this);
-    	return proyectosConvocatoria;
-    }
-    public ProyectosConvocatoria removeProyectosConvocatoria(ProyectosConvocatoria proyectosConvocatoria) {
-    	getProyectosConvocatorias().remove(proyectosConvocatoria);
-    	proyectosConvocatoria.setConvocatoria(null);
-    	return proyectosConvocatoria;
-    }
     @XmlTransient
     public List<DetalleConvocatoria> getDetallesConvocatoria() {
         return detallesConvocatoria;
@@ -192,16 +182,6 @@ public class Convocatoria implements Serializable {
 
     public void setDetallesConvocatoria(List<DetalleConvocatoria> detallesConvocatoria) {
         this.detallesConvocatoria = detallesConvocatoria;
-    }
-    public DetalleConvocatoria addDetalleConvocatoria(DetalleConvocatoria detalleConvocatoria) {
-    	getDetallesConvocatoria().add(detalleConvocatoria);
-    	detalleConvocatoria.setConvocatoriaId(this);
-    	return detalleConvocatoria;
-    }
-    public DetalleConvocatoria removeDetalleConvocatoria(DetalleConvocatoria detalleConvocatoria) {
-    	getDetallesConvocatoria().remove(detalleConvocatoria);
-    	detalleConvocatoria.setConvocatoriaId(null);
-    	return detalleConvocatoria;
     }
 
     @Override

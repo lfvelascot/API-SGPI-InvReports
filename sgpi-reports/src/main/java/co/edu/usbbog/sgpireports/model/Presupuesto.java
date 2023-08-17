@@ -116,16 +116,6 @@ public class Presupuesto implements Serializable, Comparable<Presupuesto> {
     public void setCompras(List<Compra> compras) {
         this.compras = compras;
     }
-    public Compra addCompra(Compra compra) {
-    	getCompras().add(compra);
-    	compra.setPresupuesto(this);
-    	return compra;
-    }
-    public Compra removeCompra(Compra compra) {
-    	getCompras().remove(compra);
-    	compra.setPresupuesto(null);
-    	return compra;
-    }
     
 
     public Proyecto getProyecto() {

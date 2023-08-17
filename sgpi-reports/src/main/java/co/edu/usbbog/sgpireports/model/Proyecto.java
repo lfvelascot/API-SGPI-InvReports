@@ -120,6 +120,9 @@ public class Proyecto implements Serializable {
     private List<Participantes> participantes;
     @Column(name = "nota")
     private Double nota;
+    //@JoinColumn(name = "programa_id", referencedColumnName = "id", nullable = true)
+    //@ManyToOne(optional = false)
+    //private Programa programaId;
 
     public Proyecto() {
     }
@@ -254,17 +257,14 @@ public class Proyecto implements Serializable {
     public void setAreasConocimiento(List<AreaConocimiento> areasConocimiento) {
         this.areasConocimiento = areasConocimiento;
     }
-    public AreaConocimiento addAreaConocimiento(AreaConocimiento areaConocimiento) {
-		getAreasConocimiento().add(areaConocimiento);
-		areaConocimiento.addProyecto(this);		
-		return areaConocimiento;
-	}
-    public AreaConocimiento removeAreaConocimiento(AreaConocimiento areaConocimiento) {
-		getAreasConocimiento().remove(areaConocimiento);
-		areaConocimiento.removeProyecto(null);		
-		return areaConocimiento;
-	}
-
+    
+//    public Programa getProgramaId() {
+//        return programaId;
+//    }
+//
+//    public void setProgramaId(Programa programaId) {
+//        this.programaId = programaId;
+//    }
 
     @XmlTransient
     public List<Proyecto> getAntecedentes() {
@@ -327,16 +327,6 @@ public class Proyecto implements Serializable {
     public void setProductos(List<Producto> productos) {
         this.productos = productos;
     }
-    public Producto addProducto(Producto producto) {
-    	getProductos().add(producto);
-    	producto.setProyecto(this);
-    	return producto;
-    }
-    public Producto removeProducto(Producto producto) {
-    	getProductos().remove(producto);
-    	producto.setProyecto(null);
-    	return producto;
-    }
 
     @XmlTransient
     public List<Participaciones> getParticipaciones() {
@@ -345,16 +335,6 @@ public class Proyecto implements Serializable {
 
     public void setParticipaciones(List<Participaciones> participaciones) {
         this.participaciones = participaciones;
-    }
-    public Participaciones addParticipaciones(Participaciones participaciones) {
-    	getParticipaciones().add(participaciones);
-    	participaciones.setProyecto(this);
-    	return participaciones;
-    }
-    public Participaciones removeParticipaciones(Participaciones participaciones) {
-    	getParticipaciones().remove(participaciones);
-    	participaciones.setProyecto(null);
-    	return participaciones;
     }
 
     @XmlTransient
@@ -365,17 +345,6 @@ public class Proyecto implements Serializable {
     public void setPresupuestos(List<Presupuesto> presupuesto) {
         this.presupuestos = presupuesto;
     }
-    public Presupuesto addPresupuesto (Presupuesto presupuesto) {
-    	getPresupuestos().add(presupuesto);
-    	presupuesto.setProyecto(this);
-    	return presupuesto;
-    }
-    public Presupuesto removePresupuesto (Presupuesto presupuesto) {
-    	getPresupuestos().remove(presupuesto);
-    	presupuesto.setProyecto(null);
-    	return presupuesto;
-    }
-
 
     @XmlTransient
     public List<Participantes> getParticipantes() {
@@ -384,16 +353,6 @@ public class Proyecto implements Serializable {
     
     public void setParticipantes(List<Participantes> participantes) {
         this.participantes = participantes;
-    }
-    public Participantes addParticipantes (Participantes participantes) {
-    	getParticipantes().add(participantes);
-    	participantes.setProyecto(this);
-    	return participantes;
-    }
-    public Participantes removeParticipantes (Participantes participantes) {
-    	getParticipantes().remove(participantes);
-    	participantes.setProyecto(null);
-    	return participantes;
     }
 
     @Override
