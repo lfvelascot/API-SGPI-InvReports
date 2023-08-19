@@ -32,7 +32,7 @@ import net.minidev.json.JSONObject;
  * @author 57310
  */
 @Entity
-@Table(name = "macro_proyecto", catalog = "sgpi_db", schema = "", uniqueConstraints = {
+@Table(name = "macro_proyecto", catalog = "ingusb_sgpi_bd", schema = "", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"nombre"})})
 @XmlRootElement
 @NamedQueries({

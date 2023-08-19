@@ -33,7 +33,7 @@ import net.minidev.json.JSONObject;
  * @author 57310
  */
 @Entity
-@Table(catalog = "sgpi_db", schema = "", uniqueConstraints = {
+@Table(catalog = "ingusb_sgpi_bd", schema = "", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"cod_universitario"}),
     @UniqueConstraint(columnNames = {"correo_est"})})
 @XmlRootElement

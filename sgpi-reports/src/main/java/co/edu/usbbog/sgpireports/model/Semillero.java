@@ -33,7 +33,7 @@ import net.minidev.json.JSONObject;
  * @author 57310
  */
 @Entity
-@Table(catalog = "sgpi_db", schema = "")
+@Table(catalog = "ingusb_sgpi_bd", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Semillero.findAll", query = "SELECT s FROM Semillero s")

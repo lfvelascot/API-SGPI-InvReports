@@ -27,7 +27,7 @@ import net.minidev.json.JSONObject;
  * @author 57310
  */
 @Entity
-@Table(name = "detalle_convocatoria", catalog = "sgpi_db", schema = "")
+@Table(name = "detalle_convocatoria", catalog = "ingusb_sgpi_bd", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "DetalleConvocatoria.findAll", query = "SELECT d FROM DetalleConvocatoria d")
