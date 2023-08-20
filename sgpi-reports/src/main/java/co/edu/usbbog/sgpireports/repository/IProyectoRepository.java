@@ -37,7 +37,7 @@ public interface IProyectoRepository extends JpaRepository<Proyecto, Integer> {
 	 * @param proyectoId
 	 * @return
 	 */
-	@Query(value= "SELECT * FROM sgpi_db.proyecto where semillero=?1",nativeQuery = true)
+	@Query(value= "SELECT * FROM proyecto where semillero=?1",nativeQuery = true)
 	List<Proyecto> findBySemillero(int gi);
 	/**
 	 * busqueda de proyectos por Semillero

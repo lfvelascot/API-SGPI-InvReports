@@ -34,8 +34,8 @@ public class SeguridadService implements ISeguridadService {
 		if (ipAddress == null) {
 			ipAddress = request.getRemoteAddr();
 		}
-		return ipAddress.equals("0:0:0:0:0:0:0:1") || ipAddress.equals("127.0.0.1")
-				|| request.getRemoteHost().contains("backend-node");
+		return ipAddress.equals("0:0:0:0:0:0:0:1") || ipAddress.equals("127.0.0.1") || ipAddress.equals("162.214.153.39")
+				|| request.getRemoteHost().contains("backend-node") || request.getRemoteHost().contains("tecnosoft.ingusb.com");
 	}
 
 	public void encriptar(File salida) throws IOException {

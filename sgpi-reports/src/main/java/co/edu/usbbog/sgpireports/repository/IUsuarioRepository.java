@@ -32,7 +32,7 @@ public interface IUsuarioRepository  extends JpaRepository<Usuario, String> {
 	 */
 	@Modifying
 	@Transactional
-	@Query(value= "UPDATE `sgpi_db`.`usuario` SET `semillero_id` = null WHERE (`cedula` = ?1)", nativeQuery=true)
+	@Query(value= "UPDATE `usuario` SET `semillero_id` = null WHERE (`cedula` = ?1)", nativeQuery=true)
 	void setSemilleroById(String cedula);
 	/**
 	 * eliminar un tipo de usuario a un usuario 
@@ -41,7 +41,7 @@ public interface IUsuarioRepository  extends JpaRepository<Usuario, String> {
 	 */
 	@Modifying
 	@Transactional
-	@Query(value= "DELETE FROM `sgpi_db`.`usuarios` WHERE (`usuario` = ?1) and (`tipo_usuario` = ?2)", nativeQuery=true)
+	@Query(value= "DELETE FROM `usuarios` WHERE (`usuario` = ?1) and (`tipo_usuario` = ?2)", nativeQuery=true)
 	void deleteUsuariosById(String cedula, String nombre);
 	/**
 	 * actualiza el director de grupo de un grupo de investigacion 
@@ -49,7 +49,7 @@ public interface IUsuarioRepository  extends JpaRepository<Usuario, String> {
 	 */
 	@Modifying
 	@Transactional
-	@Query(value="UPDATE `sgpi_db`.`grupo_investigacion` SET `director_grupo` = null WHERE (`id` = ?1)",nativeQuery=true)
+	@Query(value="UPDATE `grupo_investigacion` SET `director_grupo` = null WHERE (`id` = ?1)",nativeQuery=true)
 	void deleteDirectorById(String grupo);
 	/**
 	 * inicio de sesion 
@@ -108,7 +108,7 @@ public interface IUsuarioRepository  extends JpaRepository<Usuario, String> {
 	 */
 	@Modifying
 	@Transactional
-	@Query(value = "DELETE FROM `sgpi_db`.`usuarios` WHERE (`usuario` = ?1) and (`tipo_usuario` = 'Semillerista')", nativeQuery = true)
+	@Query(value = "DELETE FROM `usuarios` WHERE (`usuario` = ?1) and (`tipo_usuario` = 'Semillerista')", nativeQuery = true)
 	void quitarRol(String cedula);
 	
 	/**

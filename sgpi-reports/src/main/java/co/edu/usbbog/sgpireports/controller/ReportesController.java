@@ -1,7 +1,6 @@
 package co.edu.usbbog.sgpireports.controller;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,7 +16,7 @@ import net.minidev.json.JSONObject;
 import net.sf.jasperreports.engine.JRException;
 
 @RestController
-@CrossOrigin(origins = { "http://backend-node:3000","http://localhost:3000", "http://localhost:5173" })
+@CrossOrigin(origins = { "http://backend-node:3000","http://localhost:3000", "http://localhost:5173" ,"https://tecnosoft.ingusb.com" })
 @RequestMapping("/report")
 public class ReportesController {
 
