@@ -18,11 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import co.edu.usbbog.sgpireports.message.*;
+import co.edu.usbbog.sgpireports.model.Log;
 import co.edu.usbbog.sgpireports.model.Usuario;
 import co.edu.usbbog.sgpireports.service.IFileStorageService;
+import co.edu.usbbog.sgpireports.service.IGestionLog;
 import co.edu.usbbog.sgpireports.service.IGestionUsuariosService;
 import co.edu.usbbog.sgpireports.service.ISeguridadService;
-
+import java.time.LocalDateTime;    
 @RestController
 @CrossOrigin(origins = { "http://backend-node:3000", "http://localhost:3000", "http://localhost:5173","https://tecnosoft.ingusb.com" })
 @RequestMapping("/archivo")
@@ -34,6 +36,8 @@ public class FileController {
 	private IGestionUsuariosService iGestionUsuariosService;
 	@Autowired
 	private ISeguridadService seguridad;
+	@Autowired
+	private IGestionLog logs;
 	@Autowired
 	private Response respuestas;
 
@@ -49,6 +53,9 @@ public class FileController {
 			@RequestParam("usuario") String usuario) {
 		if (seguridad.isValid()) {
 			String respuesta = storageService.save(file, usuario);
+			Log log = new Log(LocalDateTime.now(),"cargarFirma" ,"Cargar firma: "+usuario+" Respuesta: "+ respuesta);
+			log.setUsuario(usuario);
+			logs.saveData(log);
 			return (respuesta == "Firma cargada correctamente" || respuesta == "Firma actualizada correctamente")
 					? respuestas.getRespuestaMensaje(respuesta, 0)
 					: respuestas.getRespuestaMensaje(respuesta, 1);
@@ -67,6 +74,9 @@ public class FileController {
 	@GetMapping("/get/firma/{cc:.+}")
 	@ResponseBody
 	public ResponseEntity<Resource> getFileF(@PathVariable String cc) throws IOException {
+		Log log = new Log(LocalDateTime.now(),"getFileR" ,"Obtener archivo firma usuario: "+cc);
+		log.setUsuario(cc);
+		logs.saveData(log);
 		if (seguridad.isValid()) {
 			try {
 				Usuario user = iGestionUsuariosService.buscarUsuario(cc);
@@ -90,6 +100,10 @@ public class FileController {
 	@GetMapping("/get/reporte/{filename:.+}")
 	@ResponseBody
 	public ResponseEntity<Resource> getFileR(@PathVariable String filename) {
+		Log log = new Log(LocalDateTime.now(),"getFileR" ,"Obtener archivo firma usuario: "+filename);
+		String[] s = filename.split("-");
+		log.setUsuario(s[s.length-1].split(".")[0]);
+		logs.saveData(log);
 		return (seguridad.isValid()) ? respuestas.sentRespuestaRecurso(storageService.loadR(filename), 0)
 				: respuestas.sentRespuestaRecurso(null, 1);
 	}
@@ -103,6 +117,7 @@ public class FileController {
 	@GetMapping("/files/i/{filename:.+}")
 	@ResponseBody
 	public ResponseEntity<Resource> getFileI(@PathVariable String filename) {
+		logs.saveData(new Log(LocalDateTime.now(),"getFileI" ,"Obtener archivo imagen: "+filename));
 		return (seguridad.isValid()) ? respuestas.sentRespuestaRecurso(storageService.loadI(filename), 0)
 				: respuestas.sentRespuestaRecurso(null, 1);
 	}
@@ -116,6 +131,8 @@ public class FileController {
 	@GetMapping("/files/f/{filename:.+}")
 	@ResponseBody
 	public ResponseEntity<Resource> getFileFirma(@PathVariable String filename) {
+		Log log = new Log(LocalDateTime.now(),"getFileFirma" ,"Obtener archivo firma: "+filename);
+		logs.saveData(log);
 		return (seguridad.isValid())
 				? ((filename.equals("sin-firma.png"))
 						? respuestas.sentRespuestaRecurso(storageService.loadI(filename), 0)
