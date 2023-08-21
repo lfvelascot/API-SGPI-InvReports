@@ -1,7 +1,12 @@
 package co.edu.usbbog.sgpireports.controller;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.Calendar;
+import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -58,7 +63,7 @@ public class ReportesController {
 			salida.put("nombreDocumento", "N/A");
 			;
 		}
-		Log log = new Log(LocalDateTime.now(), "generarReporte", "Generar reporte #" + entrada.getAsString("reporte")
+		Log log = new Log(getNow(), "generarReporte", "Generar reporte #" + entrada.getAsString("reporte")
 				+ " Dato: " + entrada.getAsString("dato") + " Respuesta: " + salida.getAsString("nombreDocumento"));
 		log.setUsuario(entrada.getAsString("usuario"));
 		logs.saveData(log);
@@ -96,13 +101,17 @@ public class ReportesController {
 		} else {
 			salida2.put("nombreDocumento", "N/A");
 		}
-		Log log = new Log(LocalDateTime.now(), "generarReporte",
+		Log log = new Log(getNow(), "generarReporte",
 				"Generar reporte #" + entrada.getAsString("reporte") + " Dato: " + entrada.getAsString("dato")
 						+ " periodo: " + entrada.getAsString("inicio") + "-" + entrada.getAsString("fin")
 						+ " Respuesta: " + salida2.getAsString("nombreDocumento"));
 		log.setUsuario(entrada.getAsString("usuario"));
 		logs.saveData(log);
 		return salida2;
+	}
+	
+	public LocalDateTime getNow() {
+		return LocalDateTime.now().minusHours(5);
 	}
 
 }
