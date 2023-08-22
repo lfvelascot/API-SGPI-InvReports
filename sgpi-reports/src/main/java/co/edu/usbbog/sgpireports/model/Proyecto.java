@@ -102,7 +102,7 @@ public class Proyecto implements Serializable {
     @JoinColumn(name = "macro_proyecto", referencedColumnName = "id", nullable = true)
     @ManyToOne
     private MacroProyecto macroProyecto;
-    @JoinColumn(name = "semillero", referencedColumnName = "id")
+    @JoinColumn(name = "semillero", referencedColumnName = "id", nullable = true)
     @ManyToOne
     private Semillero semillero;
     @JoinColumn(name = "tipo_proyecto", referencedColumnName = "nombre", nullable = false)

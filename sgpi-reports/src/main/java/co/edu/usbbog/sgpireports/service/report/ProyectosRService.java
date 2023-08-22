@@ -32,9 +32,11 @@ public class ProyectosRService {
 	public List<ProyectoR> getProyectosSemillero(List<Proyecto> lista) {
 		List<ProyectoR> salida = new ArrayList<>();
 		for (Proyecto p : lista) {
-			salida.add(new ProyectoR(p.getTitulo(), p.getEstado(), p.getTipoProyecto().getNombre(), p.getDescripcion(),
+			if(p.getSemillero() != null) {
+				salida.add(new ProyectoR(p.getTitulo(), p.getEstado(), p.getTipoProyecto().getNombre(), p.getDescripcion(),
 					p.getFechaInicio(), p.getFechaFin(), p.getMetodologia(), "", p.getSemillero().getNombre(),
 					String.valueOf(p.getProductos().size())));
+			}
 		}
 		return orderSalida(salida);
 	}
@@ -43,9 +45,11 @@ public class ProyectosRService {
 		List<ProyectoR> salida = new ArrayList<>();
 		for (Proyecto p : lista) {
 			if (!p.getParticipaciones().isEmpty()) {
-				salida.add(new ProyectoR(p.getTitulo(), p.getEstado(), p.getTipoProyecto().getNombre(),
+				if(p.getSemillero() != null) {
+					salida.add(new ProyectoR(p.getTitulo(), p.getEstado(), p.getTipoProyecto().getNombre(),
 						p.getDescripcion(), p.getFechaInicio(), p.getFechaFin(), p.getMetodologia(), "",
 						p.getSemillero().getNombre()));
+				}
 			}
 		}
 		return orderSalida(salida);
@@ -55,9 +59,11 @@ public class ProyectosRService {
 		List<ProyectoR> salida = new ArrayList<>();
 		for (Proyecto p : lista) {
 			if (!p.getProyectosConvocatoria().isEmpty()) {
-				salida.add(new ProyectoR(p.getTitulo(), p.getEstado(), p.getTipoProyecto().getNombre(),
+				if(p.getSemillero() != null) {
+					salida.add(new ProyectoR(p.getTitulo(), p.getEstado(), p.getTipoProyecto().getNombre(),
 						p.getDescripcion(), p.getFechaInicio(), p.getFechaFin(), p.getMetodologia(), "",
 						p.getSemillero().getNombre()));
+				}
 			}
 		}
 		return orderSalida(salida);
@@ -68,7 +74,7 @@ public class ProyectosRService {
 		for (Proyecto p : lista) {
 			if (!p.getProyectosConvocatoria().isEmpty()) {
 				for (ProyectosConvocatoria pc : p.getProyectosConvocatoria()) {
-					if (pc.getConvocatoria().getEstado().equals("ABIERTA")) {
+					if (pc.getConvocatoria().getEstado().equals("ABIERTA") && p.getSemillero() != null) {
 						salida.add(new ProyectoR(p.getTitulo(), p.getEstado(), p.getTipoProyecto().getNombre(),
 								p.getDescripcion(), p.getFechaInicio(), p.getFechaFin(), p.getMetodologia(), "",
 								p.getSemillero().getNombre()));
@@ -106,7 +112,7 @@ public class ProyectosRService {
 	public List<ProyectoR> getProyectosActivosSemillero(List<Proyecto> lista) {
 		List<ProyectoR> salida = new ArrayList<>();
 		for (Proyecto p : lista) {
-			if (p.getFechaFin() == null) {
+			if (p.getFechaFin() == null && p.getSemillero() != null) {
 				salida.add(new ProyectoR(p.getTitulo(), p.getEstado(), p.getTipoProyecto().getNombre(),
 						p.getDescripcion(), p.getFechaInicio(), p.getFechaFin(), p.getMetodologia(), "",
 						p.getSemillero().getNombre()));
@@ -134,7 +140,7 @@ public class ProyectosRService {
 	public List<ProyectoR> getProyectosFinSemillero(List<Proyecto> lista) {
 		List<ProyectoR> salida = new ArrayList<>();
 		for (Proyecto p : lista) {
-			if (p.getFechaFin() != null) {
+			if (p.getFechaFin() != null && p.getSemillero() != null) {
 				salida.add(new ProyectoR(p.getTitulo(), p.getEstado(), p.getTipoProyecto().getNombre(),
 						p.getDescripcion(), p.getFechaInicio(), p.getFechaFin(), p.getMetodologia(), "",
 						p.getSemillero().getNombre()));
@@ -146,9 +152,11 @@ public class ProyectosRService {
 	public List<ProyectoR> getProyectosFacultad(List<Proyecto> lista) {
 		List<ProyectoR> salida = new ArrayList<>();
 		for (Proyecto p : lista) {
-			salida.add(new ProyectoR(p.getTitulo(), p.getEstado(), p.getTipoProyecto().getNombre(), p.getDescripcion(),
+			if(p.getSemillero() != null) {
+				salida.add(new ProyectoR(p.getTitulo(), p.getEstado(), p.getTipoProyecto().getNombre(), p.getDescripcion(),
 					p.getFechaInicio(), p.getFechaFin(), p.getMetodologia(), "",
 					p.getSemillero().getGrupoInvestigacion().getNombre()));
+			}
 		}
 		return orderSalida(salida);
 	}
@@ -156,7 +164,7 @@ public class ProyectosRService {
 	public List<ProyectoR> getProyectosPresSem(List<Proyecto> proyectos) {
 		List<ProyectoR> salida = new ArrayList<>();
 		for (Proyecto p : proyectos) {
-			if (!p.getPresupuestos().isEmpty()) {
+			if (!p.getPresupuestos().isEmpty() && p.getSemillero() != null) {
 				salida.add(new ProyectoR(p.getTitulo(), p.getEstado(), p.getTipoProyecto().getNombre(),
 						p.getDescripcion(), p.getFechaInicio(), p.getFechaFin(), p.getMetodologia(), "",
 						p.getSemillero().getNombre()));
@@ -241,7 +249,11 @@ public class ProyectosRService {
 		general.addAll(prod);
 		Set<Proyecto> aux = new HashSet<>(general);
 		general.clear();
-		general.addAll(aux);
+		for(Proyecto p : aux) {
+			if(p.getSemillero() != null) {
+				general.add(p);
+			}
+		}
 		return general;
 	}
 
